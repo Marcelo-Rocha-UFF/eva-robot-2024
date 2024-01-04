@@ -1,0 +1,15 @@
+<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="teste_talk" xsi:noNamespaceSchemaLocation="EvaML-Schema/evaml_schema.xsd" id="9b71c55ff8d1146078fad91d87a61d48">
+  <settings>
+    <voice tone="pt-BR_IsabelaV3Voice" key="1000" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <random min="1" max="3" key="1001" />
+    <counter var="opcao" op="=" value="0" key="1002" />
+    <wait duration="2000" key="1003" />
+    <random min="5" max="8" var="opcao" key="1004" />
+    <listen key="1005" />
+    <listen var="ouvindo" key="1006" />
+  </script>
+<links><link from="1000" to="1001" /><link from="1001" to="1002" /><link from="1002" to="1003" /><link from="1003" to="1004" /><link from="1004" to="1005" /><link from="1005" to="1006" /></links></evaml>
