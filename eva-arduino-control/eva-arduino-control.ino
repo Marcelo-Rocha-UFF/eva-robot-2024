@@ -1,35 +1,37 @@
 /*
  * Software de controle para os servomotores do robô EVA (nova versão 2024)
  * Autor: Marcelo Marques da Rocha (Universidade Federal Fluminense)
- * Agradecimentos ao Google Research e à CAPES
+ * Google Research / MidiaCom LAB
  */
-
 
 #include "Arduino.h"
 #include "AX12A.h"
-#include <Servo.h>
+#include <VarSpeedServo.h>
 
-#define ID_EVA_PAN    1 // horizontal
-#define ID_EVA_TILT   2 // vertical
 
-#define WEBCAM_SERVO_TILT 8 // Porta Digital 8 PWM (Vertical)
-#define WEBCAM_SERVO_PAN 9 // Porta Digital 9 PWM (Horizontal)
+#define EVA_PAN_SERVO_ID    1 // horizontal
+#define EVA_TILT_SERVO_ID   2 // vertical
+
+#define WEBCAM_SERVO_TILT_PIN 8 // Porta Digital 8 PWM (Vertical)
+#define WEBCAM_SERVO_PAN_PIN 9 // Porta Digital 9 PWM (Horizontal)
 
 #define DirectionPin 	10u
 #define BaudRate  		1000000ul
 
-Servo webcam_servo_tilt; // Variável Servo
-Servo webcam_servo_pan; // Variável Servo
+VarSpeedServo webcam_servo_tilt; // Webcam Tilt Servo
+VarSpeedServo webcam_servo_pan; // Webcam Pan Servo
 
-int eva_pan   = 512; // centro
-int eva_tilt  = 512; // centro
+int eva_pan_value   = 512; // centro
+int eva_tilt_value  = 512; // centro
 int eva_velocity = 35; // velocidade de movimentacao da cabeça do EVA
+int tilt_range = 25; // amplitude (1x) de um tilt (movimento da cabeça na vertical)
+int pan_range = 40; // amplitude (1x) de um pan (movimento da cabeça na horizontal)
 
 void setup()
 {
 	ax12a.begin(BaudRate, DirectionPin, &Serial);
-  webcam_servo_tilt.attach(WEBCAM_SERVO_TILT); // vertical
-  webcam_servo_pan.attach(WEBCAM_SERVO_PAN); // horizontal
+  webcam_servo_tilt.attach(WEBCAM_SERVO_TILT_PIN); // vertical
+  webcam_servo_pan.attach(WEBCAM_SERVO_PAN_PIN); // horizontal
   webcam_servo_tilt.write(90); // vertical 40 (up) < 90 > 120 (down) esses são os limites.
   webcam_servo_pan.write(90); // horizontal 55 (direita da cam) < 90 > 125 (parece ser o suficiente, mas pode ir mais para os dois lados)
 }
@@ -130,39 +132,35 @@ void loop()
 
 
 void eva_center (){ // centraliza a cabeça
-  eva_pan = 512;
-  eva_tilt = 512;
-  ax12a.moveSpeed(ID_EVA_TILT, eva_tilt, eva_velocity);
+  eva_pan_value = 512;
+  eva_tilt_value = 512;
+  ax12a.moveSpeed(EVA_TILT_SERVO_ID, eva_tilt_value, eva_velocity);
   delay(10);
-  ax12a.moveSpeed(ID_EVA_PAN, eva_pan, eva_velocity);
+  ax12a.moveSpeed(EVA_PAN_SERVO_ID, eva_pan_value, eva_velocity);
 }
 
 
 void eva_down (int amplitude){ // baixa a cabeça
-  int tilt_range = 25;
-  eva_tilt = eva_tilt - (tilt_range * amplitude);
-  ax12a.moveSpeed(ID_EVA_TILT, eva_tilt, eva_velocity); 
+  eva_tilt_value = eva_tilt_value - (tilt_range * amplitude);
+  ax12a.moveSpeed(EVA_TILT_SERVO_ID, eva_tilt_value, eva_velocity); 
 }
 
 
 void eva_up (int amplitude){ // ergue a cabeça
-  int tilt_range = 25;
-  eva_tilt = eva_tilt + (tilt_range * amplitude);
-  ax12a.moveSpeed(ID_EVA_TILT, eva_tilt, eva_velocity);
+  eva_tilt_value = eva_tilt_value + (tilt_range * amplitude);
+  ax12a.moveSpeed(EVA_TILT_SERVO_ID, eva_tilt_value, eva_velocity);
 }
 
 
 void eva_right (int amplitude){ // vira a cabeça para a direita
-  int pan_range = 40;
-  eva_pan = eva_pan - (pan_range * amplitude);
-  ax12a.moveSpeed(ID_EVA_PAN, eva_pan, eva_velocity); 
+  eva_pan_value = eva_pan_value - (pan_range * amplitude);
+  ax12a.moveSpeed(EVA_PAN_SERVO_ID, eva_pan_value, eva_velocity); 
 }
 
 
 void eva_left (int amplitude){ // vira a cabeça para a direita
-  int pan_range = 40;
-  eva_pan = eva_pan + (pan_range * amplitude);
-  ax12a.moveSpeed(ID_EVA_PAN, eva_pan, eva_velocity); 
+  eva_pan_value = eva_pan_value + (pan_range * amplitude);
+  ax12a.moveSpeed(EVA_PAN_SERVO_ID, eva_pan_value, eva_velocity); 
 }
 
 
@@ -170,9 +168,9 @@ void eva_nod(int repeticoes){ // Acena com a cabeça, como se estivesse concorda
     int inc_velocity = -20;
     int pause = 900;
     while (repeticoes > 0){
-      ax12a.moveSpeed(ID_EVA_TILT, eva_tilt + 40, eva_velocity + inc_velocity); // para cima
+      ax12a.moveSpeed(EVA_TILT_SERVO_ID, eva_tilt_value + 40, eva_velocity + inc_velocity); // para cima
       delay(pause); // tempo para a cabeça chegar na posição desejada
-      ax12a.moveSpeed(ID_EVA_TILT, eva_tilt, eva_velocity + inc_velocity); // para a posicao inicial
+      ax12a.moveSpeed(EVA_TILT_SERVO_ID, eva_tilt_value, eva_velocity + inc_velocity); // para a posicao inicial
       delay(pause); // tempo para a cabeça chegar na posição desejada
       repeticoes --;
   }
@@ -183,13 +181,13 @@ void eva_shake(int repeticoes){ // sacode a cabeça, como se estivesse dizendo u
   int inc_velocity = 1;
   int pause = 500;
   while (repeticoes > 0){
-    ax12a.moveSpeed(ID_EVA_PAN, eva_pan + 40, eva_velocity + inc_velocity); // para esquerda
+    ax12a.moveSpeed(EVA_PAN_SERVO_ID, eva_pan_value + 40, eva_velocity + inc_velocity); // para esquerda
     delay(pause); // tempo para a cabeça chegar na posição desejada
-    ax12a.moveSpeed(ID_EVA_PAN, eva_pan, eva_velocity + inc_velocity); // para a posicao inicial
+    ax12a.moveSpeed(EVA_PAN_SERVO_ID, eva_pan_value, eva_velocity + inc_velocity); // para a posicao inicial
     delay(pause); // tempo para a cabeça chegar na posição desejada
-    ax12a.moveSpeed(ID_EVA_PAN, eva_pan - 40, eva_velocity + inc_velocity); // para direita
+    ax12a.moveSpeed(EVA_PAN_SERVO_ID, eva_pan_value - 40, eva_velocity + inc_velocity); // para direita
     delay(pause); // tempo para a cabeça chegar na posição desejada
-    ax12a.moveSpeed(ID_EVA_PAN, eva_pan, eva_velocity + inc_velocity); // para a posicao inicial
+    ax12a.moveSpeed(EVA_PAN_SERVO_ID, eva_pan_value, eva_velocity + inc_velocity); // para a posicao inicial
     delay(pause); // tempo para a cabeça chegar na posição desejada
     repeticoes --;
   }
