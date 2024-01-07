@@ -8,7 +8,7 @@ PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-sourc
 Author : Marcelo Marques da Rocha
 Revision: 2022/08/12
 -->
-  <!-- ** Data type definitions ** -->
+<!-- ** Data type definitions ** -->
 	<xs:simpleType name="idType">
 		<xs:restriction base="xs:ID"/>
 	</xs:simpleType>
@@ -188,6 +188,13 @@ Revision: 2022/08/12
 		<xs:union memberTypes="lightListColorType lightRgbColorType" />
 	</xs:simpleType>
 
+	<xs:simpleType name="counterVarType">
+		<xs:restriction base="xs:token">
+			<!-- O nome de uma variavel só pode começar por letras e ser seguido por letras, números e o caracter _ -->
+			<xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+
 	<xs:simpleType name="counterOpType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="="/>
@@ -196,6 +203,24 @@ Revision: 2022/08/12
 			<xs:enumeration value="/"/>
 			<xs:enumeration value="%"/>
 		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="switchVarOnlyDollar">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="\$[1-9-]?[0-9]*"/> <!-- variável do tipo $. Ex.: $, $1, $-2-->
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="switchVarAll">
+		<xs:restriction base="xs:token">
+			<!-- O nome de uma variavel só pode começar por letras e ser seguido por letras, números e o caracter _ -->
+			<xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="switchVarType">
+		<!-- A variável é definida como a união (um ou outro) dos dois tipos definidos anteriormente -->
+		<xs:union memberTypes="switchVarOnlyDollar switchVarAll" />
 	</xs:simpleType>
 
 	<xs:simpleType name="evaEmotionType">
@@ -210,8 +235,8 @@ Revision: 2022/08/12
 		</xs:restriction>
 	</xs:simpleType>
 
-  <!-- ** EvaML Commands Definitions ** -->
 
+  <!-- ** EvaML Commands Definitions ** -->
   <xs:element name="mqtt">
 	<xs:complexType>
 		<xs:attribute name="topic" type="topicType" use="required"/>
@@ -304,7 +329,7 @@ Revision: 2022/08/12
 	<xs:element name="counter">
 		<xs:complexType>
 			<xs:attribute name="id" type="idType"/>
-			<xs:attribute name="var" type="xs:string" use="required"/>
+			<xs:attribute name="var" type="counterVarType" use="required"/>
 			<xs:attribute name="op" type="counterOpType" use="required"/>
 			<xs:attribute name="value" type="xs:integer" use="required"/>
 		</xs:complexType>
@@ -317,7 +342,7 @@ Revision: 2022/08/12
 				<xs:element ref="default" minOccurs="0" maxOccurs="1"/>
 			</xs:sequence>
 			<xs:attribute name="id" type="idType"/>
-			<xs:attribute name="var" type="xs:string" use="required"/>
+			<xs:attribute name="var" type="switchVarType" use="required"/>
 		</xs:complexType>
 	</xs:element>
 
@@ -369,8 +394,8 @@ Revision: 2022/08/12
 				<xs:element ref="switch"/>
 			</xs:choice>
 			<xs:attribute name="id" type="idType"/>
-		    <xs:attribute name="var" type="xs:string" use="optional"/>
-		    <xs:attribute name="times" type="xs:string" use="required"/>
+		    <xs:attribute name="var" type="switchVarType" use="optional"/>
+		    <xs:attribute name="times" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 

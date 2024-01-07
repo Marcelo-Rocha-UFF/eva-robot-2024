@@ -42,20 +42,23 @@ void loop()
     char command = Serial.read();
     delay(20);
 
-    // COmandos para controlar os movimentos da webcam
+    // Comandos para controlar os movimentos da webcam (O protocolo usa dois caracteres: comando e posição)
+    // Comandos t ou p. Posição variando de 60 à 120 (limitação imposta pela tabela ASCII)
     if (command == 't') { // tilt da webcam
-      delay(10);
       char angulo = Serial.read();
-      delay(10);
-      webcam_servo_tilt.write(angulo); // vertical
+      delay(20);
+      if (angulo >= 60 && angulo <= 120 )
+        webcam_servo_tilt.write(angulo); // vertical
     }
     else if (command == 'p') { // pan da webcam
-      delay(10);
       char angulo = Serial.read();
-      delay(10);
-      webcam_servo_pan.write(angulo); // horizontal
+      delay(20);
+      if (angulo >= 60 && angulo <= 120 )
+        webcam_servo_pan.write(angulo); // horizontal
     }
-    // Comandos para o servomotor da cabea do robô ///////////////////////////
+
+    // Comandos para o servomotor da cabeça do robô EVA
+    // Compatível com o protocolo dos Mexicanos, utilizando apenas um caractere
     else if (command == 'c') { // centraliza a cabeça do robô
       eva_center();
     }
@@ -127,6 +130,21 @@ void loop()
     else if (command == 'S') { // acena com a cabeça (nod)
       eva_shake(4); // movimento com 4 repeticoes
     }
+
+    // Protocolo com 3 caracteres utilizado para movimentar a cabeça utilizando um parametro de posição.
+    // O caractere # sinaliza o protocolo de 3 chars. Em seguida vem o char que indica a função (up_down ou left_right) 
+    // Então vem o char que indica a posição de destino do servomotor
+    else if (command == '#') { // protocolo com 3 chars
+      char tipo = Serial.read();
+      delay(20);
+      char posicao = Serial.read();
+      if (tipo == 't'){
+        eva_tilt(posicao); // Posição vertical
+      }
+      else if (tipo == 'p'){
+        eva_pan(posicao); // Posição horizontal
+      }
+    }
   }
 }
 
@@ -191,4 +209,17 @@ void eva_shake(int repeticoes){ // sacode a cabeça, como se estivesse dizendo u
     delay(pause); // tempo para a cabeça chegar na posição desejada
     repeticoes --;
   }
+}
+
+
+// Funcões de movimento da cabeça com o parâmetro posição (Tilt [vertical] e Pan [horizontal])
+void eva_tilt(int posicao_vertical){
+  int eva_tilt_value = (90 + (90 - posicao_vertical)) * 5.75;
+  ax12a.moveSpeed(EVA_TILT_SERVO_ID, eva_tilt_value, eva_velocity + 15);
+}
+
+
+void eva_pan(int posicao_horizontal){
+  int eva_pan_value = posicao_horizontal * 5.68;
+  ax12a.moveSpeed(EVA_PAN_SERVO_ID, eva_pan_value, eva_velocity + 15);
 }
