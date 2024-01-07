@@ -55,7 +55,7 @@ def is_y_center(y, a) -> bool:
         return False
 
 
-center_webcam()
+center_webcam() # Centraliza a camera
 
 while True:
     iddle_time -= 1
