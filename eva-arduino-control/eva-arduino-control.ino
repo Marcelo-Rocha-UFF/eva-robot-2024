@@ -127,7 +127,7 @@ void loop()
     else if (command == 's') { // sacode a cabeça (shake) como se estivesse dizendo um não
       eva_shake(2); // movimento com 2 repeticoes
     }
-    else if (command == 'S') { // acena com a cabeça (nod)
+    else if (command == 'S') { // sacode a cabeça (shake) como se estivesse dizendo um não
       eva_shake(4); // movimento com 4 repeticoes
     }
 
