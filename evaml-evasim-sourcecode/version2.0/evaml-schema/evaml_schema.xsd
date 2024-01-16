@@ -233,6 +233,7 @@ Revision: 2022/08/12
 			<xs:enumeration value="ANGRY"/>
 			<xs:enumeration value="FEAR"/>
 			<xs:enumeration value="SURPRISE"/>
+			<xs:enumeration value="DISGUST"/>
 			<xs:enumeration value="INLOVE"/>
 		</xs:restriction>
 	</xs:simpleType>

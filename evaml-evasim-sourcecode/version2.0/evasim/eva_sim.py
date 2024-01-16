@@ -128,6 +128,8 @@ im_eyes_sad = PhotoImage(file = "images/eyes_sad.png")
 im_eyes_happy = PhotoImage(file = "images/eyes_happy.png")
 im_eyes_fear = PhotoImage(file = "images/eyes_fear.png")
 im_eyes_surprise = PhotoImage(file = "images/eyes_surprise.png")
+im_eyes_disgust = PhotoImage(file = "images/eyes_disgust.png")
+im_eyes_inlove = PhotoImage(file = "images/eyes_inlove.png")
 im_eyes_on = PhotoImage(file = "images/eyes_on.png")
 
 # matrix voice images
@@ -497,6 +499,10 @@ def evaEmotion(expression):
         gui.canvas.create_image(156, 161, image = im_eyes_fear)
     elif expression == "SURPRISE":
         gui.canvas.create_image(156, 161, image = im_eyes_surprise)
+    elif expression == "DISGUST":
+        gui.canvas.create_image(156, 161, image = im_eyes_disgust)
+    elif expression == "INLOVE":
+        gui.canvas.create_image(156, 161, image = im_eyes_inlove)
     elif expression == "POWER_ON": 
         gui.canvas.create_image(156, 161, image = im_eyes_on)
     else: 
@@ -583,10 +589,11 @@ def exec_comando(node):
             gui.terminal.insert(INSERT, message_state)
             gui.terminal.see(tkinter.END) # autoscrolling
         light(color , state)
+
         if RUNNING_MODE == "EVA_ROBOT":
             client.publish(topic_base + "/light", color + "|" + state); # comando para o robô físico
         else:
-            time.sleep(1) # emula o tempo da lampada real
+            time.sleep(0.1) # emula o tempo  da lampada real
 
 
     elif node.tag == "wait":

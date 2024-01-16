@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <evaml
   name="teste_talk"
-  xsi:noNamespaceSchemaLocation="EvaML-Schema/evaml_schema.xsd"
+  xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <settings>
     <voice tone="pt-BR_IsabelaV3Voice" />
@@ -9,11 +9,8 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <switch var="#score">
-      <case op="eq" value="#x"></case>
-    </switch>
-    <switch var="score">
-      <case op="eq" value="#x"></case>
-    </switch>
+    <evaEmotion emotion="DISGUST" />
+    <wait duration="1000" />
+    <evaEmotion emotion="INLOVE" />
   </script>
 </evaml>
