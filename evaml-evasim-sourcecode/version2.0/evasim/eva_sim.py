@@ -81,9 +81,8 @@ client = mqtt_client.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 client.connect(broker, port)
-
-
 client.loop_start()
+
 
 # variaveis globais da vm
 root = {}
@@ -341,6 +340,10 @@ def woz_expression_sad(self):
     client.publish(topic_base + "/evaEmotion", "SAD")
 def woz_expression_surprise(self):
     client.publish(topic_base + "/evaEmotion", "SURPRISE")
+def woz_expression_disgust(self):
+    client.publish(topic_base + "/evaEmotion", "DISGUST")
+def woz_expression_inlove(self):
+    client.publish(topic_base + "/evaEmotion", "INLOVE")
 
 # WoZ expression buttons binding
 gui.bt_exp_angry.bind("<Button-1>", woz_expression_angry)
@@ -349,6 +352,8 @@ gui.bt_exp_happy.bind("<Button-1>", woz_expression_happy)
 gui.bt_exp_neutral.bind("<Button-1>", woz_expression_neutral)
 gui.bt_exp_sad.bind("<Button-1>", woz_expression_sad)
 gui.bt_exp_surprise.bind("<Button-1>", woz_expression_surprise)
+gui.bt_exp_disgust.bind("<Button-1>", woz_expression_disgust)
+gui.bt_exp_inlove.bind("<Button-1>", woz_expression_inlove)
 
 # WoZ led functions
 def woz_led_stop(self):
@@ -550,7 +555,8 @@ def exec_comando(node):
         gui.terminal.insert(INSERT, "\nstate: Selected Voice: " + node.attrib["tone"])
         gui.terminal.see(tkinter.END)
         gui.terminal.insert(INSERT, "\nTIP: If the <talk> command doesn't speak some text, try emptying the audio_cache_files folder", "tip")
-
+        if RUNNING_MODE == "EVA_ROBOT":
+            client.publish(topic_base + "/log", "Using the voice: " + node.attrib["tone"]) # 
 
     if node.tag == "motion":
         gui.terminal.insert(INSERT, "\nstate: Moving the head! Movement type: " + node.attrib["type"], "motion")
@@ -796,9 +802,8 @@ def exec_comando(node):
         gui.terminal.see(tkinter.END)
 
         if RUNNING_MODE == "EVA_ROBOT":
-            client.publish(topic_base + "/log", "Using Text-To-Spech service from IBM Watson.")
             ledAnimation("SPEAK")
-            EVA_ROBOT_STATE = "BUSY" # a fala é uma função bloueante. o robo fica ocupado.
+            EVA_ROBOT_STATE = "BUSY" # a fala é uma função bloqueante. o robo fica ocupado.
             client.publish(topic_base + "/talk", root.find("settings")[0].attrib["tone"] + "|" + texto[ind_random])
             while(EVA_ROBOT_STATE != "FREE"):
                 pass
@@ -862,7 +867,6 @@ def exec_comando(node):
         gui.terminal.see(tkinter.END)
 
         try:
-            #client.publish(topic_base + "/log", "Playing the audio file: ", sound_file + ".wav" + " ( - blocking mode = True")
             if block == True:
                 if RUNNING_MODE == "EVA_ROBOT":
                     EVA_ROBOT_STATE = "BUSY"
@@ -875,7 +879,6 @@ def exec_comando(node):
 
             else: # block = False
                 if RUNNING_MODE == "EVA_ROBOT":
-                    #client.publish(topic_base + "/log", "Playing the audio file: ", sound_file + ".wav" + " ( - blocking mode = True")
                     client.publish(topic_base + "/audio", sound_file + "|" + "FALSE")
                 else:
                     playsound("audio_files/" + sound_file + ".wav", block = block) 
@@ -1114,7 +1117,10 @@ def link_process(anterior = -1):
     gui.terminal.insert(INSERT, "\n---------------------------------------------------")
     gui.terminal.insert(INSERT, "\nstate: Starting the script: " + root.attrib["name"])
     gui.terminal.see(tkinter.END)
-    client.publish(topic_base + "/log", "Starting the script: " + root.attrib["name"])
+
+    if RUNNING_MODE == "EVA_ROBOT":
+        client.publish(topic_base + "/log", "Starting the script: " + root.attrib["name"])
+
     global fila_links
     while (len(fila_links) != 0) and (play == True):
         from_key = fila_links[0].attrib["from"] # chave do comando a executar
