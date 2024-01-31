@@ -357,35 +357,42 @@ gui.bt_exp_inlove.bind("<Button-1>", woz_expression_inlove)
 
 # WoZ led functions
 def woz_led_stop(self):
+    client.publish(topic_base + "/log", "Stopping leds.")
     client.publish(topic_base + "/leds", "STOP")
 def woz_led_angry(self):
+    client.publish(topic_base + "/log", "Leds animatiom: Angry.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "ANGRY")
 def woz_led_sad(self):
+    client.publish(topic_base + "/log", "Leds animatiom: Sad.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "SAD")
 def woz_led_angry2(self):
+    client.publish(topic_base + "/log", "Leds animatiom: Angry2.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "ANGRY2")
 def woz_led_happy(self):
+    client.publish(topic_base + "/log", "Leds animatiom: Happy.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "HAPPY")
 def woz_led_listen(self):
-    client.publish(topic_base + "/leds", "STOP")
-    client.publish(topic_base + "/leds", "LISTEN")
-def woz_led_listen(self):
+    client.publish(topic_base + "/log", "Leds animatiom: Listen.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "LISTEN")
 def woz_led_rainbow(self):
+    client.publish(topic_base + "/log", "Leds animatiom: Rainbow.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "RAINBOW")
 def woz_led_speak(self):
+    client.publish(topic_base + "/log", "Leds animatiom: Speak.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "SPEAK")
 def woz_led_surprise(self):
+    client.publish(topic_base + "/log", "Leds animatiom: Surprise.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "SURPRISE")
 def woz_led_white(self):
+    client.publish(topic_base + "/log", "Leds animatiom: White.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "WHITE")
 
@@ -455,6 +462,7 @@ gui.bt_motion_down_right.bind("<Button-1>", woz_motion_down_right)
 
 # TTS function
 def woz_tts(self):
+    client.publish(topic_base + "/log", "EVA will try to speak a text.")
     voice_option = gui.Lb_voices.get(ANCHOR)
     print(voice_option + "|" + gui.msg_tts_text.get('1.0','end'))
     client.publish(topic_base + "/talk", voice_option + "|" + gui.msg_tts_text.get('1.0','end'))
@@ -657,6 +665,7 @@ def exec_comando(node):
 
     elif node.tag == "listen":
         if RUNNING_MODE == "EVA_ROBOT": 
+            client.publish(topic_base + "/log", "EVA is listening...")
             EVA_ROBOT_STATE = "BUSY"
             ledAnimation("LISTEN")
             client.publish(topic_base + "/listen", " ")
@@ -802,6 +811,7 @@ def exec_comando(node):
         gui.terminal.see(tkinter.END)
 
         if RUNNING_MODE == "EVA_ROBOT":
+            client.publish(topic_base + "/log", "EVA will try to speak a text.")
             ledAnimation("SPEAK")
             EVA_ROBOT_STATE = "BUSY" # a fala é uma função bloqueante. o robo fica ocupado.
             client.publish(topic_base + "/talk", root.find("settings")[0].attrib["tone"] + "|" + texto[ind_random])
@@ -869,6 +879,7 @@ def exec_comando(node):
         try:
             if block == True:
                 if RUNNING_MODE == "EVA_ROBOT":
+                    client.publish(topic_base + "/log", "EVA is playing a sound in blocking mode.")
                     EVA_ROBOT_STATE = "BUSY"
                     client.publish(topic_base + "/audio", sound_file + "|" + "TRUE")
                     while (EVA_ROBOT_STATE != "FREE"):
@@ -879,6 +890,7 @@ def exec_comando(node):
 
             else: # block = False
                 if RUNNING_MODE == "EVA_ROBOT":
+                    client.publish(topic_base + "/log", "EVA is playing a sound in no-blocking mode.")
                     client.publish(topic_base + "/audio", sound_file + "|" + "FALSE")
                 else:
                     playsound("audio_files/" + sound_file + ".wav", block = block) 
