@@ -9,7 +9,7 @@ MQTT_PORT            = 1883
 EVA_TOPIC_BASE       = 'EVA'
 
 
-# Serial port settings
-EVA_SERIAL_PORT = '/dev/ttyACM0' # Arduino Uno (/dev/ttyACM0) e para ArbotiX (/dev/ttyUSB0)
-BAUD_RATE = '1000000' # Arduino Uno (1000000) e para ArbotiX (9600)
+# # Serial port settings
+# EVA_SERIAL_PORT = '/dev/ttyACM0' # Arduino Uno (/dev/ttyACM0) e para ArbotiX (/dev/ttyUSB0)
+# BAUD_RATE = '1000000' # Arduino Uno (1000000) e para ArbotiX (9600)
 
