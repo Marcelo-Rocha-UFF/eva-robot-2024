@@ -168,12 +168,12 @@ class Gui(ttk.Frame):
         
 
         # label frame lampada
-        btn_bulb_padx = 3
-        btn_bulb_pady = 3
+        btn_bulb_padx = 4
+        btn_bulb_pady = 11
         self.lf_bulb = LabelFrame(self.frame_lampada, text = 'Smart Bulb Colors', font = self.font1)
         self.lf_bulb.pack(side=tkinter.LEFT, padx=lfs_padx)
         # botões com as lâmpadas
-        btn_bulb_h = 3
+        btn_bulb_h = 2
         btn_bulb_w = 3
         self.bt_bulb_white_btn = Button (self.lf_bulb, bg='white', width = btn_bulb_w, height = btn_bulb_h,font = self.font1)
         self.bt_bulb_white_btn.grid(row=0, column=0, padx=btn_bulb_padx, pady=btn_bulb_pady)

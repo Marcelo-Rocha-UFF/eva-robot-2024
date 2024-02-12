@@ -417,40 +417,85 @@ gui.bt_led_surprise.bind("<Button-1>", woz_led_surprise)
 gui.bt_led_white.bind("<Button-1>", woz_led_white)
 
 
-# WoZ motion functions
+# WoZ head motion functions
 def woz_head_motion_yes(self):
-    client.publish(topic_base + "/motion", "YES")
+    client.publish(topic_base + "/motion/head", "YES")
 def woz_head_motion_no(self):
-    client.publish(topic_base + "/motion", "NO")
+    client.publish(topic_base + "/motion/head", "NO")
 def woz_head_motion_center(self):
-    client.publish(topic_base + "/motion", "CENTER")
+    client.publish(topic_base + "/motion/head", "CENTER")
 def woz_head_motion_left(self):
-    client.publish(topic_base + "/motion", "LEFT")
+    client.publish(topic_base + "/motion/head", "LEFT")
 def woz_head_motion_right(self):
-    client.publish(topic_base + "/motion", "RIGHT")
+    client.publish(topic_base + "/motion/head", "RIGHT")
 def woz_head_motion_up(self):
-    client.publish(topic_base + "/motion", "UP")
+    client.publish(topic_base + "/motion/head", "UP")
 def woz_head_motion_down(self):
-    client.publish(topic_base + "/motion", "DOWN")
+    client.publish(topic_base + "/motion/head", "DOWN")
 def woz_head_motion_2left(self):
-    client.publish(topic_base + "/motion", "2LEFT")
+    client.publish(topic_base + "/motion/head", "2LEFT")
 def woz_head_motion_2right(self):
-    client.publish(topic_base + "/motion", "2RIGHT")
+    client.publish(topic_base + "/motion/head", "2RIGHT")
 def woz_head_motion_2up(self):
-    client.publish(topic_base + "/motion", "2UP")
+    client.publish(topic_base + "/motion/head", "2UP")
 def woz_head_motion_2down(self):
-    client.publish(topic_base + "/motion", "2DOWN")
+    client.publish(topic_base + "/motion/head", "2DOWN")
 def woz_head_motion_up_left(self):
-    client.publish(topic_base + "/motion", "UP_LEFT")
+    client.publish(topic_base + "/motion/head", "UP_LEFT")
 def woz_head_motion_up_right(self):
-    client.publish(topic_base + "/motion", "UP_RIGHT")
+    client.publish(topic_base + "/motion/head", "UP_RIGHT")
 def woz_head_motion_down_left(self):
-    client.publish(topic_base + "/motion", "DOWN_LEFT")
+    client.publish(topic_base + "/motion/head", "DOWN_LEFT")
 def woz_head_motion_down_right(self):
-    client.publish(topic_base + "/motion", "DOWN_RIGHT")
-    
+    client.publish(topic_base + "/motion/head", "DOWN_RIGHT")
 
-# WoZ motion buttons binding
+# WoZ arms motion functions
+def woz_arm_left_motion_up(self):
+    client.publish(topic_base + "/motion/arm/left", "UP")
+def woz_arm_right_motion_up(self):
+    client.publish(topic_base + "/motion/arm/right", "UP")
+def woz_arm_left_motion_down(self):
+    client.publish(topic_base + "/motion/arm/left", "DOWN")
+def woz_arm_right_motion_down(self):
+    client.publish(topic_base + "/motion/arm/right", "DOWN")
+def woz_arm_left_motion_pos_0(self):
+    client.publish(topic_base + "/motion/arm/left", "POSITION 0")
+def woz_arm_right_motion_pos_0(self):
+    client.publish(topic_base + "/motion/arm/right", "POSITION 0")
+def woz_arm_left_motion_pos_1(self):
+    client.publish(topic_base + "/motion/arm/left", "POSITION 1")
+def woz_arm_right_motion_pos_1(self):
+    client.publish(topic_base + "/motion/arm/right", "POSITION 1")
+def woz_arm_left_motion_pos_2(self):
+    client.publish(topic_base + "/motion/arm/left", "POSITION 2")
+def woz_arm_right_motion_pos_2(self):
+    client.publish(topic_base + "/motion/arm/right", "POSITION 2")
+def woz_arm_left_motion_pos_3(self):
+    client.publish(topic_base + "/motion/arm/left", "POSITION 3")
+def woz_arm_right_motion_pos_3(self):
+    client.publish(topic_base + "/motion/arm/right", "POSITION 3")
+def woz_arm_left_motion_shake(self):
+    client.publish(topic_base + "/motion/arm/left", "SHAKE")
+def woz_arm_right_motion_shake(self):
+    client.publish(topic_base + "/motion/arm/right", "SHAKE")
+
+# Woz arms motion buttons binding
+gui.bt_arm_left_motion_up.bind("<Button-1>", woz_arm_left_motion_up)
+gui.bt_arm_right_motion_up.bind("<Button-1>", woz_arm_right_motion_up)
+gui.bt_arm_left_motion_down.bind("<Button-1>", woz_arm_left_motion_down)
+gui.bt_arm_right_motion_down.bind("<Button-1>", woz_arm_right_motion_down)
+gui.bt_arm_left_motion_pos_0.bind("<Button-1>", woz_arm_left_motion_pos_0)
+gui.bt_arm_right_motion_pos_0.bind("<Button-1>", woz_arm_right_motion_pos_0)
+gui.bt_arm_left_motion_pos_1.bind("<Button-1>", woz_arm_left_motion_pos_1)
+gui.bt_arm_right_motion_pos_1.bind("<Button-1>", woz_arm_right_motion_pos_1)
+gui.bt_arm_left_motion_pos_2.bind("<Button-1>", woz_arm_left_motion_pos_2)
+gui.bt_arm_right_motion_pos_2.bind("<Button-1>", woz_arm_right_motion_pos_2)
+gui.bt_arm_left_motion_pos_3.bind("<Button-1>", woz_arm_left_motion_pos_3)
+gui.bt_arm_right_motion_pos_3.bind("<Button-1>", woz_arm_right_motion_pos_3)
+gui.bt_arm_left_motion_shake.bind("<Button-1>", woz_arm_left_motion_shake)
+gui.bt_arm_right_motion_shake.bind("<Button-1>", woz_arm_right_motion_shake)
+
+# WoZ head motion buttons binding
 gui.bt_head_motion_yes.bind("<Button-1>", woz_head_motion_yes)
 gui.bt_head_motion_no.bind("<Button-1>", woz_head_motion_no)
 gui.bt_head_motion_center.bind("<Button-1>", woz_head_motion_center)
