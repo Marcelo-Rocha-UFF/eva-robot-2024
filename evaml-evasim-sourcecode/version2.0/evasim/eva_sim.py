@@ -418,54 +418,54 @@ gui.bt_led_white.bind("<Button-1>", woz_led_white)
 
 
 # WoZ motion functions
-def woz_motion_yes(self):
+def woz_head_motion_yes(self):
     client.publish(topic_base + "/motion", "YES")
-def woz_motion_no(self):
+def woz_head_motion_no(self):
     client.publish(topic_base + "/motion", "NO")
-def woz_motion_center(self):
+def woz_head_motion_center(self):
     client.publish(topic_base + "/motion", "CENTER")
-def woz_motion_left(self):
+def woz_head_motion_left(self):
     client.publish(topic_base + "/motion", "LEFT")
-def woz_motion_right(self):
+def woz_head_motion_right(self):
     client.publish(topic_base + "/motion", "RIGHT")
-def woz_motion_up(self):
+def woz_head_motion_up(self):
     client.publish(topic_base + "/motion", "UP")
-def woz_motion_down(self):
+def woz_head_motion_down(self):
     client.publish(topic_base + "/motion", "DOWN")
-def woz_motion_2left(self):
+def woz_head_motion_2left(self):
     client.publish(topic_base + "/motion", "2LEFT")
-def woz_motion_2right(self):
+def woz_head_motion_2right(self):
     client.publish(topic_base + "/motion", "2RIGHT")
-def woz_motion_2up(self):
+def woz_head_motion_2up(self):
     client.publish(topic_base + "/motion", "2UP")
-def woz_motion_2down(self):
+def woz_head_motion_2down(self):
     client.publish(topic_base + "/motion", "2DOWN")
-def woz_motion_up_left(self):
+def woz_head_motion_up_left(self):
     client.publish(topic_base + "/motion", "UP_LEFT")
-def woz_motion_up_right(self):
+def woz_head_motion_up_right(self):
     client.publish(topic_base + "/motion", "UP_RIGHT")
-def woz_motion_down_left(self):
+def woz_head_motion_down_left(self):
     client.publish(topic_base + "/motion", "DOWN_LEFT")
-def woz_motion_down_right(self):
+def woz_head_motion_down_right(self):
     client.publish(topic_base + "/motion", "DOWN_RIGHT")
     
 
 # WoZ motion buttons binding
-gui.bt_motion_yes.bind("<Button-1>", woz_motion_yes)
-gui.bt_motion_no.bind("<Button-1>", woz_motion_no)
-gui.bt_motion_center.bind("<Button-1>", woz_motion_center)
-gui.bt_motion_left.bind("<Button-1>", woz_motion_left)
-gui.bt_motion_right.bind("<Button-1>", woz_motion_right)
-gui.bt_motion_up.bind("<Button-1>", woz_motion_up)
-gui.bt_motion_down.bind("<Button-1>", woz_motion_down)
-gui.bt_motion_2left.bind("<Button-1>", woz_motion_2left)
-gui.bt_motion_2right.bind("<Button-1>", woz_motion_2right)
-gui.bt_motion_2up.bind("<Button-1>", woz_motion_2up)
-gui.bt_motion_2down.bind("<Button-1>", woz_motion_2down)
-gui.bt_motion_up_left.bind("<Button-1>", woz_motion_up_left)
-gui.bt_motion_up_right.bind("<Button-1>", woz_motion_up_right)
-gui.bt_motion_down_left.bind("<Button-1>", woz_motion_down_left)
-gui.bt_motion_down_right.bind("<Button-1>", woz_motion_down_right)
+gui.bt_head_motion_yes.bind("<Button-1>", woz_head_motion_yes)
+gui.bt_head_motion_no.bind("<Button-1>", woz_head_motion_no)
+gui.bt_head_motion_center.bind("<Button-1>", woz_head_motion_center)
+gui.bt_head_motion_left.bind("<Button-1>", woz_head_motion_left)
+gui.bt_head_motion_right.bind("<Button-1>", woz_head_motion_right)
+gui.bt_head_motion_up.bind("<Button-1>", woz_head_motion_up)
+gui.bt_head_motion_down.bind("<Button-1>", woz_head_motion_down)
+gui.bt_head_motion_2left.bind("<Button-1>", woz_head_motion_2left)
+gui.bt_head_motion_2right.bind("<Button-1>", woz_head_motion_2right)
+gui.bt_head_motion_2up.bind("<Button-1>", woz_head_motion_2up)
+gui.bt_head_motion_2down.bind("<Button-1>", woz_head_motion_2down)
+gui.bt_head_motion_up_left.bind("<Button-1>", woz_head_motion_up_left)
+gui.bt_head_motion_up_right.bind("<Button-1>", woz_head_motion_up_right)
+gui.bt_head_motion_down_left.bind("<Button-1>", woz_head_motion_down_left)
+gui.bt_head_motion_down_right.bind("<Button-1>", woz_head_motion_down_right)
 
 
 # TTS function

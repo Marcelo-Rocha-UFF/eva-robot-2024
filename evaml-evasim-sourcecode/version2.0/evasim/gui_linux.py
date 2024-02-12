@@ -66,15 +66,6 @@ class Gui(ttk.Frame):
         self.im_bt_play = PhotoImage(file = "images/bt_play.png")
         self.im_bt_stop = PhotoImage(file = "images/bt_stop.png")
 
-        # bulb button images
-        self.im_bulb_white_btn = PhotoImage(file = "images/bulb_white_btn.png")
-        self.im_bulb_off_btn = PhotoImage(file = "images/bulb_off_btn.png")
-        self.im_bulb_red_btn = PhotoImage(file = "images/bulb_red_btn.png")
-        self.im_bulb_pink_btn = PhotoImage(file = "images/bulb_pink_btn.png")
-        self.im_bulb_green_btn = PhotoImage(file = "images/bulb_green_btn.png")
-        self.im_bulb_yellow_btn = PhotoImage(file = "images/bulb_yellow_btn.png")
-        self.im_bulb_blue_btn = PhotoImage(file = "images/bulb_blue_btn.png")
-
 
         # define o frame top
         self.frame_top = tkinter.Frame(master=parent) #self.h
@@ -105,8 +96,10 @@ class Gui(ttk.Frame):
         self.frame_leds = tkinter.Frame(master=self.frame_bottom) #self.h
         # Frame com as cores da lâmpada
         self.frame_lampada = tkinter.Frame(master=self.frame_bottom) #self.h
-        # Frame com os botões de movimento
-        self.frame_motion = tkinter.Frame(master=self.frame_bottom) #self.h
+        # Frame com os botões de movimento dos braços
+        self.frame_arms_motion = tkinter.Frame(master=self.frame_bottom) #self.h
+        # Frame com os botões de movimento da cabeça
+        self.frame_head_motion = tkinter.Frame(master=self.frame_bottom) #self.h
         # Frame com o botão de speak
         self.frame_tts = tkinter.Frame(master=self.frame_bottom) #self.h
         # Pack frames
@@ -116,7 +109,8 @@ class Gui(ttk.Frame):
         self.frame_exp.pack(side=tkinter.LEFT)
         self.frame_leds.pack(side=tkinter.LEFT)
         self.frame_lampada.pack(side=tkinter.LEFT)
-        self.frame_motion.pack(side=tkinter.LEFT)
+        self.frame_arms_motion.pack(side=tkinter.LEFT)
+        self.frame_head_motion.pack(side=tkinter.LEFT)
         self.frame_tts.pack(side=tkinter.LEFT)
         self.frame_canvas_woz.pack(side=tkinter.LEFT)
 
@@ -149,89 +143,139 @@ class Gui(ttk.Frame):
         self.lf_leds.pack(side=tkinter.LEFT, padx=lfs_padx)
         # botões com os leds
         btn_led_w = 7
-        btn_led_pady = 12
-        self.bt_led_happy = Button (self.lf_leds, foreground = "green" , width = btn_led_w, text = "HAPPY",font = self.font1, compound = LEFT)
+        btn_led_h = 2
+        btn_led_pady = 4
+        self.bt_led_happy = Button (self.lf_leds, foreground = "green" , width = btn_led_w, height = btn_led_h, text = "HAPPY",font = self.font1, compound = LEFT)
         self.bt_led_happy.grid(row=0, column=0, padx=4, pady=btn_led_pady)
-        self.bt_led_sad = Button (self.lf_leds, foreground = "blue" , width = btn_led_w,  text = "SAD",font = self.font1, compound = LEFT)
+        self.bt_led_sad = Button (self.lf_leds, foreground = "blue" , width = btn_led_w,  height = btn_led_h,  text = "SAD",font = self.font1, compound = LEFT)
         self.bt_led_sad.grid(row=0, column=1, padx=4, pady=btn_led_pady)
-        self.bt_led_angry = Button (self.lf_leds, foreground = "red" , width = btn_led_w, text = "ANGRY",font = self.font1, compound = LEFT)
+        self.bt_led_angry = Button (self.lf_leds, foreground = "red" , width = btn_led_w,  height = btn_led_h, text = "ANGRY",font = self.font1, compound = LEFT)
         self.bt_led_angry.grid(row=1, column=0, padx=4, pady=btn_led_pady)
-        self.bt_led_angry2 = Button (self.lf_leds, foreground = "red" , width = btn_led_w, text = "ANGRY2",font = self.font1, compound = LEFT)
+        self.bt_led_angry2 = Button (self.lf_leds, foreground = "red" , width = btn_led_w,  height = btn_led_h, text = "ANGRY2",font = self.font1, compound = LEFT)
         self.bt_led_angry2.grid(row=1, column=1, padx=4, pady=btn_led_pady)
-        self.bt_led_stop = Button (self.lf_leds, foreground = "black" , width = btn_led_w, text = "STOP",font = self.font1, compound = LEFT)
+        self.bt_led_stop = Button (self.lf_leds, foreground = "black" , width = btn_led_w,  height = btn_led_h, text = "STOP",font = self.font1, compound = LEFT)
         self.bt_led_stop.grid(row=2, column=0, padx=4, pady=btn_led_pady)
-        self.bt_led_speak = Button (self.lf_leds, foreground = "blue" , width = btn_led_w, text = "SPEAK",font = self.font1, compound = LEFT)
+        self.bt_led_speak = Button (self.lf_leds, foreground = "blue" , width = btn_led_w,  height = btn_led_h, text = "SPEAK",font = self.font1, compound = LEFT)
         self.bt_led_speak.grid(row=2, column=1, padx=4, pady=btn_led_pady)
-        self.bt_led_listen = Button (self.lf_leds, foreground = "green" , width = btn_led_w, text = "LISTEN",font = self.font1, compound = LEFT)
+        self.bt_led_listen = Button (self.lf_leds, foreground = "green" , width = btn_led_w,  height = btn_led_h, text = "LISTEN",font = self.font1, compound = LEFT)
         self.bt_led_listen.grid(row=3, column=0, padx=4, pady=btn_led_pady)
-        self.bt_led_surprise = Button (self.lf_leds, foreground = "yellow" , width = btn_led_w, text = "SURPRISE",font = self.font1, compound = LEFT)
+        self.bt_led_surprise = Button (self.lf_leds, foreground = "yellow" , width = btn_led_w,  height = btn_led_h, text = "SURPRISE",font = self.font1, compound = LEFT)
         self.bt_led_surprise.grid(row=3, column=1, padx=4, pady=btn_led_pady)
-        self.bt_led_white = Button (self.lf_leds, foreground = "white" , width = btn_led_w, text = "WHITE",font = self.font1, compound = LEFT)
+        self.bt_led_white = Button (self.lf_leds, foreground = "white" , width = btn_led_w,  height = btn_led_h, text = "WHITE",font = self.font1, compound = LEFT)
         self.bt_led_white.grid(row=4, column=0, padx=4, pady=btn_led_pady)
-        self.bt_led_rainbow = Button (self.lf_leds, foreground = "black" , width = btn_led_w, text = "RAINBOW",font = self.font1, compound = LEFT)
+        self.bt_led_rainbow = Button (self.lf_leds, foreground = "black" , width = btn_led_w,  height = btn_led_h, text = "RAINBOW",font = self.font1, compound = LEFT)
         self.bt_led_rainbow.grid(row=4, column=1, padx=4, pady=btn_led_pady)
         
 
         # label frame lampada
-        btn_bulb_padx = 2
-        btn_bulb_pady = 1
+        btn_bulb_padx = 3
+        btn_bulb_pady = 3
         self.lf_bulb = LabelFrame(self.frame_lampada, text = 'Smart Bulb Colors', font = self.font1)
         self.lf_bulb.pack(side=tkinter.LEFT, padx=lfs_padx)
         # botões com as lâmpadas
-        btn_bulb_h = 81
-        self.bt_bulb_white_btn = Button (self.lf_bulb, text = 'White', width = 60, height = btn_bulb_h, image = self.im_bulb_white_btn,font = self.font1)
+        btn_bulb_h = 3
+        btn_bulb_w = 3
+        self.bt_bulb_white_btn = Button (self.lf_bulb, bg='white', width = btn_bulb_w, height = btn_bulb_h,font = self.font1)
         self.bt_bulb_white_btn.grid(row=0, column=0, padx=btn_bulb_padx, pady=btn_bulb_pady)
-        self.bt_bulb_off_btn = Button (self.lf_bulb, text = 'OFF', width = 60, height = btn_bulb_h, image = self.im_bulb_off_btn,font = self.font1)
+        self.bt_bulb_off_btn = Button (self.lf_bulb, bg='black', width = btn_bulb_w, height = btn_bulb_h,font = self.font1)
         self.bt_bulb_off_btn.grid(row=0, column=1, padx=btn_bulb_padx, pady=btn_bulb_pady)
-        self.bt_bulb_red_btn = Button (self.lf_bulb, text = 'Red', width = 60, height = btn_bulb_h, image = self.im_bulb_red_btn,font = self.font1)
-        self.bt_bulb_red_btn.grid(row=0, column=2, padx=btn_bulb_padx, pady=btn_bulb_pady)
-        self.bt_bulb_pink_btn = Button (self.lf_bulb, text = 'White', width = 60, height = btn_bulb_h, image = self.im_bulb_pink_btn,font = self.font1)
-        self.bt_bulb_pink_btn.grid(row=1, column=0, padx=btn_bulb_padx, pady=btn_bulb_pady)
-        self.bt_bulb_green_btn = Button (self.lf_bulb, text = 'Black', width = 60, height = btn_bulb_h, image = self.im_bulb_green_btn,font = self.font1)
-        self.bt_bulb_green_btn.grid(row=1, column=1, padx=btn_bulb_padx, pady=btn_bulb_pady)
-        self.bt_bulb_yellow_btn = Button (self.lf_bulb, text = 'Yellow', width = 60, height = btn_bulb_h, image = self.im_bulb_yellow_btn,font = self.font1)
-        self.bt_bulb_yellow_btn.grid(row=1, column=2, padx=btn_bulb_padx, pady=btn_bulb_pady)
-        self.bt_bulb_blue_btn = Button (self.lf_bulb, text = 'Blue', width = 60, height = btn_bulb_h, image = self.im_bulb_blue_btn,font = self.font1)
-        self.bt_bulb_blue_btn.grid(row=2, column=0, padx=btn_bulb_padx, pady=btn_bulb_pady)
+        self.bt_bulb_red_btn = Button (self.lf_bulb, bg='red', width = btn_bulb_w, height = btn_bulb_h,font = self.font1)
+        self.bt_bulb_red_btn.grid(row=1, column=0, padx=btn_bulb_padx, pady=btn_bulb_pady)
+        self.bt_bulb_pink_btn = Button (self.lf_bulb, bg='#ed30cf', width = btn_bulb_w, height = btn_bulb_h,font = self.font1)
+        self.bt_bulb_pink_btn.grid(row=1, column=1, padx=btn_bulb_padx, pady=btn_bulb_pady)
+        self.bt_bulb_green_btn = Button (self.lf_bulb, bg='#3ded97', width = btn_bulb_w, height = btn_bulb_h,font = self.font1)
+        self.bt_bulb_green_btn.grid(row=2, column=0, padx=btn_bulb_padx, pady=btn_bulb_pady)
+        self.bt_bulb_yellow_btn = Button (self.lf_bulb, bg='yellow', width = btn_bulb_w, height = btn_bulb_h,font = self.font1)
+        self.bt_bulb_yellow_btn.grid(row=2, column=1, padx=btn_bulb_padx, pady=btn_bulb_pady)
+        self.bt_bulb_blue_btn = Button (self.lf_bulb, bg='blue', width = btn_bulb_w, height = btn_bulb_h,font = self.font1)
+        self.bt_bulb_blue_btn.grid(row=3, column=0, padx=btn_bulb_padx, pady=btn_bulb_pady)
         
-        # motion frame
-        btn_motion_padx = 0
-        btn_motion_pady = 1
-        self.lf_motion = LabelFrame(self.frame_motion, text = 'Head Motion', font = self.font1)
-        self.lf_motion.pack(side=tkinter.LEFT, padx=lfs_padx)
-        # botões com os movimentos
-        btn_motion_w = 10
-        btn_motion_h = 2
-        self.bt_motion_up_left = Button (self.lf_motion, width = btn_motion_w, height = btn_motion_h, text = 'UP/LEFT',font = self.font1)
-        self.bt_motion_up_left.grid(row=0, column=0, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_up = Button (self.lf_motion,  width = btn_motion_w, height = btn_motion_h, text = 'UP', font = self.font1)
-        self.bt_motion_up.grid(row=0, column=1, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_2up = Button (self.lf_motion,  width = btn_motion_w, height = btn_motion_h, text = '2 x UP', font = self.font1)
-        self.bt_motion_2up.grid(row=0, column=2, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_up_right = Button (self.lf_motion,  width = btn_motion_w, height = btn_motion_h, text = 'UP/RIGHT', font = self.font1)
-        self.bt_motion_up_right.grid(row=0, column=3, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_left = Button (self.lf_motion,  width = btn_motion_w, height = btn_motion_h, text = 'LEFT', font = self.font1)
-        self.bt_motion_left.grid(row=1, column=0, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_center = Button (self.lf_motion,  width = 2 * btn_motion_w + 5, height = 5,  text = 'CENTER', font = self.font1)
-        self.bt_motion_center.grid(row=1, column=1, padx=btn_motion_padx, pady=btn_motion_pady, columnspan = 2, rowspan = 2)
-        self.bt_motion_2left = Button (self.lf_motion,  width = btn_motion_w, height = btn_motion_h, text = '2 x LEFT', font = self.font1)
-        self.bt_motion_2left.grid(row=2, column=0, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_right = Button (self.lf_motion,  width = btn_motion_w, height = btn_motion_h, text = 'RIGHT', font = self.font1)
-        self.bt_motion_right.grid(row=1, column=3, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_2right = Button (self.lf_motion,  width = btn_motion_w, height = btn_motion_h, text = '2 x RIGHT', font = self.font1)
-        self.bt_motion_2right.grid(row=2, column=3, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_down_left = Button (self.lf_motion,  width = btn_motion_w, height = btn_motion_h, text = 'DOWN/LEFT', font = self.font1)
-        self.bt_motion_down_left.grid(row=3, column=0, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_down = Button (self.lf_motion,  width = btn_motion_w, height = btn_motion_h, text = 'DOWN', font = self.font1)
-        self.bt_motion_down.grid(row=3, column=1, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_2down = Button (self.lf_motion,  width = btn_motion_w, height = btn_motion_h, text = '2 x DOWN', font = self.font1)
-        self.bt_motion_2down.grid(row=3, column=2, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_down_right = Button (self.lf_motion,  width = btn_motion_w, height = btn_motion_h, text = 'DOWN/RIGHT', font = self.font1)
-        self.bt_motion_down_right.grid(row=3, column=3, padx=btn_motion_padx, pady=btn_motion_pady)
-        self.bt_motion_yes = Button (self.lf_motion, foreground="green", width = 2 * btn_motion_w + 5, height = 4, text = 'YES', font = self.font1)
-        self.bt_motion_yes.grid(row=4, column=0, padx=btn_motion_padx, pady=btn_motion_pady + 2, columnspan=2, rowspan=2)
-        self.bt_motion_no = Button (self.lf_motion, foreground="red", width = 2 * btn_motion_w + 5, height = 4, text = 'NO', font = self.font1)
-        self.bt_motion_no.grid(row=4, column=2, padx=btn_motion_padx, pady=btn_motion_pady + 2, columnspan=2, rowspan=2)
+
+        # arms motion frame
+        btn_arms_motion_padx = 2
+        btn_arms_motion_pady = 2
+        self.lf_arms_motion = LabelFrame(self.frame_arms_motion, text = 'Arms Motion', font = self.font1)
+        self.lf_arms_motion.pack(side=tkinter.LEFT, padx=lfs_padx)
+        # botões com os movimentos dos braços
+        btn_arms_motion_w = 4
+        btn_arms_motion_h = 1
+        self.lbl_arm_left = tkinter.Label(self.lf_arms_motion, bg="gray70", width=btn_arms_motion_w + 3, font = self.font1, text="LEFT", padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        self.lbl_arm_left.grid(row=0, column=0, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady + 2)
+        self.lbl_arm_right = tkinter.Label(self.lf_arms_motion, bg="gray70", width=btn_arms_motion_w + 3, font = self.font1, text="RIGHT", padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        self.lbl_arm_right.grid(row=0, column=1, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady + 2)
+
+        self.bt_arm_left_motion_pos_0 = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'P0',font = self.font1)
+        self.bt_arm_left_motion_pos_0.grid(row=1, column=0, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        self.bt_arm_right_motion_pos_0 = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'P0',font = self.font1)
+        self.bt_arm_right_motion_pos_0.grid(row=1, column=1, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        self.bt_arm_left_motion_pos_1 = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'P1',font = self.font1)
+        self.bt_arm_left_motion_pos_1.grid(row=2, column=0, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        self.bt_arm_right_motion_pos_1 = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'P1',font = self.font1)
+        self.bt_arm_right_motion_pos_1.grid(row=2, column=1, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+
+        self.bt_arm_left_motion_pos_2 = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'P2',font = self.font1)
+        self.bt_arm_left_motion_pos_2.grid(row=3, column=0, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        self.bt_arm_right_motion_pos_2 = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'P2',font = self.font1)
+        self.bt_arm_right_motion_pos_2.grid(row=3, column=1, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        self.bt_arm_left_motion_pos_3 = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'P3',font = self.font1)
+        self.bt_arm_left_motion_pos_3.grid(row=4, column=0, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        self.bt_arm_right_motion_pos_3 = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'P3',font = self.font1)
+        self.bt_arm_right_motion_pos_3.grid(row=4, column=1, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+
+        self.bt_arm_left_motion_up = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'UP',font = self.font1)
+        self.bt_arm_left_motion_up.grid(row=7, column=0, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        self.bt_arm_right_motion_up = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'UP',font = self.font1)
+        self.bt_arm_right_motion_up.grid(row=7, column=1, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+
+        self.bt_arm_left_motion_down = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'DOWN',font = self.font1)
+        self.bt_arm_left_motion_down.grid(row=8, column=0, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        self.bt_arm_right_motion_down = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'DOWN',font = self.font1)
+        self.bt_arm_right_motion_down.grid(row=8, column=1, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+
+        self.bt_arm_left_motion_shake = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'SHAKE',font = self.font1)
+        self.bt_arm_left_motion_shake.grid(row=9, column=0, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        self.bt_arm_right_motion_shake = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'SHAKE',font = self.font1)
+        self.bt_arm_right_motion_shake.grid(row=9, column=1, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
+        
+
+        # head motion frame
+        btn_head_motion_padx = 0
+        btn_head_motion_pady = 0
+        self.lf_head_motion = LabelFrame(self.frame_head_motion, text = 'Head Motion', font = self.font1)
+        self.lf_head_motion.pack(side=tkinter.LEFT, padx=lfs_padx)
+        # botões com os movimentos da cabeça
+        btn_head_motion_w = 10
+        btn_head_motion_h = 2
+        self.bt_head_motion_up_left = Button (self.lf_head_motion, width = btn_head_motion_w, height = btn_head_motion_h, text = 'UP/LEFT',font = self.font1)
+        self.bt_head_motion_up_left.grid(row=0, column=0, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_up = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = 'UP', font = self.font1)
+        self.bt_head_motion_up.grid(row=0, column=1, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_2up = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = '2 x UP', font = self.font1)
+        self.bt_head_motion_2up.grid(row=0, column=2, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_up_right = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = 'UP/RIGHT', font = self.font1)
+        self.bt_head_motion_up_right.grid(row=0, column=3, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_left = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = 'LEFT', font = self.font1)
+        self.bt_head_motion_left.grid(row=1, column=0, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_center = Button (self.lf_head_motion,  width = 2 * btn_head_motion_w + 5, height = 5,  text = 'CENTER', font = self.font1)
+        self.bt_head_motion_center.grid(row=1, column=1, padx=btn_head_motion_padx, pady=btn_head_motion_pady, columnspan = 2, rowspan = 2)
+        self.bt_head_motion_2left = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = '2 x LEFT', font = self.font1)
+        self.bt_head_motion_2left.grid(row=2, column=0, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_right = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = 'RIGHT', font = self.font1)
+        self.bt_head_motion_right.grid(row=1, column=3, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_2right = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = '2 x RIGHT', font = self.font1)
+        self.bt_head_motion_2right.grid(row=2, column=3, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_down_left = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = 'DOWN/LEFT', font = self.font1)
+        self.bt_head_motion_down_left.grid(row=3, column=0, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_down = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = 'DOWN', font = self.font1)
+        self.bt_head_motion_down.grid(row=3, column=1, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_2down = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = '2 x DOWN', font = self.font1)
+        self.bt_head_motion_2down.grid(row=3, column=2, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_down_right = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = 'DOWN/RIGHT', font = self.font1)
+        self.bt_head_motion_down_right.grid(row=3, column=3, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
+        self.bt_head_motion_yes = Button (self.lf_head_motion, foreground="green", width = 2 * btn_head_motion_w + 5, height = 4, text = 'YES', font = self.font1)
+        self.bt_head_motion_yes.grid(row=4, column=0, padx=btn_head_motion_padx, pady=btn_head_motion_pady + 2, columnspan=2, rowspan=2)
+        self.bt_head_motion_no = Button (self.lf_head_motion, foreground="red", width = 2 * btn_head_motion_w + 5, height = 4, text = 'NO', font = self.font1)
+        self.bt_head_motion_no.grid(row=4, column=2, padx=btn_head_motion_padx, pady=btn_head_motion_pady + 2, columnspan=2, rowspan=2)
 
 
         # label frame tts
