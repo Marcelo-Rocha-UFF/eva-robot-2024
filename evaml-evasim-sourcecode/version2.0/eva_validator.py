@@ -6,7 +6,7 @@ from pprint import pprint
 # schema validation
 # este trecho de codigo valida o xml
 # podem ocorrer dois tipos de erro (1) xml mal-formado (2) erro de validação
-schema = xmlschema.XMLSchema("EvaML-Schema/evaml_schema.xsd")
+schema = xmlschema.XMLSchema("evaml-schema/evaml_schema.xsd")
 
 def evaml_validator(evaml_file): # função que é chamado pelo mod. macro exp.
   global tree

@@ -39,7 +39,7 @@ Revision: 2022/08/12
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="motionListType">
+	<xs:simpleType name="headMotionListType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="YES"/>
 			<xs:enumeration value="2YES"/>
@@ -65,6 +65,18 @@ Revision: 2022/08/12
 		</xs:restriction>
 	</xs:simpleType>
 
+	<xs:simpleType name="armMotionListType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="POSITION 0"/> <!-- Move o braço para a posição inicial (0) -->
+			<xs:enumeration value="POSITION 1"/>
+			<xs:enumeration value="POSITION 2"/>
+			<xs:enumeration value="POSITION 3"/> <!-- Move o braço para a posição máxima (3) -->
+			<xs:enumeration value="UP"/> <!-- Move o braço para a próxima posição superior -->
+			<xs:enumeration value="DOWN"/> <!-- Move o braço para a próxima posição inferior -->
+			<xs:enumeration value="SHAKE"/> <!-- Balança o braço para cima e para baixo em torno da posição corrente -->
+		</xs:restriction>
+	</xs:simpleType>
+
 	<xs:simpleType name="voiceStringType">
 		<xs:restriction base="xs:string"/>
 	</xs:simpleType>
@@ -84,9 +96,13 @@ Revision: 2022/08/12
 	<xs:simpleType name="audioListType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="efx-blin"/>
+			<xs:enumeration value="efx-blin2"/>
             <xs:enumeration value="efx-cheering"/>
             <xs:enumeration value="efx-crowdapplause1"/>
+			<xs:enumeration value="efx-display"/>
+			<xs:enumeration value="efx-display2"/>
             <xs:enumeration value="efx-fanfare"/>
+			<xs:enumeration value="efx-harp-gliss"/>
             <xs:enumeration value="efx-mario-end-01"/>
             <xs:enumeration value="efx-mario-end-02"/>
             <xs:enumeration value="efx-mario-end-03"/>
@@ -97,18 +113,22 @@ Revision: 2022/08/12
             <xs:enumeration value="efx-mario-sound2"/>
             <xs:enumeration value="efx-mario-start-01"/>
             <xs:enumeration value="efx-mario-start-02"/>
+			<xs:enumeration value="efx-susto"/>
             <xs:enumeration value="efx-tic-toc"/>
             <xs:enumeration value="efx-wand1"/>
             <xs:enumeration value="MUTED-SOUND"/>
             <xs:enumeration value="song-ben"/>
             <xs:enumeration value="song-caneta-azul"/>
             <xs:enumeration value="song-exodus"/>
+			<xs:enumeration value="song-i-believe-i-can-fly"/>
             <xs:enumeration value="song-mj-heal-the-world"/>
             <xs:enumeration value="song-here-comes-the-sun"/>
             <xs:enumeration value="song-mj-heal-the-world"/>
             <xs:enumeration value="song-mj-thriller2"/>
             <xs:enumeration value="song-mj-thriller3-laugh"/>
             <xs:enumeration value="song-oh-no"/>
+			<xs:enumeration value="song-rude-magic"/>
+			<xs:enumeration value="song-sad-violin"/>
             <xs:enumeration value="song-take-on-me"/>
             <xs:enumeration value="song-the-girl-from-ipanema"/>
             <xs:enumeration value="song-the-imperial-march"/>
@@ -352,7 +372,11 @@ Revision: 2022/08/12
 	<xs:element name="motion">
 		<xs:complexType>
 			<xs:attribute name="id" type="idType"/>
-			<xs:attribute name="type" type="motionListType" use="required"/>
+			<xs:attribute name="type" type="headMotionListType"/> <!-- Continua existindo para manter a compatibilidade com o modelo anterior -->
+			<!-- Novas funcionalidades head, leftArm e rightArm -->
+			<xs:attribute name="head" type="headMotionListType"/>
+			<xs:attribute name="left-arm" type="armMotionListType"/>
+			<xs:attribute name="right-arm" type="armMotionListType"/>
 		</xs:complexType>
 	</xs:element>
 

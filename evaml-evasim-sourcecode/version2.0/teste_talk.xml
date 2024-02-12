@@ -4,13 +4,93 @@
   xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <settings>
-    <voice tone="pt-BR_IsabelaV3Voice" />
+    <voice tone="en-US_EmmaExpressive" />
     <lightEffects mode="ON" />
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <evaEmotion emotion="DISGUST" />
+    
+    <!-- Setting the robô initial state -->
+    <light state="OFF" />
+    <evaEmotion emotion="NEUTRAL" />
+    <talk>Now I will initiate a test of all my capabilities</talk>
+
+
+    <!-- Smart bulb test -->
+    <talk>I will start testing the smart bulb</talk>
+    <light state="ON" color="WHITE"/>
     <wait duration="1000" />
+    <light state="ON" color="BLUE"/>
+    <wait duration="1000" />
+    <light state="ON" color="GREEN"/>
+    <wait duration="1000" />
+    <light state="ON" color="RED"/>
+    <wait duration="1000" />
+    <light state="ON" color="YELLOW"/>
+    <wait duration="1000" />
+
+
+    <!-- Eva expressions - Display test -->
+    <talk>I can express emotions using my gaze and I will test it now</talk>
+    <evaEmotion emotion="HAPPY" />
+    <wait duration="3000" />
+    <evaEmotion emotion="SAD" />
+    <wait duration="3000" />
+    <evaEmotion emotion="ANGRY" />
+    <wait duration="3000" />
+    <evaEmotion emotion="FEAR" />
+    <wait duration="3000" />
+    <evaEmotion emotion="SURPRISE" />
+    <wait duration="3000" />
+    <evaEmotion emotion="DISGUST" />
+    <wait duration="3000" />
     <evaEmotion emotion="INLOVE" />
+    <wait duration="3000" />
+
+
+    <!-- Leds animation test -->
+    <evaEmotion emotion="NEUTRAL" />
+    <talk>Now, I will run some animations using the leds on my chest</talk>
+    <led animation="HAPPY" />
+    <wait duration="5000" />
+    <led animation="SPEAK" />
+    <wait duration="5000" />
+    <led animation="SURPRISE" />
+    <wait duration="5000" />
+    <led animation="RAINBOW" />
+    <wait duration="5000" />
+
+    <!-- Head movement test -->
+    <led animation="STOP" />
+    <talk>I have no verbal capabilities so I can move my head</talk>
+    <talk>I can move up</talk>
+    <motion type="2UP" />
+    <wait duration="2000" />
+    <motion type="CENTER" />
+    <wait duration="2000" />
+    <talk>I can move down</talk>
+    <motion type="2DOWN" />
+    <wait duration="2000" />
+    <motion type="CENTER" />
+    <wait duration="2000" />
+    <talk>I can say no</talk>
+    <motion type="NO" />
+    <wait duration="4000" />
+    <talk>and I can say yes</talk>
+    <motion type="YES" />
+    <wait duration="4000" />
+
+    <!-- Sound play test -->
+    <talk>I can also play sounds</talk>
+    <audio source="efx-blin" block="TRUE" />
+    <talk>I can play some good music too</talk>
+    <audio source="song-rude-magic" block="TRUE" />
+
+    <!-- Listening test -->
+    <talk>Please, could you say your name?</talk>
+    <listen />
+    <talk>Hello $</talk>
+    <talk>How are you?</talk>
+    <talk>Good bye!</talk>
   </script>
 </evaml>
