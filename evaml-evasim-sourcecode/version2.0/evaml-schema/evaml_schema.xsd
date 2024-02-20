@@ -41,6 +41,7 @@ Revision: 2022/08/12
 
 	<xs:simpleType name="headMotionListType">
 		<xs:restriction base="xs:string">
+			<!-- comandos compatíveis com o soft. de controle dos servomotores do CICESE (versão anterior do XMLSchema). -->
 			<xs:enumeration value="YES"/>
 			<xs:enumeration value="2YES"/>
 			<xs:enumeration value="NO"/>
@@ -62,18 +63,44 @@ Revision: 2022/08/12
 			<xs:enumeration value="2UP_RIGHT"/>
 			<xs:enumeration value="UP_LEFT"/>
 			<xs:enumeration value="2UP_LEFT"/>
+			<!-- comandos baseados no novo soft. de controle dos servomotores usando a placa Arduino. -->
+			<xs:enumeration value="UP1"/>
+			<xs:enumeration value="UP2"/>
+			<xs:enumeration value="DOWN1"/>
+			<xs:enumeration value="DOWN2"/>
+			<xs:enumeration value="LEFT1"/>
+			<xs:enumeration value="LEFT2"/>
+			<xs:enumeration value="LEFT3"/>
+			<xs:enumeration value="RIGHT1"/>
+			<xs:enumeration value="RIGHT2"/>
+			<xs:enumeration value="RIGHT3"/>
+			<xs:enumeration value="LEFT_UP1"/>
+			<xs:enumeration value="LEFT_UP2"/>
+			<xs:enumeration value="LEFT_UP3"/>
+			<xs:enumeration value="RIGHT_UP1"/>
+			<xs:enumeration value="RIGHT_UP2"/>
+			<xs:enumeration value="RIGHT_UP3"/>
+			<xs:enumeration value="LEFT_DOWN1"/>
+			<xs:enumeration value="LEFT_DOWN2"/>
+			<xs:enumeration value="LEFT_DOWN3"/>
+			<xs:enumeration value="RIGHT_DOWN1"/>
+			<xs:enumeration value="RIGHT_DOWN2"/>
+			<xs:enumeration value="RIGHT_DOWN3"/>
+			<xs:enumeration value="CENTER_X"/>
+			<xs:enumeration value="CENTER_Y"/>
 		</xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="armMotionListType">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="POSITION 0"/> <!-- Move o braço para a posição inicial (0) -->
+			<xs:enumeration value="POSITION 0"/> <!-- move o braço para a posição inicial (0) -->
 			<xs:enumeration value="POSITION 1"/>
 			<xs:enumeration value="POSITION 2"/>
 			<xs:enumeration value="POSITION 3"/> <!-- Move o braço para a posição máxima (3) -->
 			<xs:enumeration value="UP"/> <!-- Move o braço para a próxima posição superior -->
 			<xs:enumeration value="DOWN"/> <!-- Move o braço para a próxima posição inferior -->
-			<xs:enumeration value="SHAKE"/> <!-- Balança o braço para cima e para baixo em torno da posição corrente -->
+			<xs:enumeration value="SHAKE1"/> <!-- Balança o braço para cima e para baixo em torno da posição corrente (1 x ciclo) -->
+			<xs:enumeration value="SHAKE2"/> <!-- Balança o braço para cima e para baixo em torno da posição corrente (2 x ciclo) -->
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -123,6 +150,7 @@ Revision: 2022/08/12
 			<xs:enumeration value="song-i-believe-i-can-fly"/>
             <xs:enumeration value="song-mj-heal-the-world"/>
             <xs:enumeration value="song-here-comes-the-sun"/>
+			<xs:enumeration value="song-macarena-edit"/>
             <xs:enumeration value="song-mj-heal-the-world"/>
             <xs:enumeration value="song-mj-thriller2"/>
             <xs:enumeration value="song-mj-thriller3-laugh"/>

@@ -197,7 +197,7 @@ class Gui(ttk.Frame):
         self.lf_arms_motion = LabelFrame(self.frame_arms_motion, text = 'Arms Motion', font = self.font1)
         self.lf_arms_motion.pack(side=tkinter.LEFT, padx=lfs_padx)
         # botões com os movimentos dos braços
-        btn_arms_motion_w = 4
+        btn_arms_motion_w = 6
         btn_arms_motion_h = 1
         self.lbl_arm_left = tkinter.Label(self.lf_arms_motion, bg="gray70", width=btn_arms_motion_w + 3, font = self.font1, text="LEFT", padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
         self.lbl_arm_left.grid(row=0, column=0, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady + 2)
@@ -232,9 +232,9 @@ class Gui(ttk.Frame):
         self.bt_arm_right_motion_down = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'DOWN',font = self.font1)
         self.bt_arm_right_motion_down.grid(row=8, column=1, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
 
-        self.bt_arm_left_motion_shake = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'SHAKE',font = self.font1)
+        self.bt_arm_left_motion_shake = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = '2 x SHAKE',font = self.font1)
         self.bt_arm_left_motion_shake.grid(row=9, column=0, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
-        self.bt_arm_right_motion_shake = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = 'SHAKE',font = self.font1)
+        self.bt_arm_right_motion_shake = Button (self.lf_arms_motion, width = btn_arms_motion_w, height = btn_arms_motion_h, text = '2 x SHAKE',font = self.font1)
         self.bt_arm_right_motion_shake.grid(row=9, column=1, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
         
 
@@ -272,9 +272,9 @@ class Gui(ttk.Frame):
         self.bt_head_motion_2down.grid(row=3, column=2, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
         self.bt_head_motion_down_right = Button (self.lf_head_motion,  width = btn_head_motion_w, height = btn_head_motion_h, text = 'DOWN/RIGHT', font = self.font1)
         self.bt_head_motion_down_right.grid(row=3, column=3, padx=btn_head_motion_padx, pady=btn_head_motion_pady)
-        self.bt_head_motion_yes = Button (self.lf_head_motion, foreground="green", width = 2 * btn_head_motion_w + 5, height = 4, text = 'YES', font = self.font1)
+        self.bt_head_motion_yes = Button (self.lf_head_motion, foreground="green", width = 2 * btn_head_motion_w + 5, height = 4, text = '2 x YES', font = self.font1)
         self.bt_head_motion_yes.grid(row=4, column=0, padx=btn_head_motion_padx, pady=btn_head_motion_pady + 2, columnspan=2, rowspan=2)
-        self.bt_head_motion_no = Button (self.lf_head_motion, foreground="red", width = 2 * btn_head_motion_w + 5, height = 4, text = 'NO', font = self.font1)
+        self.bt_head_motion_no = Button (self.lf_head_motion, foreground="red", width = 2 * btn_head_motion_w + 5, height = 4, text = '2 x NO', font = self.font1)
         self.bt_head_motion_no.grid(row=4, column=2, padx=btn_head_motion_padx, pady=btn_head_motion_pady + 2, columnspan=2, rowspan=2)
 
 
@@ -297,9 +297,9 @@ class Gui(ttk.Frame):
         self.Lb_voices.selection_set(4)
 
         tkinter.Label(self.lf_tts, width="30", font = self.font1, text="Text to speech:", pady=2).grid(row=0, column=1)
-        self.msg_tts_text = Text(self.lf_tts, height = 10, width=35)
+        self.msg_tts_text = Text(self.lf_tts, height = 10, width=30)
         self.msg_tts_text.grid(row=1, column=1)
-        self.bt_send_tts = Button (self.lf_tts, width=32, text = 'SEND (Speak)', font = self.font1)
+        self.bt_send_tts = Button (self.lf_tts, width=27, text = 'SEND (Speak)', font = self.font1)
         self.bt_send_tts.grid(row=2, column=1)
 
 

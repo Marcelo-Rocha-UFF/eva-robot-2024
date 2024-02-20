@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste_motion"
+  xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice tone="en-US_AllisonV3Voice" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <useMacro macro="INIT-POSE" />
+    <light state="ON" color="WHITE" />
+    <audio source="song-macarena-edit" block="FALSE" />
+    <evaEmotion emotion="HAPPY" />
+    <wait duration="5000" />
+    <light state="ON" color="RED"/>
+    <wait duration="4400" />
+    <led animation="RAINBOW" />
+    <motion head="UP" right-arm="POSITION 1" />
+    <wait duration="2000" />
+    <motion head="UP" left-arm="POSITION 2"/>
+    <wait duration="2200" />
+    <motion head="UP" right-arm="POSITION 3"/>
+    <wait duration="1800" />
+    <motion head="NO" right-arm="SHAKE1" left-arm="SHAKE1"/>
+    <motion />
+    <wait duration="2800" />
+    <light state="ON" color="GREEN"/>
+    <led animation="LISTEN" />
+    <motion head="DOWN1" left-arm="POSITION 0" right-arm="POSITION 1" />
+    <wait duration="1500" />
+    <motion head="UP" left-arm="POSITION 2"/>
+    <wait duration="2000" />
+    <motion head="UP" right-arm="POSITION 3"/>
+    <wait duration="2000" />
+    <light state="ON" color="WHITE"/>
+    <led animation="RAINBOW" />
+    <motion head="NO" right-arm="SHAKE1" left-arm="SHAKE1"/>
+    <!-- <motion type="RIGHT_UP3" left-arm="POSITION 3" right-arm="SHAKE2"/> -->
+    <wait duration="3000" />
+    <light state="ON" color="WHITE"/>
+    <motion right-arm="SHAKE2" left-arm="POSITION 0"/>
+    <wait duration="1000" />
+    <audio source="efx-blin2" block="FALSE" />
+    <wait duration="500" />
+    <talk>See you later</talk>
+    <audio source="efx-blin2" block="FALSE" />
+    <wait duration="500" />
+    <talk>Bye bye</talk>
+    <wait duration="2000" />
+    <evaEmotion emotion="NEUTRAL" />
+    <motion head="CENTER" left-arm="POSITION 0" right-arm="POSITION 0"/>
+    <wait duration="3000" />
+    <light state="OFF" />
+  </script>
+  <macros>
+    <macro id="INIT-POSE">
+      <light state="OFF" />
+      <evaEmotion emotion="NEUTRAL" />
+      <motion head="2DOWN" left-arm="POSITION 0" right-arm="POSITION 0"/>
+      <wait duration="3000" />
+    </macro>
+  </macros>
+</evaml>

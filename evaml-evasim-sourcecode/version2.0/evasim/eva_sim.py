@@ -419,9 +419,9 @@ gui.bt_led_white.bind("<Button-1>", woz_led_white)
 
 # WoZ head motion functions
 def woz_head_motion_yes(self):
-    client.publish(topic_base + "/motion/head", "YES")
+    client.publish(topic_base + "/motion/head", "2YES")
 def woz_head_motion_no(self):
-    client.publish(topic_base + "/motion/head", "NO")
+    client.publish(topic_base + "/motion/head", "2NO")
 def woz_head_motion_center(self):
     client.publish(topic_base + "/motion/head", "CENTER")
 def woz_head_motion_left(self):
@@ -475,9 +475,9 @@ def woz_arm_left_motion_pos_3(self):
 def woz_arm_right_motion_pos_3(self):
     client.publish(topic_base + "/motion/arm/right", "POSITION 3")
 def woz_arm_left_motion_shake(self):
-    client.publish(topic_base + "/motion/arm/left", "SHAKE")
+    client.publish(topic_base + "/motion/arm/left", "SHAKE2")
 def woz_arm_right_motion_shake(self):
-    client.publish(topic_base + "/motion/arm/right", "SHAKE")
+    client.publish(topic_base + "/motion/arm/right", "SHAKE2")
 
 # Woz arms motion buttons binding
 gui.bt_arm_left_motion_up.bind("<Button-1>", woz_arm_left_motion_up)
@@ -619,14 +619,37 @@ def exec_comando(node):
         if RUNNING_MODE == "EVA_ROBOT":
             client.publish(topic_base + "/log", "Using the voice: " + node.attrib["tone"]) # 
 
-    if node.tag == "motion":
-        gui.terminal.insert(INSERT, "\nstate: Moving the head! Movement type: " + node.attrib["type"], "motion")
-        gui.terminal.see(tkinter.END)
-        print("Moving the head. Type:", node.attrib["type"])
+
+    if node.tag == "motion": # movimentação da cabeça e dos braços
+        if node.get("left-arm") != None: # mov. o braço esquerdo.
+            gui.terminal.insert(INSERT, "\nstate: Moving the left arm! Movement type: " + node.attrib["left-arm"], "motion")
+            gui.terminal.see(tkinter.END)
+        if node.get("right-arm") != None: # mov. o braço direito.
+            gui.terminal.insert(INSERT, "\nstate: Moving the right arm! Movement type: " + node.attrib["right-arm"], "motion")
+            gui.terminal.see(tkinter.END)
+        if node.get("head") != None: # mov. cabeça com o formato novo (elemento <head>).
+                gui.terminal.insert(INSERT, "\nstate: Moving the head! Movement type: " + node.attrib["head"], "motion")
+                gui.terminal.see(tkinter.END)
+        else: # verifica se foi utilizada a versão antiga
+            if node.get("type") != None: # mantendo a compatibilidade com a versão antiga do elemnto motion.
+                gui.terminal.insert(INSERT, "\nstate: Moving the head! Movement type: " + node.attrib["type"], "motion")
+                gui.terminal.see(tkinter.END)
+        print("Moving the head and/or the arms.")
         if RUNNING_MODE == "EVA_ROBOT":
-            client.publish(topic_base + "/motion", node.attrib["type"]); # comando para o robô físico
+            print("Aqui..........................")
+            if node.get("left-arm") != None: # mov. o braço esquerdo.
+                client.publish(topic_base + "/motion/arm/left", node.attrib["left-arm"]); # comando para o robô físico
+            if node.get("right-arm") != None: # mov. o braço direito.
+                client.publish(topic_base + "/motion/arm/right", node.attrib["right-arm"]); # comando para o robô físico
+            if node.get("head") != None: # mov. cabeça com o formato novo (elemento <head>).
+                    client.publish(topic_base + "/motion/head", node.attrib["head"]); # comando para o robô físico
+                    time.sleep(0.2) # esta pausa é necessária para que os comandos do braço sejam recebidos pela porta serial.
+            else: # verifica se foi utilizada a versão antiga
+                if node.get("type") != None: # mantendo a compatibilidade com a versão antiga do elemnto motion.      
+                    client.publish(topic_base + "/motion/head", node.attrib["type"]); # comando para o robô físico
+                    time.sleep(0.2) # esta pausa é necessária para que os comandos do braço sejam recebidos pela porta serial.
         else:
-            time.sleep(1) # Um tempo apenas simbólico. No robô, o movimento não bloqueia o script e demorar tempos distintos
+            time.sleep(0.1) # Um tempo apenas simbólico. No robô, o movimento não bloqueia o script e demorar tempos distintos
 
 
     elif node.tag == "light":

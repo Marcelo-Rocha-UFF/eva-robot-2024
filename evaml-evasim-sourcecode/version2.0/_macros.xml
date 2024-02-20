@@ -1,91 +1,56 @@
-<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="teste_talk" xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd">
+<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="teste_motion" xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd">
   <settings>
-    <voice tone="en-US_EmmaExpressive" />
+    <voice tone="en-US_AllisonV3Voice" />
     <lightEffects mode="ON" />
     <audioEffects mode="ON" />
   </settings>
   <script>
-    
     <light state="OFF" />
-    <evaEmotion emotion="NEUTRAL" />
-    <talk>Now I will initiate a test of all my capabilities</talk>
-
-
-    
-    <talk>I will start testing the smart bulb</talk>
+      <evaEmotion emotion="NEUTRAL" />
+      <motion head="2DOWN" left-arm="POSITION 0" right-arm="POSITION 0" />
+      <wait duration="3000" />
     <light state="ON" color="WHITE" />
-    <wait duration="1000" />
-    <light state="ON" color="BLUE" />
-    <wait duration="1000" />
-    <light state="ON" color="GREEN" />
-    <wait duration="1000" />
-    <light state="ON" color="RED" />
-    <wait duration="1000" />
-    <light state="ON" color="YELLOW" />
-    <wait duration="1000" />
-
-
-    
-    <talk>I can express emotions using my gaze and I will test it now</talk>
+    <audio source="song-macarena-edit" block="FALSE" />
     <evaEmotion emotion="HAPPY" />
-    <wait duration="3000" />
-    <evaEmotion emotion="SAD" />
-    <wait duration="3000" />
-    <evaEmotion emotion="ANGRY" />
-    <wait duration="3000" />
-    <evaEmotion emotion="FEAR" />
-    <wait duration="3000" />
-    <evaEmotion emotion="SURPRISE" />
-    <wait duration="3000" />
-    <evaEmotion emotion="DISGUST" />
-    <wait duration="3000" />
-    <evaEmotion emotion="INLOVE" />
-    <wait duration="3000" />
-
-
-    
-    <evaEmotion emotion="NEUTRAL" />
-    <talk>Now, I will run some animations using the leds on my chest</talk>
-    <led animation="HAPPY" />
     <wait duration="5000" />
-    <led animation="SPEAK" />
-    <wait duration="5000" />
-    <led animation="SURPRISE" />
-    <wait duration="5000" />
+    <light state="ON" color="RED" />
+    <wait duration="4400" />
     <led animation="RAINBOW" />
-    <wait duration="5000" />
-
+    <motion head="UP" right-arm="POSITION 1" />
+    <wait duration="2000" />
+    <motion head="UP" left-arm="POSITION 2" />
+    <wait duration="2200" />
+    <motion head="UP" right-arm="POSITION 3" />
+    <wait duration="1800" />
+    <motion head="NO" right-arm="SHAKE1" left-arm="SHAKE1" />
+    <motion />
+    <wait duration="2800" />
+    <light state="ON" color="GREEN" />
+    <led animation="LISTEN" />
+    <motion head="DOWN1" left-arm="POSITION 0" right-arm="POSITION 1" />
+    <wait duration="1500" />
+    <motion head="UP" left-arm="POSITION 2" />
+    <wait duration="2000" />
+    <motion head="UP" right-arm="POSITION 3" />
+    <wait duration="2000" />
+    <light state="ON" color="WHITE" />
+    <led animation="RAINBOW" />
+    <motion head="NO" right-arm="SHAKE1" left-arm="SHAKE1" />
     
-    <led animation="STOP" />
-    <talk>I have no verbal capabilities so I can move my head</talk>
-    <talk>I can move up</talk>
-    <motion type="2UP" />
+    <wait duration="3000" />
+    <light state="ON" color="WHITE" />
+    <motion right-arm="SHAKE2" left-arm="POSITION 0" />
+    <wait duration="1000" />
+    <audio source="efx-blin2" block="FALSE" />
+    <wait duration="500" />
+    <talk>See you later</talk>
+    <audio source="efx-blin2" block="FALSE" />
+    <wait duration="500" />
+    <talk>Bye bye</talk>
     <wait duration="2000" />
-    <motion type="CENTER" />
-    <wait duration="2000" />
-    <talk>I can move down</talk>
-    <motion type="2DOWN" />
-    <wait duration="2000" />
-    <motion type="CENTER" />
-    <wait duration="2000" />
-    <talk>I can say no</talk>
-    <motion type="NO" />
-    <wait duration="4000" />
-    <talk>and I can say yes</talk>
-    <motion type="YES" />
-    <wait duration="4000" />
-
-    
-    <talk>I can also play sounds</talk>
-    <audio source="efx-blin" block="TRUE" />
-    <talk>I can play some good music too</talk>
-    <audio source="song-rude-magic" block="TRUE" />
-
-    
-    <talk>Please, could you say your name?</talk>
-    <listen />
-    <talk>Hello $</talk>
-    <talk>How are you?</talk>
-    <talk>Good bye!</talk>
+    <evaEmotion emotion="NEUTRAL" />
+    <motion head="CENTER" left-arm="POSITION 0" right-arm="POSITION 0" />
+    <wait duration="3000" />
+    <light state="OFF" />
   </script>
-</evaml>
+  </evaml>

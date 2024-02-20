@@ -9,7 +9,8 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    
+    <motion head="YES" left-arm="POSITION 0" right-arm="POSITION 3"/>
+    <audio source="efx-blin" block="TRUE" />
     <!-- Setting the robô initial state -->
     <light state="OFF" />
     <evaEmotion emotion="NEUTRAL" />
