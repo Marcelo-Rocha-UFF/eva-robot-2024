@@ -339,6 +339,21 @@ Revision: 2022/08/12
 	<xs:element name="userEmotion">
 		<xs:complexType>
 			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="var" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="userID">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="var" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="qrRead">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="var" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 
@@ -440,6 +455,8 @@ Revision: 2022/08/12
 				<xs:element ref="goto"/>
 				<xs:element ref="motion"/>
 				<xs:element ref="userEmotion"/>
+				<xs:element ref="userID"/>
+				<xs:element ref="qrRead"/>
 				<xs:element ref="evaEmotion"/>
 				<xs:element ref="useMacro"/>
 				<xs:element ref="listen"/>
@@ -467,6 +484,8 @@ Revision: 2022/08/12
 				<xs:element ref="goto"/>
 				<xs:element ref="motion"/>
 				<xs:element ref="userEmotion"/>
+				<xs:element ref="userID"/>
+				<xs:element ref="qrRead"/>
 				<xs:element ref="evaEmotion"/>
 				<xs:element ref="useMacro"/>
 				<xs:element ref="listen"/>
@@ -493,6 +512,8 @@ Revision: 2022/08/12
 				<xs:element ref="goto"/>
 				<xs:element ref="motion"/>
 				<xs:element ref="userEmotion"/>
+				<xs:element ref="userID"/>
+				<xs:element ref="qrRead"/>
 				<xs:element ref="evaEmotion"/>
 				<xs:element ref="useMacro"/>
 				<xs:element ref="listen"/>
@@ -517,6 +538,8 @@ Revision: 2022/08/12
 				<xs:element ref="goto"/>
 				<xs:element ref="motion"/>
 				<xs:element ref="userEmotion"/>
+				<xs:element ref="userID"/>
+				<xs:element ref="qrRead"/>
 				<xs:element ref="evaEmotion"/>
 				<xs:element ref="listen"/>
 				<xs:element ref="audio"/>
@@ -565,6 +588,8 @@ Revision: 2022/08/12
 				<xs:element ref="goto"/>
 				<xs:element ref="motion"/>
 				<xs:element ref="userEmotion"/>
+				<xs:element ref="userID"/>
+				<xs:element ref="qrRead"/>
 				<xs:element ref="evaEmotion"/>
 				<xs:element ref="useMacro"/>
 				<xs:element ref="listen"/>

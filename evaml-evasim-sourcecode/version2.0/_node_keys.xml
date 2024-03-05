@@ -5,52 +5,9 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <light state="OFF" key="1001" />
-      <evaEmotion emotion="NEUTRAL" key="1002" />
-      <motion head="2DOWN" left-arm="POSITION 0" right-arm="POSITION 0" key="1003" />
-      <wait duration="3000" key="1004" />
-    <light state="ON" color="WHITE" key="1005" />
-    <audio source="song-macarena-edit" block="FALSE" key="1006" />
-    <evaEmotion emotion="HAPPY" key="1007" />
-    <wait duration="5000" key="1008" />
-    <light state="ON" color="RED" key="1009" />
-    <wait duration="4400" key="1010" />
-    <led animation="RAINBOW" key="1011" />
-    <motion head="UP" right-arm="POSITION 1" key="1012" />
-    <wait duration="2000" key="1013" />
-    <motion head="UP" left-arm="POSITION 2" key="1014" />
-    <wait duration="2200" key="1015" />
-    <motion head="UP" right-arm="POSITION 3" key="1016" />
-    <wait duration="1800" key="1017" />
-    <motion head="NO" right-arm="SHAKE1" left-arm="SHAKE1" key="1018" />
-    <motion key="1019" />
-    <wait duration="2800" key="1020" />
-    <light state="ON" color="GREEN" key="1021" />
-    <led animation="LISTEN" key="1022" />
-    <motion head="DOWN1" left-arm="POSITION 0" right-arm="POSITION 1" key="1023" />
-    <wait duration="1500" key="1024" />
-    <motion head="UP" left-arm="POSITION 2" key="1025" />
-    <wait duration="2000" key="1026" />
-    <motion head="UP" right-arm="POSITION 3" key="1027" />
-    <wait duration="2000" key="1028" />
-    <light state="ON" color="WHITE" key="1029" />
-    <led animation="RAINBOW" key="1030" />
-    <motion head="NO" right-arm="SHAKE1" left-arm="SHAKE1" key="1031" />
+    <listen key="1001" />
+    <listen var="SST_VAR" key="1002" />
     
-    <wait duration="3000" key="1032" />
-    <light state="ON" color="WHITE" key="1033" />
-    <motion right-arm="SHAKE2" left-arm="POSITION 0" key="1034" />
-    <wait duration="1000" key="1035" />
-    <audio source="efx-blin2" block="FALSE" key="1036" />
-    <wait duration="500" key="1037" />
-    <talk key="1038">See you later</talk>
-    <audio source="efx-blin2" block="FALSE" key="1039" />
-    <wait duration="500" key="1040" />
-    <talk key="1041">Bye bye</talk>
-    <wait duration="2000" key="1042" />
-    <evaEmotion emotion="NEUTRAL" key="1043" />
-    <motion head="CENTER" left-arm="POSITION 0" right-arm="POSITION 0" key="1044" />
-    <wait duration="3000" key="1045" />
-    <light state="OFF" key="1046" />
+    
   </script>
   </evaml>

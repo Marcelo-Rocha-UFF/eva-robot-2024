@@ -823,7 +823,7 @@ def exec_comando(node):
             x = (ws/2) - (w/2)
             y = (hs/2) - (h/2)  
             pop.geometry('%dx%d+%d+%d' % (w, h, x, y))
-            pop.grab_set()
+            #pop.grab_set()
             label = Label(pop, text="Eva is listening... Please, enter your answer!", font = ('Arial', 10))
             label.pack(pady=20)
             E1 = Entry(pop, textvariable = var, font = ('Arial', 10))
@@ -1126,56 +1126,94 @@ def exec_comando(node):
 
     elif node.tag == "userEmotion":
         global img_neutral, img_happy, img_angry, img_sad, img_surprised
-        lock_thread_pop()
+        ###########################
+        if RUNNING_MODE == "EVA_ROBOT": 
+            client.publish(topic_base + "/log", "EVA is capturing the user emotion...")
+            EVA_ROBOT_STATE = "BUSY"
+            ledAnimation("LISTEN")
+            client.publish(topic_base + "/userEmotion", " ")
 
-        def fechar_pop(): # função de fechamento da janela pop up
-            print(var.get())
-            eva_memory.var_dolar.append([var.get(), "<userEmotion>"])
-            gui.terminal.insert(INSERT, "\nstate: userEmotion : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
-            tab_load_mem_dollar()
-            gui.terminal.see(tkinter.END)
-            pop.destroy()
-            unlock_thread_pop() # reativa a thread de processamento do script
+            while (EVA_ROBOT_STATE != "FREE"):
+                pass
 
-        var = StringVar()
-        var.set("NEUTRAL")
-        img_neutral = PhotoImage(file = "images/img_neutral.png")
-        img_happy = PhotoImage(file = "images/img_happy.png")
-        img_angry = PhotoImage(file = "images/img_angry.png")
-        img_sad = PhotoImage(file = "images/img_sad.png")
-        img_surprised = PhotoImage(file = "images/img_surprised.png")
-        pop = Toplevel(gui)
-        pop.title("userEmotion Command")
-        # Disable the max and close buttons
-        pop.resizable(False, False)
-        pop.protocol("WM_DELETE_WINDOW", False)
-        w = 697
-        h = 250
-        ws = gui.winfo_screenwidth()
-        hs = gui.winfo_screenheight()
-        x = (ws/2) - (w/2)
-        y = (hs/2) - (h/2)  
-        pop.geometry('%dx%d+%d+%d' % (w, h, x, y))
-        pop.grab_set() # faz com que a janela receba todos os eventos
-        Label(pop, text="Eva is analysing your face expression. Please, choose one emotion!", font = ('Arial', 10)).place(x = 146, y = 10)
-        # imagens são exibidas usando os lables
-        Label(pop, image=img_neutral).place(x = 10, y = 50)
-        Label(pop, image=img_happy).place(x = 147, y = 50)
-        Label(pop, image=img_angry).place(x = 284, y = 50)
-        Label(pop, image=img_sad).place(x = 421, y = 50)
-        Label(pop, image=img_surprised).place(x = 558, y = 50)
-        Radiobutton(pop, text = "Neutral", variable = var, font = font1, command = None, value = "NEUTRAL").place(x = 35, y = 185)
-        Radiobutton(pop, text = "Happy", variable = var, font = font1, command = None, value = "HAPPY").place(x = 172, y = 185)
-        Radiobutton(pop, text = "Angry", variable = var, font = font1, command = None, value = "ANGRY").place(x = 312, y = 185)
-        Radiobutton(pop, text = "Sad", variable = var, font = font1, command = None, value = "SAD").place(x = 452, y = 185)
-        Radiobutton(pop, text = "Surprised", variable = var, font = font1, command = None, value = "SURPRISED").place(x = 575, y = 185)
-        Button(pop, text = "     OK     ", font = font1, command = fechar_pop).place(x = 310, y = 215)
-        # espera pela liberacao, aguardando a resposta do usuario
-        while thread_pop_pause: 
-            time.sleep(0.5)
+            if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
+                eva_memory.var_dolar.append([EVA_DOLLAR, "<listen>"])
+                gui.terminal.insert(INSERT, "\nstate: userEmotion : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                tab_load_mem_dollar()
+                gui.terminal.see(tkinter.END)
+                ledAnimation("STOP")
+            else:
+                var_name = node.attrib["var"]
+                eva_memory.vars[var_name] = EVA_DOLLAR
+                print("Eva ram => ", eva_memory.vars)
+                gui.terminal.insert(INSERT, "\nstate: userEmotion : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
+                gui.terminal.see(tkinter.END)
+                print("userEmotion command USING VAR...")
+            ledAnimation("STOP")
+        else:
+
+            ###############
+            lock_thread_pop()
+            ledAnimation("LISTEN")
+            def fechar_pop(): # função de fechamento da janela pop up
+                print(var.get())
+                if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
+                    eva_memory.var_dolar.append([var.get(), "<userEmotion>"])
+                    gui.terminal.insert(INSERT, "\nstate: userEmotion : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    tab_load_mem_dollar()
+                    gui.terminal.see(tkinter.END)
+                else:
+                    var_name = node.attrib["var"]
+                    eva_memory.vars[var_name] = var.get()
+                    print("Eva ram => ", eva_memory.vars)
+                    gui.terminal.insert(INSERT, "\nstate: userEmotion : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                    tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
+                    gui.terminal.see(tkinter.END)
+                    print("userEmotion command USING VAR...")
+                pop.destroy()
+                ledAnimation("STOP")
+                unlock_thread_pop() # reativa a thread de processamento do script
+
+            var = StringVar()
+            var.set("NEUTRAL")
+            img_neutral = PhotoImage(file = "images/img_neutral.png")
+            img_happy = PhotoImage(file = "images/img_happy.png")
+            img_angry = PhotoImage(file = "images/img_angry.png")
+            img_sad = PhotoImage(file = "images/img_sad.png")
+            img_surprised = PhotoImage(file = "images/img_surprised.png")
+            pop = Toplevel(gui)
+            pop.title("userEmotion Command")
+            # Disable the max and close buttons
+            pop.resizable(False, False)
+            pop.protocol("WM_DELETE_WINDOW", False)
+            w = 697
+            h = 250
+            ws = gui.winfo_screenwidth()
+            hs = gui.winfo_screenheight()
+            x = (ws/2) - (w/2)
+            y = (hs/2) - (h/2)  
+            pop.geometry('%dx%d+%d+%d' % (w, h, x, y))
+            # pop.grab_set() # faz com que a janela receba todos os eventos
+            Label(pop, text="Eva is analysing your face expression. Please, choose one emotion!", font = ('Arial', 10)).place(x = 146, y = 10)
+            # imagens são exibidas usando os lables
+            Label(pop, image=img_neutral).place(x = 10, y = 50)
+            Label(pop, image=img_happy).place(x = 147, y = 50)
+            Label(pop, image=img_angry).place(x = 284, y = 50)
+            Label(pop, image=img_sad).place(x = 421, y = 50)
+            Label(pop, image=img_surprised).place(x = 558, y = 50)
+            Radiobutton(pop, text = "Neutral", variable = var, font = font1, command = None, value = "NEUTRAL").place(x = 35, y = 185)
+            Radiobutton(pop, text = "Happy", variable = var, font = font1, command = None, value = "HAPPY").place(x = 172, y = 185)
+            Radiobutton(pop, text = "Angry", variable = var, font = font1, command = None, value = "ANGRY").place(x = 312, y = 185)
+            Radiobutton(pop, text = "Sad", variable = var, font = font1, command = None, value = "SAD").place(x = 452, y = 185)
+            Radiobutton(pop, text = "Surprised", variable = var, font = font1, command = None, value = "SURPRISED").place(x = 575, y = 185)
+            Button(pop, text = "     OK     ", font = font1, command = fechar_pop).place(x = 310, y = 215)
+            # espera pela liberacao, aguardando a resposta do usuario
+            while thread_pop_pause: 
+                time.sleep(0.5)
 
 
-def busca_commando(key): # keys são strings
+def busca_commando(key : str): # as keys (chaves) são strings
 	# busca em settings. Isto porque "voice" fica em settings e voice é sempre o primeiro elemento
 	for elem in root.find("settings").iter():
 		if elem.get("key") != None: # verifica se node tem atributo key

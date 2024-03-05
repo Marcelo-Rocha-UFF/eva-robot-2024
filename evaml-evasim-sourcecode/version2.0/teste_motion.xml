@@ -9,7 +9,19 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <useMacro macro="INIT-POSE" />
+    <listen />
+    <listen var="SST_VAR"/>
+    <!-- <userEmotion />
+    <wait duration="3000" />
+    <userEmotion var="USER_EXPRESSION_1"/>
+    <wait duration="3000" />
+    <userEmotion var="USER_EXPRESSION_2"/>
+    <wait duration="3000" />
+    <userEmotion var="USER_EXPRESSION_3"/>
+    <wait duration="3000" /> -->
+    <!-- <useMacro macro="INIT-POSE" />
+    <userID var="USER_NAME"/>
+    <qrRead var="myQR"/>
     <light state="ON" color="WHITE" />
     <audio source="song-macarena-edit" block="FALSE" />
     <evaEmotion emotion="HAPPY" />
@@ -37,7 +49,6 @@
     <light state="ON" color="WHITE"/>
     <led animation="RAINBOW" />
     <motion head="NO" right-arm="SHAKE1" left-arm="SHAKE1"/>
-    <!-- <motion type="RIGHT_UP3" left-arm="POSITION 3" right-arm="SHAKE2"/> -->
     <wait duration="3000" />
     <light state="ON" color="WHITE"/>
     <motion right-arm="SHAKE2" left-arm="POSITION 0"/>
@@ -52,7 +63,7 @@
     <evaEmotion emotion="NEUTRAL" />
     <motion head="CENTER" left-arm="POSITION 0" right-arm="POSITION 0"/>
     <wait duration="3000" />
-    <light state="OFF" />
+    <light state="OFF" /> -->
   </script>
   <macros>
     <macro id="INIT-POSE">
