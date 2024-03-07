@@ -5,8 +5,10 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <listen />
-    <listen var="SST_VAR" />
+    <userID />
+    <userID var="USER_NAME" />
+    
+    
     
     
   </script>

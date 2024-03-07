@@ -352,8 +352,8 @@ class Gui(ttk.Frame):
 
         self.tab_vars['columns']= ('Var', 'Value')
         self.tab_vars.column("#0", width=0,  stretch=NO)
-        self.tab_vars.column("Var", anchor=CENTER, width=152)
-        self.tab_vars.column("Value", anchor=CENTER, width=182)
+        self.tab_vars.column("Var", anchor=CENTER, width=100)
+        self.tab_vars.column("Value", anchor=CENTER, width=234)
 
         self.tab_vars.heading("#0",text="",anchor=CENTER)
         self.tab_vars.heading("Var", text="Var",anchor=CENTER)

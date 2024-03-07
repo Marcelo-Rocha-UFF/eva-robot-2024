@@ -346,14 +346,14 @@ Revision: 2022/08/12
 	<xs:element name="userID">
 		<xs:complexType>
 			<xs:attribute name="id" type="idType"/>
-			<xs:attribute name="var" type="xs:string" use="required"/>
+			<xs:attribute name="var" type="xs:string"/>
 		</xs:complexType>
 	</xs:element>
 
 	<xs:element name="qrRead">
 		<xs:complexType>
 			<xs:attribute name="id" type="idType"/>
-			<xs:attribute name="var" type="xs:string" use="required"/>
+			<xs:attribute name="var" type="xs:string"/>
 		</xs:complexType>
 	</xs:element>
 

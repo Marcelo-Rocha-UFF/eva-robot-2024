@@ -1213,6 +1213,209 @@ def exec_comando(node):
                 time.sleep(0.5)
 
 
+    elif node.tag == "qrRead":
+        if RUNNING_MODE == "EVA_ROBOT": 
+            client.publish(topic_base + "/log", "EVA is capturing QR Code information...")
+            EVA_ROBOT_STATE = "BUSY"
+            client.publish(topic_base + "/qrRead", " ")
+            ledAnimation("LISTEN")
+            
+
+            while (EVA_ROBOT_STATE != "FREE"):
+                pass
+        
+            if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
+                eva_memory.var_dolar.append([EVA_DOLLAR, "<qrRead>"])
+                gui.terminal.insert(INSERT, "\nstate: qrRead : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                tab_load_mem_dollar()
+                gui.terminal.see(tkinter.END)
+                ledAnimation("STOP")
+            else:
+                var_name = node.attrib["var"]
+                eva_memory.vars[var_name] = EVA_DOLLAR
+                print("Eva ram => ", eva_memory.vars)
+                gui.terminal.insert(INSERT, "\nstate: qrReader : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
+                gui.terminal.see(tkinter.END)
+                print("qrRead command USING VAR...")
+            ledAnimation("STOP")
+
+        else:
+
+            lock_thread_pop()
+            ledAnimation("LISTEN")
+            # função de fechamento da janela pop up para a tecla <return)
+            def fechar_pop_ret(self): 
+                print(var.get())
+                if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
+                    eva_memory.var_dolar.append([var.get(), "<qrRead>"])
+                    gui.terminal.insert(INSERT, "\nstate: QR Code reading : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    tab_load_mem_dollar()
+                    gui.terminal.see(tkinter.END)
+                    pop.destroy()
+                    unlock_thread_pop() # reativa a thread de processamento do script
+                else:
+                    var_name = node.attrib["var"]
+                    eva_memory.vars[var_name] = var.get()
+                    print("Eva ram => ", eva_memory.vars)
+                    gui.terminal.insert(INSERT, "\nstate: QR Code reading : (using the user variable '" + var_name + "'): " + var.get())
+                    tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
+                    gui.terminal.see(tkinter.END)
+                    print("qrRead command USING VAR...")
+                    pop.destroy()
+                    unlock_thread_pop() # reativa a thread de processamento do script
+            
+            # função de fechamento da janela pop up para o botão ok
+            def fechar_pop_bt(): 
+                print(var.get())
+                if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
+                    eva_memory.var_dolar.append([var.get(), "<qrRead>"])
+                    gui.terminal.insert(INSERT, "\nstate: QR Code reading : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    tab_load_mem_dollar()
+                    gui.terminal.see(tkinter.END)
+                    pop.destroy()
+                    unlock_thread_pop() # reativa a thread de processamento do script
+                else:
+                    var_name = node.attrib["var"]
+                    eva_memory.vars[var_name] = var.get()
+                    print("Eva ram => ", eva_memory.vars)
+                    gui.terminal.insert(INSERT, "\nstate: QR Code reading : (using the user variable '" + var_name + "'): " + var.get())
+                    tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
+                    gui.terminal.see(tkinter.END)
+                    print("qrRead command USING VAR...")
+                    pop.destroy()
+                    unlock_thread_pop() # reativa a thread de processamento do script
+                
+            # criacao da janela
+            img_qr = PhotoImage(file = "images/img_qr.png")
+            var = StringVar()
+            pop = Toplevel(gui)
+            pop.title("qrRead Command")
+            # Disable the max and close buttons
+            pop.resizable(False, False)
+            pop.protocol("WM_DELETE_WINDOW", False)
+            w = 350
+            h = 200
+            ws = gui.winfo_screenwidth()
+            hs = gui.winfo_screenheight()
+            x = (ws/2) - (w/2)
+            y = (hs/2) - (h/2)  
+            pop.geometry('%dx%d+%d+%d' % (w, h, x, y))
+            #pop.grab_set()
+            label = Label(pop, text="Eva is reading a QR Code... \nPlease, enter the information contained in the QRCode!", font = ('Arial', 10))
+            label.pack(pady=20)
+            Label(pop, image=img_qr).place(x = 260, y = 110)
+            E1 = Entry(pop, textvariable = var, font = ('Arial', 10))
+            E1.bind("<Return>", fechar_pop_ret)
+            E1.pack()
+            Button(pop, text="    OK    ", font = font1, command=fechar_pop_bt).pack(pady=20)
+            # espera pela liberacao, aguardando a resposta do usuario
+            while thread_pop_pause: 
+                time.sleep(0.5)
+            ledAnimation("STOP")
+
+
+    elif node.tag == "userID":
+        if RUNNING_MODE == "EVA_ROBOT": 
+            client.publish(topic_base + "/log", "EVA is recognizing a face...")
+            EVA_ROBOT_STATE = "BUSY"
+            client.publish(topic_base + "/userID", " ")
+            ledAnimation("LISTEN")
+            
+
+            while (EVA_ROBOT_STATE != "FREE"):
+                pass
+        
+            if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
+                eva_memory.var_dolar.append([EVA_DOLLAR, "<userID>"])
+                gui.terminal.insert(INSERT, "\nstate: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                tab_load_mem_dollar()
+                gui.terminal.see(tkinter.END)
+                ledAnimation("STOP")
+            else:
+                var_name = node.attrib["var"]
+                eva_memory.vars[var_name] = EVA_DOLLAR
+                print("Eva ram => ", eva_memory.vars)
+                gui.terminal.insert(INSERT, "\nstate: userID : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
+                gui.terminal.see(tkinter.END)
+                print("userID command USING VAR...")
+            ledAnimation("STOP")
+
+        else:
+
+            lock_thread_pop()
+            ledAnimation("LISTEN")
+            # função de fechamento da janela pop up para a tecla <return)
+            def fechar_pop_ret(self): 
+                print(var.get())
+                if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
+                    eva_memory.var_dolar.append([var.get(), "<userID>"])
+                    gui.terminal.insert(INSERT, "\nstate: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    tab_load_mem_dollar()
+                    gui.terminal.see(tkinter.END)
+                    pop.destroy()
+                    unlock_thread_pop() # reativa a thread de processamento do script
+                else:
+                    var_name = node.attrib["var"]
+                    eva_memory.vars[var_name] = var.get()
+                    print("Eva ram => ", eva_memory.vars)
+                    gui.terminal.insert(INSERT, "\nstate: userID reading : (using the user variable '" + var_name + "'): " + var.get())
+                    tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
+                    gui.terminal.see(tkinter.END)
+                    print("userID command USING VAR...")
+                    pop.destroy()
+                    unlock_thread_pop() # reativa a thread de processamento do script
+            
+            # função de fechamento da janela pop up para o botão ok
+            def fechar_pop_bt(): 
+                print(var.get())
+                if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
+                    eva_memory.var_dolar.append([var.get(), "<userID>"])
+                    gui.terminal.insert(INSERT, "\nstate: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    tab_load_mem_dollar()
+                    gui.terminal.see(tkinter.END)
+                    pop.destroy()
+                    unlock_thread_pop() # reativa a thread de processamento do script
+                else:
+                    var_name = node.attrib["var"]
+                    eva_memory.vars[var_name] = var.get()
+                    print("Eva ram => ", eva_memory.vars)
+                    gui.terminal.insert(INSERT, "\nstate: userID : (using the user variable '" + var_name + "'): " + var.get())
+                    tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
+                    gui.terminal.see(tkinter.END)
+                    print("userID command USING VAR...")
+                    pop.destroy()
+                    unlock_thread_pop() # reativa a thread de processamento do script
+                
+            # criacao da janela
+            img_userID = PhotoImage(file = "images/img_userID.png")
+            var = StringVar()
+            pop = Toplevel(gui)
+            pop.title("userID Command")
+            # Disable the max and close buttons
+            pop.resizable(False, False)
+            pop.protocol("WM_DELETE_WINDOW", False)
+            w = 350
+            h = 200
+            ws = gui.winfo_screenwidth()
+            hs = gui.winfo_screenheight()
+            x = (ws/2) - (w/2)
+            y = (hs/2) - (h/2)  
+            pop.geometry('%dx%d+%d+%d' % (w, h, x, y))
+            #pop.grab_set()
+            label = Label(pop, text="Eva is recognizing a face... \nPlease, enter the user name!", font = ('Arial', 10))
+            label.pack(pady=20)
+            Label(pop, image=img_userID).place(x = 260, y = 110)
+            E1 = Entry(pop, textvariable = var, font = ('Arial', 10))
+            E1.bind("<Return>", fechar_pop_ret)
+            E1.pack()
+            Button(pop, text="    OK    ", font = font1, command=fechar_pop_bt).pack(pady=20)
+            # espera pela liberacao, aguardando a resposta do usuario
+            while thread_pop_pause: 
+                time.sleep(0.5)
+            ledAnimation("STOP")
+
 def busca_commando(key : str): # as keys (chaves) são strings
 	# busca em settings. Isto porque "voice" fica em settings e voice é sempre o primeiro elemento
 	for elem in root.find("settings").iter():

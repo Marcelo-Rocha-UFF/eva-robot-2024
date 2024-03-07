@@ -9,8 +9,13 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <listen />
-    <listen var="SST_VAR"/>
+    <userID />
+    <userID var="USER_NAME"/>
+    <!-- <qrRead />
+    <qrRead var="QR_INFO" />
+    <qrRead /> -->
+    <!-- <listen />
+    <listen var="SST_VAR"/> -->
     <!-- <userEmotion />
     <wait duration="3000" />
     <userEmotion var="USER_EXPRESSION_1"/>
