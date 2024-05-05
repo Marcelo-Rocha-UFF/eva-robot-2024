@@ -14,7 +14,7 @@ class Gui(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
 
-        parent.title("Eva Simulator for EvaML - Version 2.0 - Google Research/UFF/MidiaCom/CICESE")
+        parent.title("Eva Simulator for EvaML - Version 2.0 - UFF / MidiaCom / CICESE")
         self.w = 1690
         self.h = 910  # on linux use 525 # on windows use 550
         parent.geometry(str(self.w) + "x" + str(self.h))
@@ -26,9 +26,9 @@ class Gui(ttk.Frame):
         parent.resizable(0,0)
 
         # fonte tamanho 9 para botoes e textos em geral
-        self.font1 = ('Arial', 9)
+        self.font1 = ('Arial', 10)
 
-        #setting the default font for applicantion
+        #setting the default font for application
         parent.option_add( "*font", "Arial 9")
 
         # Defining the image files
@@ -285,7 +285,7 @@ class Gui(ttk.Frame):
         self.lbl_voice_options = tkinter.Label(self.lf_tts, bg="gray70", width="20", font = self.font1, text="Voice Options", padx=5, pady=2)
         self.lbl_voice_options.grid(row=0, column=0)
         
-        self.Lb_voices = Listbox(self.lf_tts, width= 21, height=12)
+        self.Lb_voices = Listbox(self.lf_tts, width= 21, height=12, font="Arial 10")
         self.Lb_voices.insert(1, "en-US_AllisonV3Voice")
         self.Lb_voices.insert(2, "en-US_EmmaExpressive")
         self.Lb_voices.insert(3, "en-US_MichaelExpressive")
@@ -297,7 +297,7 @@ class Gui(ttk.Frame):
         self.Lb_voices.selection_set(4)
 
         tkinter.Label(self.lf_tts, width="30", font = self.font1, text="Text to speech:", pady=2).grid(row=0, column=1)
-        self.msg_tts_text = Text(self.lf_tts, height = 10, width=30)
+        self.msg_tts_text = Text(self.lf_tts, height = 10, width=30, font="Arial 10")
         self.msg_tts_text.grid(row=1, column=1)
         self.bt_send_tts = Button (self.lf_tts, width=27, text = 'SEND (Speak)', font = self.font1)
         self.bt_send_tts.grid(row=2, column=1)
@@ -393,7 +393,7 @@ class Gui(ttk.Frame):
 
         # Terminal text configuration
         self.terminal = Text (self.frame_terminal, fg = "cyan", bg = "black", height = "32", width = "125", yscrollcommand=self.v.set)
-        self.terminal.configure(font = ("Arial", 9))
+        self.terminal.configure(font = ("Arial", 10))
         self.terminal.tag_configure("error", foreground="red")
         self.terminal.tag_configure("motion", foreground="orange")
         self.terminal.tag_configure("tip", foreground="yellow")
@@ -402,8 +402,8 @@ class Gui(ttk.Frame):
         self.terminal.delete('1.0', END)
         # criando terminal text
         self.terminal.insert(INSERT, "=============================================================================================================================\n")
-        self.terminal.insert(INSERT, "                                                                                                                         Eva Simulator for EvaML\n")
-        self.terminal.insert(INSERT, "                                                                                    Version 2.0 - UFF / MidiaCom / CICESE / Google Research - [2023]\n")
+        self.terminal.insert(INSERT, "                                                                                                                       Eva Simulator for EvaML\n")
+        self.terminal.insert(INSERT, "                                                                                                   Version 2.0 - UFF / MidiaCom / CICESE - [2024]\n")
         self.terminal.insert(INSERT, "=============================================================================================================================")
 
         self.terminal.pack()

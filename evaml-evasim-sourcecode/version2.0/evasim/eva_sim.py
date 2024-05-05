@@ -172,13 +172,13 @@ def evaInit():
     gui.bt_power['state'] = DISABLED
     gui.bt_power.unbind("<Button-1>")
     evaEmotion("POWER_ON")
-    gui.terminal.insert(INSERT, "\nstate: Initializing.")
+    gui.terminal.insert(INSERT, "\nSTATE: Initializing.")
     #playsound("my_sounds/power_on" + audio_ext, block = True)
-    gui.terminal.insert(INSERT, "\nstate: Speaking a greeting text.")
+    gui.terminal.insert(INSERT, "\nSTATE: Speaking a greeting text.")
     #playsound("my_sounds/greetings" + audio_ext, block = True)
-    gui.terminal.insert(INSERT, '\nstate: Speaking "Load a script file and enjoy."')
+    gui.terminal.insert(INSERT, '\nSTATE: Speaking "Load a script file and enjoy."')
     #playsound("my_sounds/load_a_script" + audio_ext, block = True)
-    gui.terminal.insert(INSERT, "\nstate: Entering in standby mode.")
+    gui.terminal.insert(INSERT, "\nSTATE: Entering in standby mode.")
     gui.bt_import['state'] = NORMAL
     gui.bt_import.bind("<Button-1>", importFileThread)
     evaMatrix("white")
@@ -211,12 +211,12 @@ def setEVAMode(self):
 def runScript():
     global play, fila_links
     # initialize the robot memory
-    print("Intializing the robot memory...")
+    print("Intializing the robot memory.")
     eva_memory.var_dolar = []
     eva_memory.vars = {}
     eva_memory.reg_case = 0
     # Limpando as tabelas
-    print("Clearing memory map tables...")
+    print("Clearing memory map tables.")
     tab_load_mem_dollar()
     tab_load_mem_vars()
     # initializing the memory of simulator
@@ -255,19 +255,19 @@ def importFileThread(self):
 # Eva Import Script function
 def importFile():
     global root, script_node, links_node
-    print("Importing a file...")
+    print("Importing a file.")
     # agora o EvaSIM pode ler json
     filetypes = (('evaML files', '*.xml *.json'), )
     script_file = fd.askopenfile(mode = "r", title = 'Open an EvaML Script File', initialdir = './', filetypes = filetypes)
     # imaginado que o cara vai ler um json ou um xml
     if (re.findall(r'\.(xml|json|JSON|XML)', str(script_file)))[0].lower() == "json": # leitura de json
-        print("Convertendo e executando um arquivo do tipo JSON")
+        print("Converting and running a JSON file.")
         #  script_file não é uma string e ainda possui infos além do caminho do arquivo
         # por isso precisa ser processada antes de ser passada para o modulo de conversão
         json_to_evaml_conv.converte(str(script_file).split("'")[1], tkinter)
         script_file = "_json_to_evaml_converted.xml" # arquivo json convertido para XML
     else: # leitura de um XML
-        print("Executando um arquivo do tipo XML")
+        print("Running a XML file.")
     # variaveis da vm
     tree = ET.parse(script_file)  # arquivo de codigo xml
     root = tree.getroot() # evaml root node
@@ -279,7 +279,7 @@ def importFile():
     gui.bt_run_robot.bind("<Button-1>", setEVAMode)
     gui.bt_stop['state'] = DISABLED
     evaEmotion("NEUTRAL")
-    gui.terminal.insert(INSERT, '\nstate: Script loaded.')
+    gui.terminal.insert(INSERT, '\nSTATE: Script loaded.')
     gui.terminal.see(tkinter.END)
 
 
@@ -507,9 +507,9 @@ gui.bt_head_motion_down_right.bind("<Button-1>", woz_head_motion_down_right)
 
 # TTS function
 def woz_tts(self):
-    client.publish(topic_base + "/log", "EVA will try to speak a text.")
+    client.publish(topic_base + "/log", "EVA will try to speak a text: " + gui.msg_tts_text.get('1.0','end').strip())
     voice_option = gui.Lb_voices.get(ANCHOR)
-    print(voice_option + "|" + gui.msg_tts_text.get('1.0','end'))
+    print(voice_option + "|" + gui.msg_tts_text.get('1.0','end').split())
     client.publish(topic_base + "/talk", voice_option + "|" + gui.msg_tts_text.get('1.0','end'))
 
 # TTS buttons binding
@@ -540,7 +540,7 @@ def ledAnimation(animation):
     elif animation == "RAINBOW":
         evaMatrix("white")
         print("Falta gerar a imagem do RAINBOW para os leds do EvaSIM")
-    else: print("wrong led animation option")
+    else: print("A wrong led animation was selected.")
 
 
 # set the Eva emotion
@@ -564,7 +564,7 @@ def evaEmotion(expression):
     elif expression == "POWER_ON": 
         gui.canvas.create_image(156, 161, image = im_eyes_on)
     else: 
-        print("Wrong expression")
+        print("A wrong expression was selected.")
     if RUNNING_MODE == "SIMULATOR":
         time.sleep(1) # apenas um tempo simbólico para o simulador
 
@@ -584,7 +584,7 @@ def evaMatrix(color):
     elif color == "grey": # somente para representar a luz da matrix apagada
         gui.canvas.create_image(155, 349, image = im_matrix_grey)
     else : 
-        print("wrong color to matrix...")
+        print("A wrong color to matrix was selected.")
 
 
 # set the image of light (color and state)
@@ -605,7 +605,7 @@ def light(color, state):
 def exec_comando(node):
     global EVA_ROBOT_STATE
     if node.tag == "voice":
-        gui.terminal.insert(INSERT, "\nstate: Selected Voice: " + node.attrib["tone"])
+        gui.terminal.insert(INSERT, "\nSTATE: Selected Voice: " + node.attrib["tone"])
         gui.terminal.see(tkinter.END)
         gui.terminal.insert(INSERT, "\nTIP: If the <talk> command doesn't speak some text, try emptying the audio_cache_files folder", "tip")
         if RUNNING_MODE == "EVA_ROBOT":
@@ -614,21 +614,20 @@ def exec_comando(node):
 
     if node.tag == "motion": # movimentação da cabeça e dos braços
         if node.get("left-arm") != None: # mov. o braço esquerdo.
-            gui.terminal.insert(INSERT, "\nstate: Moving the left arm! Movement type: " + node.attrib["left-arm"], "motion")
+            gui.terminal.insert(INSERT, "\nSTATE: Moving the left arm! Movement type: " + node.attrib["left-arm"], "motion")
             gui.terminal.see(tkinter.END)
         if node.get("right-arm") != None: # mov. o braço direito.
-            gui.terminal.insert(INSERT, "\nstate: Moving the right arm! Movement type: " + node.attrib["right-arm"], "motion")
+            gui.terminal.insert(INSERT, "\nSTATE: Moving the right arm! Movement type: " + node.attrib["right-arm"], "motion")
             gui.terminal.see(tkinter.END)
         if node.get("head") != None: # mov. cabeça com o formato novo (elemento <head>).
-                gui.terminal.insert(INSERT, "\nstate: Moving the head! Movement type: " + node.attrib["head"], "motion")
+                gui.terminal.insert(INSERT, "\nSTATE: Moving the head! Movement type: " + node.attrib["head"], "motion")
                 gui.terminal.see(tkinter.END)
         else: # verifica se foi utilizada a versão antiga
             if node.get("type") != None: # mantendo a compatibilidade com a versão antiga do elemnto motion.
-                gui.terminal.insert(INSERT, "\nstate: Moving the head! Movement type: " + node.attrib["type"], "motion")
+                gui.terminal.insert(INSERT, "\nSTATE: Moving the head! Movement type: " + node.attrib["type"], "motion")
                 gui.terminal.see(tkinter.END)
         print("Moving the head and/or the arms.")
         if RUNNING_MODE == "EVA_ROBOT":
-            print("Aqui..........................")
             if node.get("left-arm") != None: # mov. o braço esquerdo.
                 client.publish(topic_base + "/motion/arm/left", node.attrib["left-arm"]); # comando para o robô físico
             if node.get("right-arm") != None: # mov. o braço direito.
@@ -656,18 +655,18 @@ def exec_comando(node):
         if state == "OFF":
             color = "BLACK"
             if lightEffect == "OFF":
-                message_state = "\nstate: Light Effects DISABLED."
+                message_state = "\nSTATE: Light Effects DISABLED."
             else:
-                message_state = "\nstate: Turnning off the light."
+                message_state = "\nSTATE: Turnning off the light."
             gui.terminal.insert(INSERT, message_state)
             gui.terminal.see(tkinter.END)
         else:
             color = node.attrib["color"]
             if lightEffect == "OFF":
-                message_state = "\nstate: Light Effects DISABLED."
+                message_state = "\nSTATE: Light Effects DISABLED."
                 state = "OFF"
             else:
-                message_state = "\nstate: Turnning on the light. Color=" + color + "."
+                message_state = "\nSTATE: Turnning on the light. Color=" + color + "."
             gui.terminal.insert(INSERT, message_state)
             gui.terminal.see(tkinter.END) # autoscrolling
         light(color , state)
@@ -680,7 +679,7 @@ def exec_comando(node):
 
     elif node.tag == "wait":
         duration = node.attrib["duration"]
-        gui.terminal.insert(INSERT, "\nstate: Pausing. Duration=" + duration + " ms")
+        gui.terminal.insert(INSERT, "\nSTATE: Pausing. Duration=" + duration + " ms")
         gui.terminal.see(tkinter.END)
         time.sleep(int(duration)/1000) # converte para segundos
 
@@ -688,7 +687,7 @@ def exec_comando(node):
     elif node.tag == "led":
         # a seleção do modo de execução é feita dentro da função ledAnimation()
         ledAnimation(node.attrib["animation"])
-        gui.terminal.insert(INSERT, "\nstate: Matrix Leds. Animation=" + node.attrib["animation"])
+        gui.terminal.insert(INSERT, "\nSTATE: Matrix Leds. Animation=" + node.attrib["animation"])
         gui.terminal.see(tkinter.END)
         
 
@@ -702,7 +701,7 @@ def exec_comando(node):
         else:
             client.publish(mqtt_topic, mqtt_message)
             print("Publishing a MQTT message to an external device.", mqtt_topic, mqtt_message)
-            gui.terminal.insert(INSERT, "\nstate: MQTT publishing. Topic=" + mqtt_topic + " and Message=" + mqtt_message + ".")
+            gui.terminal.insert(INSERT, "\nSTATE: MQTT publishing. Topic=" + mqtt_topic + " and Message=" + mqtt_message + ".")
             gui.terminal.see(tkinter.END)
 
 
@@ -717,7 +716,7 @@ def exec_comando(node):
 
         if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
             eva_memory.var_dolar.append([str(rnd.randint(int(min), int(max))), "<random>"])
-            gui.terminal.insert(INSERT, "\nstate: Generating a random number (using the variable $): " + eva_memory.var_dolar[-1][0])
+            gui.terminal.insert(INSERT, "\nSTATE: Generating a random number (using the variable $): " + eva_memory.var_dolar[-1][0])
             tab_load_mem_dollar()
             gui.terminal.see(tkinter.END)
             print("random command, min = " + min + ", max = " + max + ", valor = " + eva_memory.var_dolar[-1][0])
@@ -725,7 +724,7 @@ def exec_comando(node):
             var_name = node.attrib["var"]
             eva_memory.vars[var_name] = str(rnd.randint(int(min), int(max)))
             print("Eva ram => ", eva_memory.vars)
-            gui.terminal.insert(INSERT, "\nstate: Generating a random number (using the user variable '" + var_name + "'): " + str(eva_memory.vars[var_name]))
+            gui.terminal.insert(INSERT, "\nSTATE: Generating a random number (using the user variable '" + var_name + "'): " + str(eva_memory.vars[var_name]))
             tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
             gui.terminal.see(tkinter.END)
             print("random command USING VAR, min = " + min + ", max = " + max + ", valor = ")
@@ -743,7 +742,7 @@ def exec_comando(node):
 
             if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                 eva_memory.var_dolar.append([EVA_DOLLAR, "<listen>"])
-                gui.terminal.insert(INSERT, "\nstate: Listening : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                gui.terminal.insert(INSERT, "\nSTATE: Listening : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
                 ledAnimation("STOP")
@@ -751,10 +750,10 @@ def exec_comando(node):
                 var_name = node.attrib["var"]
                 eva_memory.vars[var_name] = EVA_DOLLAR
                 print("Eva ram => ", eva_memory.vars)
-                gui.terminal.insert(INSERT, "\nstate: Listening : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                gui.terminal.insert(INSERT, "\nSTATE: Listening : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
                 tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                 gui.terminal.see(tkinter.END)
-                print("listen command USING VAR...")
+                print("Listen command USING VAR...")
 
         else:
             lock_thread_pop()
@@ -764,7 +763,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                     eva_memory.var_dolar.append([var.get(), "<listen>"])
-                    gui.terminal.insert(INSERT, "\nstate: Listening : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -773,10 +772,10 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nstate: Listening : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening : (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                     gui.terminal.see(tkinter.END)
-                    print("listen command USING VAR...")
+                    print("Listen command USING VAR...")
                     pop.destroy()
                     unlock_thread_pop() # reativa a thread de processamento do script
             
@@ -785,7 +784,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                     eva_memory.var_dolar.append([var.get(), "<listen>"])
-                    gui.terminal.insert(INSERT, "\nstate: Listening : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -794,10 +793,10 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nstate: Listening : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening : (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                     gui.terminal.see(tkinter.END)
-                    print("listen command USING VAR...")
+                    print("Listen command USING VAR...")
                     pop.destroy()
                     unlock_thread_pop() # reativa a thread de processamento do script
                 
@@ -875,11 +874,11 @@ def exec_comando(node):
         texto = texto.split(sep="/") # texto vira uma lista com a qtd de frases divididas pelo caract. /
         print(texto)
         ind_random = rnd.randint(0, len(texto)-1)
-        gui.terminal.insert(INSERT, '\nstate: Speaking: "' + texto[ind_random] + '"')
+        gui.terminal.insert(INSERT, '\nSTATE: Speaking: "' + texto[ind_random] + '"')
         gui.terminal.see(tkinter.END)
 
         if RUNNING_MODE == "EVA_ROBOT":
-            client.publish(topic_base + "/log", "EVA will try to speak a text.")
+            client.publish(topic_base + "/log", "EVA will try to speak a text: ", texto[ind_random])
             ledAnimation("SPEAK")
             EVA_ROBOT_STATE = "BUSY" # a fala é uma função bloqueante. o robo fica ocupado.
             client.publish(topic_base + "/talk", root.find("settings")[0].attrib["tone"] + "|" + texto[ind_random])
@@ -909,7 +908,7 @@ def exec_comando(node):
                             exit(1)
                     file_size = os.path.getsize("audio_cache_files/" + file_name + audio_ext)
                     if file_size == 0: # arquivo corrompido
-                        print("#### Arquivo corrompido....")
+                        print("#### Corrupted file.. (It's necessary to use the same implementation like in tts-module in EVA robot!)")
                         os.remove("audio_cache_files/" + file_name + audio_ext)
                     else:
                         audio_file_is_ok = True
@@ -922,7 +921,7 @@ def exec_comando(node):
         emotion = node.attrib["emotion"]
         if RUNNING_MODE == "EVA_ROBOT":
             client.publish(topic_base + "/evaEmotion", emotion) # comando para o EVA físico)
-        gui.terminal.insert(INSERT, "\nstate: Expressing an emotion: " + emotion)
+        gui.terminal.insert(INSERT, "\nSTATE: Expressing an emotion: " + emotion)
         gui.terminal.see(tkinter.END)
         evaEmotion(emotion)
 
@@ -932,14 +931,14 @@ def exec_comando(node):
         block = False # o play do audio não bloqueia a execucao do script
         if node.attrib["block"] == "TRUE":
             block = True
-        message_audio = '\nstate: Playing a sound: "' + "audio_files/" + sound_file + ".wav" + '", block=' + str(block)
+        message_audio = '\nSTATE: Playing a sound: "' + "audio_files/" + sound_file + ".wav" + '", block=' + str(block)
 
         # process audioEffects settings
         if root.find("settings").find("audioEffects") != None:
             if root.find("settings").find("audioEffects").attrib["mode"] == "OFF":
                 # mode off implies the use of MUTED-SOUND file 
                 sound_file = "my_sounds/MUTED-SOUND.wav"
-                message_audio = "\nstate: Audio Effects DISABLED."
+                message_audio = "\nSTATE: Audio Effects DISABLED."
 
         gui.terminal.insert(INSERT, message_audio)
         gui.terminal.see(tkinter.END)
@@ -985,7 +984,7 @@ def exec_comando(node):
                 exit(1)  
 
             # compara valor com o topo da pilha da variavel var_dolar
-            print("valor ", valor, type(valor))
+            print("value: ", valor, type(valor))
             if valor == eva_memory.var_dolar[-1][0].lower():
                 print("case = true")
                 eva_memory.reg_case = 1 # liga o reg case indicando que o resultado da comparacao foi verdadeira
@@ -999,7 +998,7 @@ def exec_comando(node):
                 exit(1)  
 
             # verifica se a string em valor está contida em $
-            print("valor ", valor, type(valor))
+            print("value: ", valor, type(valor))
             if valor in eva_memory.var_dolar[-1][0].lower(): 
                 print("case = true")
                 eva_memory.reg_case = 1 # liga o reg case indicando que o resultado da comparacao foi verdadeira
@@ -1110,7 +1109,7 @@ def exec_comando(node):
             eva_memory.vars[var_name] %= var_value
         
         print("Eva ram => ", eva_memory.vars)
-        gui.terminal.insert(INSERT, "\nstate: Counter : var=" + var_name + ", value=" + str(var_value) + ", op(" + op + "), result=" + str(eva_memory.vars[var_name]))
+        gui.terminal.insert(INSERT, "\nSTATE: Counter : var=" + var_name + ", value=" + str(var_value) + ", op(" + op + "), result=" + str(eva_memory.vars[var_name]))
         tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
         gui.terminal.see(tkinter.END)
 
@@ -1129,7 +1128,7 @@ def exec_comando(node):
 
             if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                 eva_memory.var_dolar.append([EVA_DOLLAR, "<listen>"])
-                gui.terminal.insert(INSERT, "\nstate: userEmotion : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                gui.terminal.insert(INSERT, "\nSTATE: userEmotion : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
                 ledAnimation("STOP")
@@ -1137,7 +1136,7 @@ def exec_comando(node):
                 var_name = node.attrib["var"]
                 eva_memory.vars[var_name] = EVA_DOLLAR
                 print("Eva ram => ", eva_memory.vars)
-                gui.terminal.insert(INSERT, "\nstate: userEmotion : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                gui.terminal.insert(INSERT, "\nSTATE: userEmotion : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
                 tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                 gui.terminal.see(tkinter.END)
                 print("userEmotion command USING VAR...")
@@ -1151,14 +1150,14 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                     eva_memory.var_dolar.append([var.get(), "<userEmotion>"])
-                    gui.terminal.insert(INSERT, "\nstate: userEmotion : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: userEmotion : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                 else:
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nstate: userEmotion : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                    gui.terminal.insert(INSERT, "\nSTATE: userEmotion : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
                     tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                     gui.terminal.see(tkinter.END)
                     print("userEmotion command USING VAR...")
@@ -1217,7 +1216,7 @@ def exec_comando(node):
         
             if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                 eva_memory.var_dolar.append([EVA_DOLLAR, "<qrRead>"])
-                gui.terminal.insert(INSERT, "\nstate: qrRead : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                gui.terminal.insert(INSERT, "\nSTATE: qrRead : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
                 ledAnimation("STOP")
@@ -1225,7 +1224,7 @@ def exec_comando(node):
                 var_name = node.attrib["var"]
                 eva_memory.vars[var_name] = EVA_DOLLAR
                 print("Eva ram => ", eva_memory.vars)
-                gui.terminal.insert(INSERT, "\nstate: qrReader : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                gui.terminal.insert(INSERT, "\nSTATE: qrReader : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
                 tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                 gui.terminal.see(tkinter.END)
                 print("qrRead command USING VAR...")
@@ -1240,7 +1239,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                     eva_memory.var_dolar.append([var.get(), "<qrRead>"])
-                    gui.terminal.insert(INSERT, "\nstate: QR Code reading : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -1249,7 +1248,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nstate: QR Code reading : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading : (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                     gui.terminal.see(tkinter.END)
                     print("qrRead command USING VAR...")
@@ -1261,7 +1260,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                     eva_memory.var_dolar.append([var.get(), "<qrRead>"])
-                    gui.terminal.insert(INSERT, "\nstate: QR Code reading : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -1270,7 +1269,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nstate: QR Code reading : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading : (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                     gui.terminal.see(tkinter.END)
                     print("qrRead command USING VAR...")
@@ -1319,7 +1318,7 @@ def exec_comando(node):
         
             if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                 eva_memory.var_dolar.append([EVA_DOLLAR, "<userID>"])
-                gui.terminal.insert(INSERT, "\nstate: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                gui.terminal.insert(INSERT, "\nSTATE: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
                 ledAnimation("STOP")
@@ -1327,7 +1326,7 @@ def exec_comando(node):
                 var_name = node.attrib["var"]
                 eva_memory.vars[var_name] = EVA_DOLLAR
                 print("Eva ram => ", eva_memory.vars)
-                gui.terminal.insert(INSERT, "\nstate: userID : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                gui.terminal.insert(INSERT, "\nSTATE: userID : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
                 tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                 gui.terminal.see(tkinter.END)
                 print("userID command USING VAR...")
@@ -1342,7 +1341,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                     eva_memory.var_dolar.append([var.get(), "<userID>"])
-                    gui.terminal.insert(INSERT, "\nstate: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -1351,7 +1350,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nstate: userID reading : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: userID reading : (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                     gui.terminal.see(tkinter.END)
                     print("userID command USING VAR...")
@@ -1363,7 +1362,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                     eva_memory.var_dolar.append([var.get(), "<userID>"])
-                    gui.terminal.insert(INSERT, "\nstate: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -1372,7 +1371,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nstate: userID : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: userID : (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                     gui.terminal.see(tkinter.END)
                     print("userID command USING VAR...")
@@ -1434,9 +1433,9 @@ def busca_links(att_from):
 # executa os comandos que estão na pilha de links
 def link_process(anterior = -1):
     global play
-    print("play state............", play)
+    print("Play state............", play)
     gui.terminal.insert(INSERT, "\n---------------------------------------------------")
-    gui.terminal.insert(INSERT, "\nstate: Starting the script: " + root.attrib["name"])
+    gui.terminal.insert(INSERT, "\nSTATE: Starting the script: " + root.attrib["name"])
     gui.terminal.see(tkinter.END)
 
     if RUNNING_MODE == "EVA_ROBOT":
@@ -1454,34 +1453,29 @@ def link_process(anterior = -1):
         if anterior != from_key:
             exec_comando(busca_commando(from_key))
             anterior = from_key
-            print("Ant: ", anterior, ", from: ", from_key)
+            print("ant: ", anterior, ", from: ", from_key)
         
         
         if (comando_from == "case") or (comando_from == "default"): # se o comando executado foi um case ou um default
             if eva_memory.reg_case == 1: # verifica a flag pra saber se o case foi verdadeiro
                 fila_links = [] # esvazia a fila, pois o fluxo seguira deste no case em diante
-                print("pulando comando = ", comando_from)
+                print("Jumping the command = ", comando_from)
                 # segue o fluxo do case de sucesso buscando o prox. link
                 if not(busca_links(to_key)): # se nao tem mais link, o comando indicado por to_key é o ultimo do fluxo
                     exec_comando(busca_commando(to_key))
-                    print("fim de bloco.............")
+                    print("End of block.")
                     
             else:
-                print("O elemento:", comando_from, " será removido da fila...")
+                print("The element:", comando_from, " will be removed from queue.")
                 fila_links.pop(0) # se o case falhou, ele é retirado da fila e consequentemente seu fluxo é descartado
                 print("false")
         else: # se o comando nao foi um case
-            print("O elemento:", comando_from, " será removido da fila...")
+            print("The element:", comando_from, " will be removed from queue.")
             fila_links.pop(0) # remove o link da fila
-            """ ####### inseri aqui
-            if len(fila_links) == 0:
-                exec_comando(busca_commando(from_key))
-                print(from_key, to_key)
-            ####### """
             if not(busca_links(to_key)): # como já comentado anteriormente
                 exec_comando(busca_commando(to_key))
-                print("fim de bloco.............")
-    gui.terminal.insert(INSERT, "\nstate: End of script.")
+                print("End of block.")
+    gui.terminal.insert(INSERT, "\nSTATE: End of script.")
     gui.terminal.see(tkinter.END)
     # restore the buttons states (run and stop)
     gui.bt_run_sim['state'] = NORMAL
