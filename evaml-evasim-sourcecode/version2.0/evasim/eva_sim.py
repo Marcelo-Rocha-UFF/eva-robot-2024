@@ -72,7 +72,7 @@ def on_message(client, userdata, msg):
     global EVA_ROBOT_STATE
     global EVA_DOLLAR
     if msg.topic == topic_base + '/state':
-        EVA_ROBOT_STATE = msg.payload.decode()
+        EVA_ROBOT_STATE = "FREE"#msg.payload.decode()
     elif msg.topic == topic_base + '/var/dollar':
         EVA_DOLLAR = msg.payload.decode()
         
@@ -329,28 +329,20 @@ gui.bt_bulb_white_btn.bind("<Button-1>", woz_light_white)
 
 # WoZ expressions functions
 def woz_expression_angry(self):
-    client.publish(topic_base + "/audio", "efx-display" + "|" + "TRUE")
     client.publish(topic_base + "/evaEmotion", "ANGRY")
 def woz_expression_fear(self):
-    client.publish(topic_base + "/audio", "efx-display" + "|" + "TRUE")
     client.publish(topic_base + "/evaEmotion", "FEAR")
 def woz_expression_happy(self):
-    client.publish(topic_base + "/audio", "efx-display" + "|" + "TRUE")
     client.publish(topic_base + "/evaEmotion", "HAPPY")
 def woz_expression_neutral(self):
-    client.publish(topic_base + "/audio", "efx-display" + "|" + "TRUE")
     client.publish(topic_base + "/evaEmotion", "NEUTRAL")
 def woz_expression_sad(self):
-    client.publish(topic_base + "/audio", "efx-display" + "|" + "TRUE")
     client.publish(topic_base + "/evaEmotion", "SAD")
 def woz_expression_surprise(self):
-    client.publish(topic_base + "/audio", "efx-display" + "|" + "TRUE")
     client.publish(topic_base + "/evaEmotion", "SURPRISE")
 def woz_expression_disgust(self):
-    client.publish(topic_base + "/audio", "efx-display" + "|" + "TRUE")
     client.publish(topic_base + "/evaEmotion", "DISGUST")
 def woz_expression_inlove(self):
-    client.publish(topic_base + "/audio", "efx-display" + "|" + "TRUE")
     client.publish(topic_base + "/evaEmotion", "INLOVE")
 
 # WoZ expression buttons binding
@@ -929,7 +921,6 @@ def exec_comando(node):
     elif node.tag == "evaEmotion":
         emotion = node.attrib["emotion"]
         if RUNNING_MODE == "EVA_ROBOT":
-            client.publish(topic_base + "/audio", "efx-display" + "|" + "TRUE")
             client.publish(topic_base + "/evaEmotion", emotion) # comando para o EVA físico)
         gui.terminal.insert(INSERT, "\nstate: Expressing an emotion: " + emotion)
         gui.terminal.see(tkinter.END)
