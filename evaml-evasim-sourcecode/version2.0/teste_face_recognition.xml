@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste_face_recognition"
+  xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice tone="pt-BR_IsabelaV3Voice" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <useMacro macro="INIT-POSE" />
+    <random min="1" max="2" var="INTRO" />
+    <switch var="INTRO">
+      <case op="eq" value="1">
+        <useMacro macro="GREETINGS1" />
+      </case>
+      <default>
+        <useMacro macro="GREETINGS2" />
+      </default>
+    </switch>
+    
+    <talk>Olá pessoal!</talk>
+    <talk>Eu sou o robô social EVA! / Me chamo EVA. E sou um robô social!</talk>
+    <motion head="LEFT1"/>
+    <evaEmotion emotion="NEUTRAL" />
+    <wait duration="1000" />
+    <light state="ON" color="BLUE" />
+    <talk>Será que você já jogou comigo antes?</talk>
+    <motion head="RIGHT1" />
+    <light state="ON" color="RED"/>
+    <motion right-arm="POSITION 1" left-arm="POSITION 1"/>
+    <audio source="efx-blin2" block="TRUE" />
+    <talk>Vou tentar me lembrar do seu rosto"</talk>
+    <light state="ON" color="WHITE"/>
+    <motion head="CENTER" left-arm="POSITION 3" right-arm="POSITION 2"/>
+    <wait duration="2000" />
+    <talk>Por favor. Olhe para mim!</talk>
+    <userID />
+    <switch var="$">
+      <case op="exact" value="unknown">
+        <useMacro macro="NAOLEMBROU" />
+      </case>
+      <default>
+        <random min="1" max="2" var="TIPO_FIM"/>
+        <switch var="TIPO_FIM">
+          <case op="eq" value="1">
+            <useMacro macro="LEMBROU1" />
+          </case>
+          <case op="eq" value="2">
+            <useMacro macro="LEMBROU2" />
+          </case>
+        </switch>
+      </default>
+    </switch>
+    
+    <!-- <useMacro macro="LEMBROU1" />
+
+    <useMacro macro="LEMBROU2" /> -->
+    
+    <!-- <useMacro macro="NAOLEMBROU" /> -->
+
+    <!-- <userID />
+    <userID var="USER_NAME"/> -->
+    <!-- <qrRead />
+    <qrRead var="QR_INFO" />
+    <qrRead /> -->
+    <!-- <listen />
+    <listen var="SST_VAR"/> -->
+    <!-- <userEmotion />
+    <wait duration="3000" />
+    <userEmotion var="USER_EXPRESSION_1"/>
+    <wait duration="3000" />
+    <userEmotion var="USER_EXPRESSION_2"/>
+    <wait duration="3000" />
+    <userEmotion var="USER_EXPRESSION_3"/>
+    <wait duration="3000" /> -->
+    <!-- <useMacro macro="INIT-POSE" />
+    <userID var="USER_NAME"/>
+    <qrRead var="myQR"/>
+    <light state="ON" color="WHITE" />
+    <audio source="song-macarena-edit" block="FALSE" />
+    <evaEmotion emotion="HAPPY" />
+    <wait duration="5000" />
+    <light state="ON" color="RED"/>
+    <wait duration="4400" />
+    <led animation="RAINBOW" />
+    <motion head="UP" right-arm="POSITION 1" />
+    <wait duration="2000" />
+    <motion head="UP" left-arm="POSITION 2"/>
+    <wait duration="2200" />
+    <motion head="UP" right-arm="POSITION 3"/>
+    <wait duration="1800" />
+    <motion head="NO" right-arm="SHAKE1" left-arm="SHAKE1"/>
+    <motion />
+    <wait duration="2800" />
+    <light state="ON" color="GREEN"/>
+    <led animation="LISTEN" />
+    <motion head="DOWN1" left-arm="POSITION 0" right-arm="POSITION 1" />
+    <wait duration="1500" />
+    <motion head="UP" left-arm="POSITION 2"/>
+    <wait duration="2000" />
+    <motion head="UP" right-arm="POSITION 3"/>
+    <wait duration="2000" />
+    <light state="ON" color="WHITE"/>
+    <led animation="RAINBOW" />
+    <motion head="NO" right-arm="SHAKE1" left-arm="SHAKE1"/>
+    <wait duration="3000" />
+    <light state="ON" color="WHITE"/>
+    <motion right-arm="SHAKE2" left-arm="POSITION 0"/>
+    <wait duration="1000" />
+    <audio source="efx-blin2" block="FALSE" />
+    <wait duration="500" />
+    <talk>See you later</talk>
+    <audio source="efx-blin2" block="FALSE" />
+    <wait duration="500" />
+    <talk>Bye bye</talk>
+    <wait duration="2000" />
+    <evaEmotion emotion="NEUTRAL" />
+    <motion head="CENTER" left-arm="POSITION 0" right-arm="POSITION 0"/>
+    <wait duration="3000" />
+    <light state="OFF" /> -->
+  </script>
+  <macros>
+
+    <macro id="INIT-POSE">
+      <light state="OFF" />
+      <evaEmotion emotion="NEUTRAL" />
+      <motion head="2DOWN" left-arm="POSITION 0" right-arm="POSITION 0"/>
+      <wait duration="3000" />
+    </macro>
+
+    <macro id="GREETINGS1">
+      <audio source="efx-blin" block="FALSE" />
+      <light state="ON" color="GREEN"/>
+      <evaEmotion emotion="HAPPY" />
+      <motion head="CENTER" left-arm="POSITION 0" right-arm="POSITION 3"/>
+      <wait duration="2000" />
+      <motion right-arm="SHAKE2"/>
+    </macro>
+
+    <macro id="GREETINGS2">
+      <audio source="efx-harp-gliss" block="FALSE" />
+      <light state="ON" color="GREEN"/>
+      <evaEmotion emotion="HAPPY" />
+      <motion head="CENTER" right-arm="POSITION 0" left-arm="POSITION 3"/>
+      <wait duration="4000" />
+      <motion left-arm="SHAKE2"/>
+    </macro>
+
+    <macro id="LEMBROU1">
+      <light state="ON" color="PINK"/>
+      <evaEmotion emotion="INLOVE" />
+      <led animation="ANGRY" />
+      <talk>Sim, eu lembro de você!</talk>
+      <audio source="efx-blin2" block="TRUE" />
+      <motion head="DOWN1"/>
+      <talk>Você se chãma $</talk>
+      <led animation="RAINBOW" />
+      <motion head="2NO" left-arm="SHAKE2" right-arm="SHAKE2"/>
+      <audio source="efx-aplausos-bom" block="TRUE" />
+      <evaEmotion emotion="NEUTRAL" />
+      <motion head="CENTER" />
+      <talk>$, muito obrigado por ter participado do teste!</talk>
+      <light state="OFF" />
+    </macro>
+
+    <macro id="LEMBROU2">
+      <light state="ON" color="PINK"/>
+      <evaEmotion emotion="INLOVE" />
+      <led animation="ANGRY" />
+      <talk>Lembro muito bem de você!</talk>
+      <audio source="efx-blin2" block="TRUE" />
+      <motion head="DOWN1"/>
+      <talk>Seu nome é $</talk>
+      <led animation="RAINBOW" />
+      <motion head="2NO" left-arm="SHAKE2" right-arm="SHAKE2"/>
+      <audio source="efx-aplausos-bom" block="TRUE" />
+      <evaEmotion emotion="NEUTRAL" />
+      <motion head="CENTER" />
+      <talk>$, muito obrigado por ter participado do teste!</talk>
+      <light state="OFF" />
+    </macro>
+
+    <macro id="NAOLEMBROU">
+      <motion head="2DOWN_RIGHT" left-arm="POSITION 0" right-arm="POSITION 3"/>
+      <light state="ON" color="BLUE"/>
+      <evaEmotion emotion="SAD" />
+      <led animation="SAD" />
+      <talk>Me desculpe!</talk>
+      <audio source="efx-blin2" block="TRUE" />
+      <talk>Eu não lembro de você</talk>
+      <motion head="2NO"/>
+      <audio source="efx-trombone-triste" block="TRUE" />
+      <wait duration="2500" />
+      <motion head="CENTER" />
+      <evaEmotion emotion="NEUTRAL" />
+      <light state="OFF" />
+    </macro>
+  </macros>
+</evaml>

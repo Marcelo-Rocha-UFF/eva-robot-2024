@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <evaml
   name="teste_listen"
-  xsi:noNamespaceSchemaLocation="EvaML-Schema/evaml_schema.xsd"
+  xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <settings>
     <voice tone="pt-BR_IsabelaV3Voice" />
@@ -11,9 +11,10 @@
   <script>
     <light state="ON" color="GREEN"/>
     <evaEmotion emotion="HAPPY" />
+    <audio source="efx-blin" block="TRUE" />
     <talk>Qual o seu nome?</talk>
     <listen />
     <light state="OFF" color="BLACK"/>
-    <talk>Muito prazer em conhecê-lo $</talk>
+    <talk>Seu nome é muito bonito, $</talk>
   </script>
 </evaml>

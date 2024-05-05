@@ -124,6 +124,7 @@ Revision: 2022/08/12
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="efx-blin"/>
 			<xs:enumeration value="efx-blin2"/>
+			<xs:enumeration value="efx-aplausos-bom"/>
             <xs:enumeration value="efx-cheering"/>
             <xs:enumeration value="efx-crowdapplause1"/>
 			<xs:enumeration value="efx-display"/>
@@ -142,8 +143,10 @@ Revision: 2022/08/12
             <xs:enumeration value="efx-mario-start-02"/>
 			<xs:enumeration value="efx-susto"/>
             <xs:enumeration value="efx-tic-toc"/>
+			<xs:enumeration value="efx-trombone-triste"/>
             <xs:enumeration value="efx-wand1"/>
             <xs:enumeration value="MUTED-SOUND"/>
+			<xs:enumeration value="song-aquarela"/>
             <xs:enumeration value="song-ben"/>
             <xs:enumeration value="song-caneta-azul"/>
             <xs:enumeration value="song-exodus"/>

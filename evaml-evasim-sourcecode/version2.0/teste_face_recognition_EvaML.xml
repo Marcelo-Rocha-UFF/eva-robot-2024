@@ -1,4 +1,4 @@
-<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="teste_motion" xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd" id="1a02203481552a24f311801b20a94c67">
+<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="teste_face_recognition" xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd" id="fc3be6e7b44d268a17686621cf1e5ed7">
   <settings>
     <voice tone="pt-BR_IsabelaV3Voice" key="1000" />
     <lightEffects mode="ON" />
@@ -57,7 +57,7 @@
       <talk key="1044">Eu não lembro de você</talk>
       <motion head="2NO" key="1045" />
       <audio source="efx-trombone-triste" block="TRUE" key="1046" />
-      <wait duration="3200" key="1047" />
+      <wait duration="2500" key="1047" />
       <motion head="CENTER" key="1048" />
       <evaEmotion emotion="NEUTRAL" key="1049" />
       <light state="OFF" key="1050" />
@@ -71,7 +71,7 @@
       <led animation="ANGRY" key="1056" />
       <talk key="1057">Sim, eu lembro de você!</talk>
       <audio source="efx-blin2" block="TRUE" key="1058" />
-      <motion head="UP1" key="1059" />
+      <motion head="DOWN1" key="1059" />
       <talk key="1060">Você se chãma $</talk>
       <led animation="RAINBOW" key="1061" />
       <motion head="2NO" left-arm="SHAKE2" right-arm="SHAKE2" key="1062" />
@@ -87,7 +87,7 @@
       <led animation="ANGRY" key="1071" />
       <talk key="1072">Lembro muito bem de você!</talk>
       <audio source="efx-blin2" block="TRUE" key="1073" />
-      <motion head="UP1" key="1074" />
+      <motion head="DOWN1" key="1074" />
       <talk key="1075">Seu nome é $</talk>
       <led animation="RAINBOW" key="1076" />
       <motion head="2NO" left-arm="SHAKE2" right-arm="SHAKE2" key="1077" />
