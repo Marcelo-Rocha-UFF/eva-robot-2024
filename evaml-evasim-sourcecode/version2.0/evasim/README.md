@@ -32,3 +32,5 @@ In *EVA Robot mode*, the simulator works, in part, as a script player for the ph
 As follow, we can see a general archtecture of EvaSIM 2.0.
 
 ![alt text](img-evasim-arch.png)
+
+This new version of the **EvaSIM** simulator was proposed with the aim of integrating the entire software and hardware ecosystem that was developed with the new proposal for the software architecture of the EVA robot and its new functionalities. In addition to behaving like a simulator, which is its function, **EvaSIM** can now execute scripts acting directly on the physical robot's hardware. This work also proposes the addition of new elements (buttons) to the EvaSIM graphical interface, offering the user the ability to control various robot functionalities remotely (WoZ Condition).
