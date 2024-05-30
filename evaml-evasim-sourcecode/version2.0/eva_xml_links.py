@@ -75,8 +75,11 @@ def cria_link(node_from, node_to):
                     exit(1) # termina com erro
                 if ("$" not in case_elem.attrib["var"]) and (case_elem.attrib["op"] == "exact"):
                     # uso indevido de exact com outra variavel que não é o $
-                    print('  Error -> The "exact" comparison type should only be used with var="$" and not with var="' + node_to.attrib["var"] + '"')
-                    exit(1) # termina com erro
+                    pass
+
+                    # Esta restrição foi removida pela utilização de variáveis def. pelos usuários em vez de apenas o dollar.
+                    # print('  Error -> The "exact" comparison type should only be used with var="$" and not with var="' + node_to.attrib["var"] + '"')
+                    # exit(1) # termina com erro
                 if ("$" not in case_elem.attrib["var"]) and (case_elem.attrib["op"] == "contain"): 
                     # uso indevido de contain com outra variavel que não é o $
                     print('  Error -> The "contain" comparison type should only be used with var="$" and not with var="' + node_to.attrib["var"] + '"')

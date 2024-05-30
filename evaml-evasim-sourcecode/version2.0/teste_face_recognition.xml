@@ -20,8 +20,8 @@
       </default>
     </switch>
     
-    <talk>Olá pessoal!</talk>
-    <talk>Eu sou o robô social EVA! / Me chamo EVA. E sou um robô social!</talk>
+    <talk>Olá, como você está?</talk>
+    <!-- <talk>Eu sou o robô social EVA! / Me chamo EVA. E sou um robô social!</talk> -->
     <motion head="LEFT1"/>
     <evaEmotion emotion="NEUTRAL" />
     <wait duration="1000" />
@@ -53,73 +53,6 @@
         </switch>
       </default>
     </switch>
-    
-    <!-- <useMacro macro="LEMBROU1" />
-
-    <useMacro macro="LEMBROU2" /> -->
-    
-    <!-- <useMacro macro="NAOLEMBROU" /> -->
-
-    <!-- <userID />
-    <userID var="USER_NAME"/> -->
-    <!-- <qrRead />
-    <qrRead var="QR_INFO" />
-    <qrRead /> -->
-    <!-- <listen />
-    <listen var="SST_VAR"/> -->
-    <!-- <userEmotion />
-    <wait duration="3000" />
-    <userEmotion var="USER_EXPRESSION_1"/>
-    <wait duration="3000" />
-    <userEmotion var="USER_EXPRESSION_2"/>
-    <wait duration="3000" />
-    <userEmotion var="USER_EXPRESSION_3"/>
-    <wait duration="3000" /> -->
-    <!-- <useMacro macro="INIT-POSE" />
-    <userID var="USER_NAME"/>
-    <qrRead var="myQR"/>
-    <light state="ON" color="WHITE" />
-    <audio source="song-macarena-edit" block="FALSE" />
-    <evaEmotion emotion="HAPPY" />
-    <wait duration="5000" />
-    <light state="ON" color="RED"/>
-    <wait duration="4400" />
-    <led animation="RAINBOW" />
-    <motion head="UP" right-arm="POSITION 1" />
-    <wait duration="2000" />
-    <motion head="UP" left-arm="POSITION 2"/>
-    <wait duration="2200" />
-    <motion head="UP" right-arm="POSITION 3"/>
-    <wait duration="1800" />
-    <motion head="NO" right-arm="SHAKE1" left-arm="SHAKE1"/>
-    <motion />
-    <wait duration="2800" />
-    <light state="ON" color="GREEN"/>
-    <led animation="LISTEN" />
-    <motion head="DOWN1" left-arm="POSITION 0" right-arm="POSITION 1" />
-    <wait duration="1500" />
-    <motion head="UP" left-arm="POSITION 2"/>
-    <wait duration="2000" />
-    <motion head="UP" right-arm="POSITION 3"/>
-    <wait duration="2000" />
-    <light state="ON" color="WHITE"/>
-    <led animation="RAINBOW" />
-    <motion head="NO" right-arm="SHAKE1" left-arm="SHAKE1"/>
-    <wait duration="3000" />
-    <light state="ON" color="WHITE"/>
-    <motion right-arm="SHAKE2" left-arm="POSITION 0"/>
-    <wait duration="1000" />
-    <audio source="efx-blin2" block="FALSE" />
-    <wait duration="500" />
-    <talk>See you later</talk>
-    <audio source="efx-blin2" block="FALSE" />
-    <wait duration="500" />
-    <talk>Bye bye</talk>
-    <wait duration="2000" />
-    <evaEmotion emotion="NEUTRAL" />
-    <motion head="CENTER" left-arm="POSITION 0" right-arm="POSITION 0"/>
-    <wait duration="3000" />
-    <light state="OFF" /> -->
   </script>
   <macros>
 
@@ -135,8 +68,8 @@
       <light state="ON" color="GREEN"/>
       <evaEmotion emotion="HAPPY" />
       <motion head="CENTER" left-arm="POSITION 0" right-arm="POSITION 3"/>
-      <wait duration="2000" />
-      <motion right-arm="SHAKE2"/>
+      <wait duration="2000"/>
+      <!-- <motion right-arm="SHAKE2"/> -->
     </macro>
 
     <macro id="GREETINGS2">
@@ -144,8 +77,8 @@
       <light state="ON" color="GREEN"/>
       <evaEmotion emotion="HAPPY" />
       <motion head="CENTER" right-arm="POSITION 0" left-arm="POSITION 3"/>
-      <wait duration="4000" />
-      <motion left-arm="SHAKE2"/>
+      <wait duration="2000" />
+      <!-- <motion left-arm="SHAKE2"/> -->
     </macro>
 
     <macro id="LEMBROU1">

@@ -141,6 +141,9 @@ Revision: 2022/08/12
             <xs:enumeration value="efx-mario-sound2"/>
             <xs:enumeration value="efx-mario-start-01"/>
             <xs:enumeration value="efx-mario-start-02"/>
+			<xs:enumeration value="efx-robot"/>
+			<xs:enumeration value="efx-robot-arm"/>
+			<xs:enumeration value="efx-robot-head"/>
 			<xs:enumeration value="efx-susto"/>
             <xs:enumeration value="efx-tic-toc"/>
 			<xs:enumeration value="efx-trombone-triste"/>
@@ -160,6 +163,7 @@ Revision: 2022/08/12
             <xs:enumeration value="song-oh-no"/>
 			<xs:enumeration value="song-rude-magic"/>
 			<xs:enumeration value="song-sad-violin"/>
+			<xs:enumeration value="song-samba-loop"/>
             <xs:enumeration value="song-take-on-me"/>
             <xs:enumeration value="song-the-girl-from-ipanema"/>
             <xs:enumeration value="song-the-imperial-march"/>

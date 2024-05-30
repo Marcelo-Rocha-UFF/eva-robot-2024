@@ -326,7 +326,7 @@ class Gui(ttk.Frame):
 
         # define o estilo das tabelas
         style = ttk.Style()
-        style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Arial', 8), rowheight=15) # Modify the font of the body
+        style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Arial', 10), rowheight=15) # Modify the font of the body
         style.configure("mystyle.Treeview.Heading", font=('Arial', 8,'bold')) # Modify the font of the headings
         self.tab_dollar = ttk.Treeview(self.frame_memory, style="mystyle.Treeview", height=18)
         self.tab_dollar.pack()

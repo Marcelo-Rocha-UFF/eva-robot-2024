@@ -237,7 +237,7 @@ def runScript():
 
 # Encerra a thread que roda o script
 def stopScript(self):
-    global play
+    global play, EVA_ROBOT_STATE
     gui.bt_run_sim['state'] = NORMAL
     gui.bt_run_sim.bind("<Button-1>", setSimMode)
     gui.bt_run_robot['state'] = NORMAL
@@ -247,6 +247,7 @@ def stopScript(self):
     gui.bt_import['state'] = NORMAL
     gui.bt_import.bind("<Button-1>", importFileThread)
     play = False # desativa a var de play do script. Faz com que o script seja interrompido
+    EVA_ROBOT_STATE = "FREE" # libera a execução, caso esteja executando algum comando bloqueante
 
 # import file thread
 def importFileThread(self):
@@ -357,42 +358,33 @@ gui.bt_exp_inlove.bind("<Button-1>", woz_expression_inlove)
 
 # WoZ led functions
 def woz_led_stop(self):
-    client.publish(topic_base + "/log", "Stopping leds.")
+    client.publish(topic_base + '/log', "Leds Animation: " + "STOP") 
     client.publish(topic_base + "/leds", "STOP")
 def woz_led_angry(self):
-    client.publish(topic_base + "/log", "Leds animatiom: Angry.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "ANGRY")
 def woz_led_sad(self):
-    client.publish(topic_base + "/log", "Leds animatiom: Sad.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "SAD")
 def woz_led_angry2(self):
-    client.publish(topic_base + "/log", "Leds animatiom: Angry2.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "ANGRY2")
 def woz_led_happy(self):
-    client.publish(topic_base + "/log", "Leds animatiom: Happy.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "HAPPY")
 def woz_led_listen(self):
-    client.publish(topic_base + "/log", "Leds animatiom: Listen.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "LISTEN")
 def woz_led_rainbow(self):
-    client.publish(topic_base + "/log", "Leds animatiom: Rainbow.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "RAINBOW")
 def woz_led_speak(self):
-    client.publish(topic_base + "/log", "Leds animatiom: Speak.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "SPEAK")
 def woz_led_surprise(self):
-    client.publish(topic_base + "/log", "Leds animatiom: Surprise.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "SURPRISE")
 def woz_led_white(self):
-    client.publish(topic_base + "/log", "Leds animatiom: White.")
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "WHITE")
 
@@ -509,7 +501,7 @@ gui.bt_head_motion_down_right.bind("<Button-1>", woz_head_motion_down_right)
 def woz_tts(self):
     client.publish(topic_base + "/log", "EVA will try to speak a text: " + gui.msg_tts_text.get('1.0','end').strip())
     voice_option = gui.Lb_voices.get(ANCHOR)
-    print(voice_option + "|" + gui.msg_tts_text.get('1.0','end').split())
+    print(voice_option + "|" + gui.msg_tts_text.get('1.0','end').strip())
     client.publish(topic_base + "/talk", voice_option + "|" + gui.msg_tts_text.get('1.0','end'))
 
 # TTS buttons binding
@@ -521,7 +513,8 @@ def ledAnimation(animation):
     if RUNNING_MODE == "EVA_ROBOT":
         client.publish(topic_base + "/leds", "STOP")
         client.publish(topic_base + "/leds", animation)
-    if animation == "STOP": 
+    if animation == "STOP":
+        client.publish(topic_base + "/leds", "STOP") 
         evaMatrix("grey")
     elif animation == "LISTEN":
         evaMatrix("green")
@@ -746,6 +739,7 @@ def exec_comando(node):
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
                 ledAnimation("STOP")
+                
             else:
                 var_name = node.attrib["var"]
                 eva_memory.vars[var_name] = EVA_DOLLAR
@@ -754,6 +748,7 @@ def exec_comando(node):
                 tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                 gui.terminal.see(tkinter.END)
                 print("Listen command USING VAR...")
+                ledAnimation("STOP")
 
         else:
             lock_thread_pop()
@@ -878,7 +873,7 @@ def exec_comando(node):
         gui.terminal.see(tkinter.END)
 
         if RUNNING_MODE == "EVA_ROBOT":
-            client.publish(topic_base + "/log", "EVA will try to speak a text: ", texto[ind_random])
+            client.publish(topic_base + "/log", "EVA will try to speak a text: " + texto[ind_random])
             ledAnimation("SPEAK")
             EVA_ROBOT_STATE = "BUSY" # a fala é uma função bloqueante. o robo fica ocupado.
             client.publish(topic_base + "/talk", root.find("settings")[0].attrib["tone"] + "|" + texto[ind_random])
@@ -946,7 +941,7 @@ def exec_comando(node):
         try:
             if block == True:
                 if RUNNING_MODE == "EVA_ROBOT":
-                    client.publish(topic_base + "/log", "EVA is playing a sound in blocking mode.")
+                    client.publish(topic_base + "/log", "EVA will play a sound in blocking mode.")
                     EVA_ROBOT_STATE = "BUSY"
                     client.publish(topic_base + "/audio", sound_file + "|" + "TRUE")
                     while (EVA_ROBOT_STATE != "FREE"):
@@ -957,7 +952,7 @@ def exec_comando(node):
 
             else: # block = False
                 if RUNNING_MODE == "EVA_ROBOT":
-                    client.publish(topic_base + "/log", "EVA is playing a sound in no-blocking mode.")
+                    client.publish(topic_base + "/log", "EVA will play a sound in no-blocking mode.")
                     client.publish(topic_base + "/audio", sound_file + "|" + "FALSE")
                 else:
                     playsound("audio_files/" + sound_file + ".wav", block = block) 
@@ -977,15 +972,26 @@ def exec_comando(node):
         # trata os tipos de comparacao e operadores
         # caso 1 op="Exact"
         if node.attrib['op'] == "exact":
+            # caso em que foi definida uma variável de usuário para um comando: QRcode, random, userEmotion ou userId
+            if node.attrib['var'] != "$":
+                # falta verificar se a variavel existe na memória do robô
+                # eva_memory.vars[st_var_value[1:]
+                print("value: ", valor, type(valor), node.attrib['var'], eva_memory.vars[node.attrib['var']])
+                if valor == eva_memory.vars[node.attrib['var']].lower():
+                    print("case = true")
+                    eva_memory.reg_case = 1 # liga o reg case indicando que o resultado da comparacao foi verdadeira
+
+
             # verifica se a memória de var_dolar tem algum valor
-            if (len(eva_memory.var_dolar)) == 0:
+            elif (len(eva_memory.var_dolar)) == 0:
                 gui.terminal.insert(INSERT, "\nError -> The variable $ has no value. Please, check your code.", "error")
                 gui.terminal.see(tkinter.END)
                 exit(1)  
 
-            # compara valor com o topo da pilha da variavel var_dolar
-            print("value: ", valor, type(valor))
-            if valor == eva_memory.var_dolar[-1][0].lower():
+            
+            elif valor == eva_memory.var_dolar[-1][0].lower():
+                # compara valor com o topo da pilha da variavel var_dolar
+                print("value: ", valor, type(valor))
                 print("case = true")
                 eva_memory.reg_case = 1 # liga o reg case indicando que o resultado da comparacao foi verdadeira
         
@@ -1140,7 +1146,7 @@ def exec_comando(node):
                 tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                 gui.terminal.see(tkinter.END)
                 print("userEmotion command USING VAR...")
-            ledAnimation("STOP")
+                ledAnimation("STOP")
         else:
 
             ###############
@@ -1307,7 +1313,6 @@ def exec_comando(node):
 
     elif node.tag == "userID":
         if RUNNING_MODE == "EVA_ROBOT": 
-            client.publish(topic_base + "/log", "EVA is recognizing a face...")
             EVA_ROBOT_STATE = "BUSY"
             client.publish(topic_base + "/userID", " ")
             ledAnimation("LISTEN")
@@ -1321,7 +1326,7 @@ def exec_comando(node):
                 gui.terminal.insert(INSERT, "\nSTATE: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
-                ledAnimation("STOP")
+ 
             else:
                 var_name = node.attrib["var"]
                 eva_memory.vars[var_name] = EVA_DOLLAR
@@ -1330,6 +1335,7 @@ def exec_comando(node):
                 tab_load_mem_vars() # entra com os dados da memoria de variaveis na tabela de vars
                 gui.terminal.see(tkinter.END)
                 print("userID command USING VAR...")
+            
             ledAnimation("STOP")
 
         else:

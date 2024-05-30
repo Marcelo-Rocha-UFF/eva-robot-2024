@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="user_emotion_test"
+  xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice tone="pt-BR_IsabelaV3Voice" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <light state="OFF" />
+    <wait duration="2000" />
+    <light state="ON" color="RED"/>
+    <talk>Olá, vou tentar identificar a sua expressão facial</talk>
+    <talk>Por favor, faça uma expressão</talk>
+    <light state="ON" color="WHITE"/>
+    <userEmotion var="EMOTION_FROM_USER" />
+    <switch var="EMOTION_FROM_USER">
+      <case op="exact" value="NEUTRAL">
+        <talk>Você parece estar neutro</talk>
+      </case>
+      <case op="exact" value="HAPPY">
+        <talk>Você parece estar feliz</talk>
+      </case>
+      <case op="exact" value="SAD">
+        <talk>Você parece estar triste</talk>
+      </case>
+      <case op="exact" value="ANGRY">
+        <talk>Você parece estar com raiva</talk>
+      </case>
+      <case op="exact" value="FEAR">
+        <talk>Você parece estar com medo</talk>
+      </case>
+      <case op="exact" value="SURPRISE">
+        <talk>Você parece surpreso</talk>
+      </case>
+      <case op="eq" value="DISGUST">
+        <talk>Você parece estar com nojo</talk>
+      </case>
+    </switch>
+  </script>
+</evaml>
