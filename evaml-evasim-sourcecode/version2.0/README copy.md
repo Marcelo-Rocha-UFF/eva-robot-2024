@@ -1,8 +1,11 @@
-# **EvaML** and **EvaSIM** Project
+# **EvaML** (**eva_parser**)
 
-This repository contains the source codes of projects related to the EVA opensource robotics platform, the **EvaML** language and the **EvaSIM** simulator. The term EvaML is the acronym for **Embodied Voice Assistant Markup Language**, a language for developing interactions for the EVA robot based on XML. EvaSIM is a simulator designed to serve as a testing tool for these scripts, also serving as a tool to support learning, both about the functioning of the physical robot (its capabilities) and the script programming language, EvaML.
+This folder contains the *parser* of the EvaML language. After processing the *parser* over a script, a new XML file is generated and can be imported into the simulator. The *parser* must be executed on the command line as in the following example.
 
-![alt text](eva-parser-evasim20-1.png)
+```
+> python3 eva_parser.py script.xml -c
+```
 
-At the end of 2023 we started working on proposing a new software architecture for the EVA robot, a modular architecture that allows it to be easily extended, allowing the addition of new functionalities to the robot, such as: new **sensors/actuators** and new elements of **verbal and non-verbal** communication. The sources of both projects are found inside the **version2.0** folder.
+If there is an error in the code, *parser* will indicate the error and stop the parsing process. The name of the generated file will be the name defined in the *name* attribute within the XML script.
 
+In this same directory you will also find the **evaml-schema** folder which contains the **xml-schema** file with the definitions of the elements of the EvaML language. For a new element to be added to the EvaML language, it must be defined within the **xsd** file.
