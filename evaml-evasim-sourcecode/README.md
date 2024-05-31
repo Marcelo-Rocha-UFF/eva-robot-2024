@@ -4,5 +4,5 @@ This repository contains the source codes of projects related to the EVA opensou
 
 ![alt text](eva-parser-evasim20-1.png)
 
-At the end of 2023 we started working on proposing a new software architecture for the EVA robot, a modular architecture that allows it to be easily extended, allowing the addition of new functionalities to the robot, such as: new **sensors/actuators** and new elements of **verbal and non-verbal** communication.
+At the end of 2023 we started working on proposing a new software architecture for the EVA robot, a modular architecture that allows it to be easily extended, allowing the addition of new functionalities to the robot, such as: new **sensors/actuators** and new elements of **verbal and non-verbal** communication. The sources of both projects are found inside the **version2.0** folder.
 
