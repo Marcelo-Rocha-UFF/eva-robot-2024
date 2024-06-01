@@ -1456,11 +1456,11 @@ def link_process(anterior = -1):
     global play
     print("Play state............", play)
     gui.terminal.insert(INSERT, "\n---------------------------------------------------")
-    gui.terminal.insert(INSERT, "\nSTATE: Starting the script: " + root.attrib["name"])
+    gui.terminal.insert(INSERT, "\nSTATE: Starting the script: " + root.attrib["name"] + "_EvaML.xml")
     gui.terminal.see(tkinter.END)
 
     if RUNNING_MODE == "EVA_ROBOT":
-        client.publish(topic_base + "/log", "Starting the script: " + root.attrib["name"])
+        client.publish(topic_base + "/log", "Starting the script: " + root.attrib["name"] + "_EvaML.xml")
 
     global fila_links
     while (len(fila_links) != 0) and (play == True):
