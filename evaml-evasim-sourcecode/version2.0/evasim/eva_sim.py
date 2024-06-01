@@ -72,7 +72,7 @@ def on_message(client, userdata, msg):
     global EVA_ROBOT_STATE
     global EVA_DOLLAR
     if msg.topic == topic_base + '/state':
-        EVA_ROBOT_STATE = "FREE"#msg.payload.decode()
+        EVA_ROBOT_STATE = "FREE" # msg.payload.decode()
     elif msg.topic == topic_base + '/var/dollar':
         EVA_DOLLAR = msg.payload.decode()
         
@@ -91,6 +91,7 @@ links_node = {}
 fila_links =  [] # fila de links (comandos)
 thread_pop_pause = False
 play = False # estado do play do script. esta variavel tem influencia na func. link_process
+script_file = ""
 
 # funcao de controle da variavel que bloqueia as janelas popups
 def lock_thread_pop():
@@ -173,14 +174,16 @@ def evaInit():
     gui.bt_power.unbind("<Button-1>")
     evaEmotion("POWER_ON")
     gui.terminal.insert(INSERT, "\nSTATE: Initializing.")
-    #playsound("my_sounds/power_on" + audio_ext, block = True)
+    # playsound("my_sounds/power_on" + audio_ext, block = True)
     gui.terminal.insert(INSERT, "\nSTATE: Speaking a greeting text.")
-    #playsound("my_sounds/greetings" + audio_ext, block = True)
+    # playsound("my_sounds/greetings" + audio_ext, block = True)
     gui.terminal.insert(INSERT, '\nSTATE: Speaking "Load a script file and enjoy."')
-    #playsound("my_sounds/load_a_script" + audio_ext, block = True)
+    # playsound("my_sounds/load_a_script" + audio_ext, block = True)
     gui.terminal.insert(INSERT, "\nSTATE: Entering in standby mode.")
     gui.bt_import['state'] = NORMAL
     gui.bt_import.bind("<Button-1>", importFileThread)
+    gui.bt_reload['state'] = DISABLED
+    gui.bt_reload.bind("<Button-1>", reloadFile)
     evaMatrix("white")
     while gui.bt_run_sim['state'] == DISABLED: # animacao da luz da matrix em stand by
         evaMatrix("white")
@@ -227,6 +230,7 @@ def runScript():
     gui.bt_run_robot['state'] = DISABLED
     gui.bt_run_robot.unbind("<Button-1>")
     gui.bt_import['state'] = DISABLED
+    gui.bt_reload['state'] = DISABLED
     gui.bt_stop['state'] = NORMAL
     gui.bt_stop.bind("<Button-1>", stopScript)
     gui.bt_import.unbind("<Button-1>")
@@ -245,6 +249,7 @@ def stopScript(self):
     gui.bt_stop['state'] = DISABLED
     gui.bt_stop.unbind("<Button-1>")
     gui.bt_import['state'] = NORMAL
+    gui.bt_reload['state'] = NORMAL
     gui.bt_import.bind("<Button-1>", importFileThread)
     play = False # desativa a var de play do script. Faz com que o script seja interrompido
     EVA_ROBOT_STATE = "FREE" # libera a execução, caso esteja executando algum comando bloqueante
@@ -255,7 +260,7 @@ def importFileThread(self):
 
 # Eva Import Script function
 def importFile():
-    global root, script_node, links_node
+    global root, script_node, links_node, script_file
     print("Importing a file.")
     # agora o EvaSIM pode ler json
     filetypes = (('evaML files', '*.xml *.json'), )
@@ -279,8 +284,28 @@ def importFile():
     gui.bt_run_robot['state'] = NORMAL
     gui.bt_run_robot.bind("<Button-1>", setEVAMode)
     gui.bt_stop['state'] = DISABLED
+    gui.bt_reload['state'] = NORMAL
     evaEmotion("NEUTRAL")
-    gui.terminal.insert(INSERT, '\nSTATE: Script loaded.')
+    only_file_name = str(script_file).split("/")[-1].split("'")[0]
+    gui.terminal.insert(INSERT, '\nSTATE: Script => ' + only_file_name + ' was LOADED.')
+    gui.terminal.see(tkinter.END)
+
+def reloadFile(self):
+    global root, script_node, links_node, script_file
+    script_file.seek(0)
+    tree = ET.parse(script_file) # arquivo de codigo xml
+    root = tree.getroot() # evaml root node
+    script_node = root.find("script")
+    links_node = root.find("links")
+    # gui.bt_run_sim['state'] = NORMAL
+    # gui.bt_run_sim.bind("<Button-1>", setSimMode)
+    # gui.bt_run_robot['state'] = NORMAL
+    # gui.bt_run_robot.bind("<Button-1>", setEVAMode)
+    # gui.bt_stop['state'] = DISABLED
+    # gui.bt_reload['state'] = NORMAL
+    evaEmotion("NEUTRAL")
+    only_file_name = str(script_file).split("/")[-1].split("'")[0]
+    gui.terminal.insert(INSERT, '\nSTATE: Script => ' + only_file_name + ' was RELOADED.')
     gui.terminal.see(tkinter.END)
 
 
@@ -1489,6 +1514,7 @@ def link_process(anterior = -1):
     gui.bt_run_robot['state'] = NORMAL
     gui.bt_run_robot.bind("<Button-1>", setEVAMode)
     gui.bt_import['state'] = NORMAL
+    gui.bt_reload['state'] = NORMAL
     gui.bt_import.bind("<Button-1>", importFileThread)
     gui.bt_stop['state'] = DISABLED
     gui.bt_stop.unbind("<Button1>")

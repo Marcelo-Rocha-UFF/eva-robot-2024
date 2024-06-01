@@ -64,6 +64,8 @@ class Gui(ttk.Frame):
         self.im_matrix_grey = PhotoImage(file = "images/matrix_grey.png")
 
         self.im_bt_play = PhotoImage(file = "images/bt_play.png")
+        self.im_bt_play_robot = PhotoImage(file = "images/bt_play_robot.png")
+        self.im_bt_reload = PhotoImage(file = "images/bt_reload.png")
         self.im_bt_stop = PhotoImage(file = "images/bt_stop.png")
 
 
@@ -372,13 +374,15 @@ class Gui(ttk.Frame):
         self.bt_power.pack(side=tkinter.LEFT, padx=self.bt_padx)
         self.bt_import = Button (self.frame_botoes, text = "Import Script File...", font = self.font1, state = DISABLED)
         self.bt_import.pack(side=tkinter.LEFT, padx=self.bt_padx)
+        self.bt_reload = Button (self.frame_botoes, text = "Reload", image = self.im_bt_reload, font = self.font1, state = DISABLED, compound = LEFT)
+        self.bt_reload.pack(side=tkinter.LEFT, padx=self.bt_padx)
 
         self.lf = LabelFrame(self.frame_botoes, text = 'Running Mode', font = self.font1)
         self.lf.pack(side=tkinter.LEFT, padx=self.bt_padx)
 
         self.bt_run_sim = Button (self.lf, text = "Simulator", image = self.im_bt_play, font = self.font1, state = DISABLED, compound = LEFT)
         self.bt_run_sim.pack(side=tkinter.LEFT, padx=self.bt_padx, pady=2)
-        self.bt_run_robot = Button (self.lf, text = "EVA Robot", image = self.im_bt_play, font = self.font1, state = DISABLED, compound = LEFT)
+        self.bt_run_robot = Button (self.lf, text = "EVA Robot", image = self.im_bt_play_robot, font = self.font1, state = DISABLED, compound = LEFT)
         self.bt_run_robot.pack(side=tkinter.LEFT, padx=self.bt_padx, pady=2)
 
         self.bt_stop = Button (self.frame_botoes, text = "Stop", font = self.font1, image = self.im_bt_stop, state = DISABLED, compound = LEFT)
