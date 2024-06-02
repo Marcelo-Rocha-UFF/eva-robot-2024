@@ -1,41 +1,41 @@
 from tkinter import *
 from tkinter import messagebox
 import tkinter
-from  tkinter import ttk # usando tabelas
+from  tkinter import ttk # Using tables
 
-# closing application
+# Closing application
 def on_closing(window):
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         print("Eva says: Bye bye!")
         window.destroy()
 
-# classe da interface grafica do usuario
+# Graphical user interface class
 class Gui(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
 
         parent.title("Eva Simulator for EvaML - Version 2.0 - UFF / MidiaCom / CICESE")
         self.w = 1690
-        self.h = 910  # on linux use 525 # on windows use 550
+        self.h = 910 
         parent.geometry(str(self.w) + "x" + str(self.h))
 
-        # define the closing app function
+        # Define the closing app function
         parent.protocol("WM_DELETE_WINDOW", lambda: on_closing(parent)) 
 
-        # does not show the min button
+        # Does not show the minimize button
         parent.resizable(0,0)
 
-        # fonte tamanho 9 para botoes e textos em geral
+        # Font size 10 for buttons and texts in general
         self.font1 = ('Arial', 10)
 
-        #setting the default font for application
+        # Setting the default font for application
         parent.option_add( "*font", "Arial 9")
 
         # Defining the image files
         self.eva_image = PhotoImage(file = "images/eva.png") 
         self.bulb_image = PhotoImage(file = "images/bulb.png")
         self.eva_woz = PhotoImage(file = "images/eva_woz.png")
-        # eva expressions images
+        # Eva expressions images
         self.im_eyes_neutral = PhotoImage(file = "images/eyes_neutral.png")
         self.im_eyes_angry = PhotoImage(file = "images/eyes_angry.png")
         self.im_eyes_sad = PhotoImage(file = "images/eyes_sad.png")
@@ -45,7 +45,7 @@ class Gui(ttk.Frame):
         self.im_eyes_disgust = PhotoImage(file = "images/eyes_disgust.png")
         self.im_eyes_inlove = PhotoImage(file = "images/eyes_inlove.png")
         self.im_eyes_on = PhotoImage(file = "images/eyes_surprise.png")
-        # imagens do botões
+        # Button images
         self.im_eyes_neutral_btn = PhotoImage(file = "images/eyes_neutral_btn.png")
         self.im_eyes_angry_btn = PhotoImage(file = "images/eyes_angry_btn.png")
         self.im_eyes_sad_btn = PhotoImage(file = "images/eyes_sad_btn.png")
@@ -55,7 +55,7 @@ class Gui(ttk.Frame):
         self.im_eyes_disgust_btn = PhotoImage(file = "images/eyes_disgust_btn.png")
         self.im_eyes_inlove_btn = PhotoImage(file = "images/eyes_inlove_btn.png")
         
-        # matrix voice images
+        # Matrix Voice images
         self.im_matrix_blue = PhotoImage(file = "images/matrix_blue.png")
         self.im_matrix_green = PhotoImage(file = "images/matrix_green.png")
         self.im_matrix_yellow = PhotoImage(file = "images/matrix_yellow.png")
@@ -69,7 +69,7 @@ class Gui(ttk.Frame):
         self.im_bt_stop = PhotoImage(file = "images/bt_stop.png")
 
 
-        # define o frame top
+        # Define the top frame
         self.frame_top = tkinter.Frame(master=parent) #self.h
         # define o frame bottom (Woz)
         self.frame_bottom = tkinter.Frame(master=parent) #self.h
@@ -77,32 +77,32 @@ class Gui(ttk.Frame):
         self.frame_top.pack(side=tkinter.TOP)
         self.frame_bottom.pack(side=tkinter.TOP, pady = 10)
 
-        # define o frame que acomodará o canva com a imagem do EVA
+        # Define the frame that will accommodate the canvas with the EVA image
         self.frame_robot = tkinter.Frame(master=self.frame_top, width= 400) #self.h
-        # define o frame para o terminal e o menu de botões
+        # Define the frame for the terminal and the button menu
         self.frame_centro = tkinter.Frame(master=self.frame_top, width= 750, height=self.h)
-        # define o frame para as tabelas de memória
+        # Define the frame for the memory tables
         self.frame_memory = tkinter.Frame(master=self.frame_top, width= 180, height=self.h)
-        # Pack Frames
+        # Pack frames
         self.frame_robot.pack(side=tkinter.LEFT)
         self.frame_centro.pack(side=tkinter.LEFT, padx=10) # fill=tkinter.Y,
         self.frame_memory.pack(side=tkinter.LEFT) # self.frame_memory.place(x=1100, y=60)
-        # criando o canvas gráfico
-        self.canvas = Canvas(self.frame_robot, width = 400, height = 510) # o canvas e' necessario para usar imagens com transparencia
+        # Creating the graphic canvas
+        self.canvas = Canvas(self.frame_robot, width = 400, height = 510) # Canvas is necessary to use images with transparency
         self.canvas.pack(side=tkinter.LEFT, pady= 30)
 
-        # Define os frames para o frame Bottom
-        # Frame com as expressões
+        # Define the frames for the Bottom frame
+        # Frame with expressions
         self.frame_exp = tkinter.Frame(master=self.frame_bottom) #self.h
-        # Frame com os Leds
+        # Frame with Leds
         self.frame_leds = tkinter.Frame(master=self.frame_bottom) #self.h
-        # Frame com as cores da lâmpada
+        # Frame with bulb colors
         self.frame_lampada = tkinter.Frame(master=self.frame_bottom) #self.h
-        # Frame com os botões de movimento dos braços
+        # Frame with arm movement buttons
         self.frame_arms_motion = tkinter.Frame(master=self.frame_bottom) #self.h
-        # Frame com os botões de movimento da cabeça
+        # Frame with head movement buttons
         self.frame_head_motion = tkinter.Frame(master=self.frame_bottom) #self.h
-        # Frame com o botão de speak
+        # Frame with the speak button
         self.frame_tts = tkinter.Frame(master=self.frame_bottom) #self.h
         # Pack frames
         self.frame_canvas_woz = tkinter.Frame(master=self.frame_bottom) #self.h
@@ -117,10 +117,10 @@ class Gui(ttk.Frame):
         self.frame_canvas_woz.pack(side=tkinter.LEFT)
 
         lfs_padx = 6
-        # label frame expressions
+        # Label frame expressions
         self.lf_exp = LabelFrame(self.frame_exp, text = 'EVA Expressions', font = self.font1)
         self.lf_exp.pack(side=tkinter.LEFT, padx=lfs_padx)
-        # botões com as expressões
+        # Buttons with expressions
         btn_exp_w = 60
         btn_exp_pady = 0
         self.bt_exp_neutral = Button (self.lf_exp, text = "Neutral", width = btn_exp_w, image = self.im_eyes_neutral_btn,font = self.font1, compound = TOP)
@@ -140,10 +140,10 @@ class Gui(ttk.Frame):
         self.bt_exp_inlove = Button (self.lf_exp, text = "In Love", width = btn_exp_w, image = self.im_eyes_inlove_btn,font = self.font1, compound = TOP)
         self.bt_exp_inlove.grid(row=3, column=1, padx=4, pady=btn_exp_pady)
 
-        # label frame Leds
+        # Label frame Leds
         self.lf_leds = LabelFrame(self.frame_leds, text = 'RGB Leds Animations', font = self.font1)
         self.lf_leds.pack(side=tkinter.LEFT, padx=lfs_padx)
-        # botões com os leds
+        # Buttons with Leds
         btn_led_w = 7
         btn_led_h = 2
         btn_led_pady = 4
@@ -169,12 +169,12 @@ class Gui(ttk.Frame):
         self.bt_led_rainbow.grid(row=4, column=1, padx=4, pady=btn_led_pady)
         
 
-        # label frame lampada
+        # Label frame bulb
         btn_bulb_padx = 4
         btn_bulb_pady = 11
         self.lf_bulb = LabelFrame(self.frame_lampada, text = 'Smart Bulb Colors', font = self.font1)
         self.lf_bulb.pack(side=tkinter.LEFT, padx=lfs_padx)
-        # botões com as lâmpadas
+        # Buttons with bulbs
         btn_bulb_h = 2
         btn_bulb_w = 3
         self.bt_bulb_white_btn = Button (self.lf_bulb, bg='white', width = btn_bulb_w, height = btn_bulb_h,font = self.font1)
@@ -193,12 +193,12 @@ class Gui(ttk.Frame):
         self.bt_bulb_blue_btn.grid(row=3, column=0, padx=btn_bulb_padx, pady=btn_bulb_pady)
         
 
-        # arms motion frame
+        # Arms motion frame
         btn_arms_motion_padx = 2
         btn_arms_motion_pady = 2
         self.lf_arms_motion = LabelFrame(self.frame_arms_motion, text = 'Arms Motion', font = self.font1)
         self.lf_arms_motion.pack(side=tkinter.LEFT, padx=lfs_padx)
-        # botões com os movimentos dos braços
+        # Buttons with arm movements
         btn_arms_motion_w = 6
         btn_arms_motion_h = 1
         self.lbl_arm_left = tkinter.Label(self.lf_arms_motion, bg="gray70", width=btn_arms_motion_w + 3, font = self.font1, text="LEFT", padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
@@ -240,12 +240,12 @@ class Gui(ttk.Frame):
         self.bt_arm_right_motion_shake.grid(row=9, column=1, padx=btn_arms_motion_padx, pady=btn_arms_motion_pady)
         
 
-        # head motion frame
+        # Head motion frame
         btn_head_motion_padx = 0
         btn_head_motion_pady = 0
         self.lf_head_motion = LabelFrame(self.frame_head_motion, text = 'Head Motion', font = self.font1)
         self.lf_head_motion.pack(side=tkinter.LEFT, padx=lfs_padx)
-        # botões com os movimentos da cabeça
+        # Buttons with head movements
         btn_head_motion_w = 10
         btn_head_motion_h = 2
         self.bt_head_motion_up_left = Button (self.lf_head_motion, width = btn_head_motion_w, height = btn_head_motion_h, text = 'UP/LEFT',font = self.font1)
@@ -280,7 +280,7 @@ class Gui(ttk.Frame):
         self.bt_head_motion_no.grid(row=4, column=2, padx=btn_head_motion_padx, pady=btn_head_motion_pady + 2, columnspan=2, rowspan=2)
 
 
-        # label frame tts
+        # Label frame TTS
         self.lf_tts = LabelFrame(self.frame_tts, text = 'Text-To-Speech (TTS) - IBM Watson Service', font = self.font1)
         self.lf_tts.pack(side=tkinter.LEFT, padx=lfs_padx)
         
@@ -304,29 +304,25 @@ class Gui(ttk.Frame):
         self.bt_send_tts = Button (self.lf_tts, width=27, text = 'SEND (Speak)', font = self.font1)
         self.bt_send_tts.grid(row=2, column=1)
 
-
-        # Canva para a imagem do EVA WoZ
+        # Canva for EVA WoZ image
         self.canvas_woz = Canvas(self.frame_canvas_woz) # o canvas e' necessario para usar imagens com transparencia
         self.canvas_woz.pack(side=tkinter.LEFT)
         self.canvas_woz.create_image(95, 120, image = self.eva_woz)
 
-
-    
-
-        # define o frame para o menu de botões
+        # Define the frame for the button menu
         self.frame_botoes = tkinter.Frame(master=self.frame_centro)
         self.frame_botoes.pack(pady=15, padx=10)
 
-        # define o frame para o terminal
+        # Define the frame for the terminal
         self.frame_terminal = tkinter.Frame(master=self.frame_centro)
         self.frame_terminal.pack(fill=tkinter.X)
 
 
-        # cria a tabela de memoria
-        # define as propriedads da tabela com o mapa de memoria de $
+        # Create the memory table
+        # Define the table properties with the $ memory map
         tkinter.Label(self.frame_memory, bg="gray70", width="48", font = self.font1, text="System Variables $ (Memory Map)", pady=1).pack()
 
-        # define o estilo das tabelas
+        # Define the table style
         style = ttk.Style()
         style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Arial', 10), rowheight=15) # Modify the font of the body
         style.configure("mystyle.Treeview.Heading", font=('Arial', 8,'bold')) # Modify the font of the headings
@@ -344,10 +340,10 @@ class Gui(ttk.Frame):
         self.tab_dollar.heading("Content",text="Content",anchor=CENTER)
         self.tab_dollar.heading("Source",text="Source",anchor=CENTER)
 
-        # label so pra separar as tabelas
+        # Label just to separate the tables
         tkinter.Label(self.frame_memory, text="", font = ('Arial', 6)).pack()
 
-        # define as propriedades da tabela com o mapa de memoria de variaveis do usuario
+        # Defines the properties of the table with the user variable memory map
         tkinter.Label(self.frame_memory, width="48", bg="gray70", font = self.font1, text="User Variables (Memory Map)", pady=1).pack()
         self.tab_vars = ttk.Treeview(self.frame_memory, style="mystyle.Treeview", height=13)
         self.tab_vars.pack()
@@ -362,14 +358,14 @@ class Gui(ttk.Frame):
         self.tab_vars.heading("Value",text="Value",anchor=CENTER)
 
         
-        # desenha o eva e a lampada desligada
+        # Draw the eva and the lamp off
         self.canvas.create_image(160, 262, image = self.eva_image)
         self.canvas.create_oval(300, 205, 377, 285, fill = "#000000", outline = "#000000" ) # cor preta indica light off
         self.canvas.create_image(340, 285, image = self.bulb_image)
 
 
-        # criacao dos botoes da interface com usuário
-        self.bt_padx = 8 # ajuste de espaçamento entre botões
+        # Creation of user interface buttons
+        self.bt_padx = 8 # Adjust spacing between buttons
         self.bt_power = Button (self.frame_botoes, text = "Power On", font = self.font1)
         self.bt_power.pack(side=tkinter.LEFT, padx=self.bt_padx)
         self.bt_import = Button (self.frame_botoes, text = "Import Script File...", font = self.font1, state = DISABLED)
@@ -391,7 +387,7 @@ class Gui(ttk.Frame):
         self.bt_clear.pack(side=tkinter.LEFT, padx=self.bt_padx)
 
 
-        # Add a Scrollbar(horizontal)
+        # Add a scrollbar(horizontal)
         self.v=Scrollbar(self.frame_terminal, orient='vertical')
         self.v.pack(side=RIGHT, fill='y')
 
@@ -402,9 +398,9 @@ class Gui(ttk.Frame):
         self.terminal.tag_configure("motion", foreground="orange")
         self.terminal.tag_configure("tip", foreground="yellow")
         self.v.config(command=self.terminal.yview)
-        # limpa, desenha e coloca terminal no frame dele
+        # Clean, draw and place terminal in its frame
         self.terminal.delete('1.0', END)
-        # criando terminal text
+        # Creating terminal text
         self.terminal.insert(INSERT, "=============================================================================================================================\n")
         self.terminal.insert(INSERT, "                                                                                                                       Eva Simulator for EvaML\n")
         self.terminal.insert(INSERT, "                                                                                                   Version 2.0 - UFF / MidiaCom / CICESE - [2024]\n")
@@ -412,7 +408,7 @@ class Gui(ttk.Frame):
 
         self.terminal.pack()
 
-        # Desenha o eva e a lampada desligada
+        # Draw the eva and the lamp off
         # Defining the image files
         self.eva_image = PhotoImage(file = "images/eva.png") 
         self.bulb_image = PhotoImage(file = "images/bulb.png")
