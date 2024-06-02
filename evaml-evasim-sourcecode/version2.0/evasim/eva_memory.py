@@ -1,10 +1,10 @@
-# equivale ao $ do software original do Eva
-# é uma lista de resultados
+# Is equivalent to the $ of the original Eva software
+# Is a list of results
 var_dolar = []
 
-# case flag
+# "case" flag
 reg_case = 0
 
-# memória ram do Eva (um dicionário chave/valor)
+# Eva ram (a key/value dictionary)
 vars = {}
 

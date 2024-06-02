@@ -1,6 +1,6 @@
 import platform
 
-# Deixei de utilizar a biblioteca Playsound por dar muito problema!
+# I stopped using the Playsound library because it was too much trouble!
 # if platform.system() == "Linux":
 #     from playsound import playsound as ps
 #     print("Linux audio library loaded")
@@ -8,6 +8,7 @@ import platform
 #         ps(audio_file, block)
 
 if platform.system() == "Linux":
+    # As future work, it would be interesting to use the SOX library as well as in the Audio Module of the physical robot.
     import pygame
     pygame.init()
     print("Linux (Pygame) audio library loaded")

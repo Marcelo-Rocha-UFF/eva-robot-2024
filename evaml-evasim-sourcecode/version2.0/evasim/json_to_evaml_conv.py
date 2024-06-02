@@ -11,9 +11,9 @@ evaml = ""
 
 def converte(json_file_name, tkinter):
   global script, comandos_json, links, links_json, evaml
-  # lendo do arquivo json
+  # Reading from json file
   with open(json_file_name, 'r') as openfile:
-    json_object = json.load(openfile) # é um dict.
+    json_object = json.load(openfile) # Is a dict.
       
   comandos_json = json_object["data"]["node"] # Lista de nós. Cada nó (um comando) é um dict. com os seus pares chave/valor do respectivo elemento.
   links_json = json_object["data"]["link"] # Lista de links. Cada link é um dict. com as chaves "from" e "to"

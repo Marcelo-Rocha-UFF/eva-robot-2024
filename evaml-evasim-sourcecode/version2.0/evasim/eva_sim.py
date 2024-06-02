@@ -14,10 +14,13 @@ if platform.system() == "Linux":
     audio_ext = ".mp3" # Audio extension used by the audio library on Linux
     ibm_audio_ext = "audio/mp3" # Audio extension used to generate watson audios
 elif platform.system() == "Windows":
+    # This version of the Graphical User Interface (GUI) has been discontinued.
     print("Windows platform identified. Loading GUI formatting for Windows.")
-    import gui_windows as EvaSIM_gui # definition of the graphical user interface (Windows) [This file is outdated and has been discontinued]
-    audio_ext = ".wav"
-    ibm_audio_ext = "audio/wav"
+    print("This version of the Graphical User Interface (GUI) has been discontinued. Sorry!")
+    exit(1)
+    # import gui_windows as EvaSIM_gui # definition of the graphical user interface (Windows) [This file is outdated and has been discontinued]
+    # audio_ext = ".wav"
+    # ibm_audio_ext = "audio/wav"
 else:
     print("Sorry, the current OS is not supported by EvaSIM.") # Incompatible OS
     exit(1)
