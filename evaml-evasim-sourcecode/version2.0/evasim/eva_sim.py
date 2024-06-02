@@ -618,7 +618,7 @@ def light(color, state):
 def exec_comando(node):
     global EVA_ROBOT_STATE
     if node.tag == "voice":
-        gui.terminal.insert(INSERT, "\nSTATE: Selected Voice: " + node.attrib["tone"])
+        gui.terminal.insert(INSERT, "\nSTATE: Selected Voice => " + node.attrib["tone"])
         gui.terminal.see(tkinter.END)
         gui.terminal.insert(INSERT, "\nTIP: If the <talk> command doesn't speak some text, try emptying the audio_cache_files folder", "tip")
         if RUNNING_MODE == "EVA_ROBOT":
@@ -627,17 +627,17 @@ def exec_comando(node):
 
     if node.tag == "motion": # Movement of the head and arms
         if node.get("left-arm") != None: # Move the left arm
-            gui.terminal.insert(INSERT, "\nSTATE: Moving the left arm! Movement type: " + node.attrib["left-arm"], "motion")
+            gui.terminal.insert(INSERT, "\nSTATE: Moving the left arm! Movement type => " + node.attrib["left-arm"], "motion")
             gui.terminal.see(tkinter.END)
         if node.get("right-arm") != None: # Move the right arm
-            gui.terminal.insert(INSERT, "\nSTATE: Moving the right arm! Movement type: " + node.attrib["right-arm"], "motion")
+            gui.terminal.insert(INSERT, "\nSTATE: Moving the right arm! Movement type => " + node.attrib["right-arm"], "motion")
             gui.terminal.see(tkinter.END)
         if node.get("head") != None: # Move head with the new format (<head> element)
-                gui.terminal.insert(INSERT, "\nSTATE: Moving the head! Movement type: " + node.attrib["head"], "motion")
+                gui.terminal.insert(INSERT, "\nSTATE: Moving the head! Movement type => " + node.attrib["head"], "motion")
                 gui.terminal.see(tkinter.END)
         else: # Check if the old version was used
             if node.get("type") != None: # Maintaining compatibility with the old version of the motion element
-                gui.terminal.insert(INSERT, "\nSTATE: Moving the head! Movement type: " + node.attrib["type"], "motion")
+                gui.terminal.insert(INSERT, "\nSTATE: Moving the head! Movement type => " + node.attrib["type"], "motion")
                 gui.terminal.see(tkinter.END)
         print("Moving the head and/or the arms.")
         if RUNNING_MODE == "EVA_ROBOT":
@@ -679,7 +679,7 @@ def exec_comando(node):
                 message_state = "\nSTATE: Light Effects DISABLED."
                 state = "OFF"
             else:
-                message_state = "\nSTATE: Turnning on the light. Color=" + color + "."
+                message_state = "\nSTATE: Turnning on the light. Color = " + color + "."
             gui.terminal.insert(INSERT, message_state)
             gui.terminal.see(tkinter.END) # Autoscrolling
         light(color , state)
@@ -692,7 +692,7 @@ def exec_comando(node):
 
     elif node.tag == "wait":
         duration = node.attrib["duration"]
-        gui.terminal.insert(INSERT, "\nSTATE: Pausing. Duration=" + duration + " ms")
+        gui.terminal.insert(INSERT, "\nSTATE: Pausing. Duration = " + duration + " ms")
         gui.terminal.see(tkinter.END)
         time.sleep(int(duration)/1000) # Convert to seconds
 
@@ -700,7 +700,7 @@ def exec_comando(node):
     elif node.tag == "led":
         # Selection of the execution mode is done within the ledAnimation() function
         ledAnimation(node.attrib["animation"])
-        gui.terminal.insert(INSERT, "\nSTATE: Matrix Leds. Animation=" + node.attrib["animation"])
+        gui.terminal.insert(INSERT, "\nSTATE: Matrix Leds. Animation = " + node.attrib["animation"])
         gui.terminal.see(tkinter.END)
         
 
@@ -714,7 +714,7 @@ def exec_comando(node):
         else:
             client.publish(mqtt_topic, mqtt_message)
             print("Publishing a MQTT message to an external device.", mqtt_topic, mqtt_message)
-            gui.terminal.insert(INSERT, "\nSTATE: MQTT publishing. Topic=" + mqtt_topic + " and Message=" + mqtt_message + ".")
+            gui.terminal.insert(INSERT, "\nSTATE: MQTT publishing. Topic = " + mqtt_topic + " and Message = " + mqtt_message + ".")
             gui.terminal.see(tkinter.END)
 
 
@@ -755,7 +755,7 @@ def exec_comando(node):
 
             if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                 eva_memory.var_dolar.append([EVA_DOLLAR, "<listen>"])
-                gui.terminal.insert(INSERT, "\nSTATE: Listening : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                gui.terminal.insert(INSERT, "\nSTATE: Listening: var = $" + ", value = " + eva_memory.var_dolar[-1][0])
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
                 ledAnimation("STOP")
@@ -764,7 +764,7 @@ def exec_comando(node):
                 var_name = node.attrib["var"]
                 eva_memory.vars[var_name] = EVA_DOLLAR
                 print("Eva ram => ", eva_memory.vars)
-                gui.terminal.insert(INSERT, "\nSTATE: Listening : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                gui.terminal.insert(INSERT, "\nSTATE: Listening: (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
                 tab_load_mem_vars() # Enter data from variable memory into the var table
                 gui.terminal.see(tkinter.END)
                 print("Listen command USING VAR...")
@@ -778,7 +778,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                     eva_memory.var_dolar.append([var.get(), "<listen>"])
-                    gui.terminal.insert(INSERT, "\nSTATE: Listening : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening: var = $" + ", value = " + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -787,7 +787,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nSTATE: Listening : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening: (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # Enter data from variable memory into the var table
                     gui.terminal.see(tkinter.END)
                     print("Listen command USING VAR...")
@@ -799,7 +799,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                     eva_memory.var_dolar.append([var.get(), "<listen>"])
-                    gui.terminal.insert(INSERT, "\nSTATE: Listening : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening: var = $" + ", value = " + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -808,7 +808,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nSTATE: Listening : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening: (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # Enter data from variable memory into the var table
                     gui.terminal.see(tkinter.END)
                     print("Listen command USING VAR...")
@@ -935,7 +935,7 @@ def exec_comando(node):
         emotion = node.attrib["emotion"]
         if RUNNING_MODE == "EVA_ROBOT":
             client.publish(topic_base + "/evaEmotion", emotion) # Command for physical EVA
-        gui.terminal.insert(INSERT, "\nSTATE: Expressing an emotion: " + emotion)
+        gui.terminal.insert(INSERT, "\nSTATE: Expressing an emotion => " + emotion)
         gui.terminal.see(tkinter.END)
         evaEmotion(emotion)
 
@@ -1055,7 +1055,7 @@ def exec_comando(node):
                         exit(1)
                     return int(eva_memory.vars[st_var_value[1:]]) # Returns the value of #n converted for int
                 
-                # If it is not a number, nor a dollar, nor a #, then it is a variable of this type var="x" in <switch>
+                # If it is not a number, nor a dollar, nor a #, then it is a variable of this type var = "x" in <switch>
                 # Checks if the variable exists in memory
                 if (st_var_value not in eva_memory.vars):
                     error_string = "\nError -> The variable #" + valor[1:] + " has not been declared. Please, check your code."
@@ -1134,13 +1134,13 @@ def exec_comando(node):
             eva_memory.vars[var_name] %= var_value
         
         print("Eva ram => ", eva_memory.vars)
-        gui.terminal.insert(INSERT, "\nSTATE: Counter : var=" + var_name + ", value=" + str(var_value) + ", op(" + op + "), result=" + str(eva_memory.vars[var_name]))
+        gui.terminal.insert(INSERT, "\nSTATE: Counter: var = " + var_name + ", value = " + str(var_value) + ", op(" + op + "), result = " + str(eva_memory.vars[var_name]))
         tab_load_mem_vars() # Enter data from variable memory into the variable table
         gui.terminal.see(tkinter.END)
 
 
     elif node.tag == "userEmotion":
-        global img_neutral, img_happy, img_angry, img_sad, img_surprised
+        global img_neutral, img_happy, img_angry, img_sad, img_surprise
         
         if RUNNING_MODE == "EVA_ROBOT": 
             client.publish(topic_base + "/log", "EVA is capturing the user emotion...")
@@ -1153,7 +1153,7 @@ def exec_comando(node):
 
             if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                 eva_memory.var_dolar.append([EVA_DOLLAR, "<listen>"])
-                gui.terminal.insert(INSERT, "\nSTATE: userEmotion : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                gui.terminal.insert(INSERT, "\nSTATE: userEmotion: var=$" + ", value=" + eva_memory.var_dolar[-1][0])
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
                 ledAnimation("STOP")
@@ -1161,7 +1161,7 @@ def exec_comando(node):
                 var_name = node.attrib["var"]
                 eva_memory.vars[var_name] = EVA_DOLLAR
                 print("Eva ram => ", eva_memory.vars)
-                gui.terminal.insert(INSERT, "\nSTATE: userEmotion : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                gui.terminal.insert(INSERT, "\nSTATE: userEmotion: (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
                 tab_load_mem_vars() # Enter data from variable memory into the variable table
                 gui.terminal.see(tkinter.END)
                 print("userEmotion command USING VAR...")
@@ -1174,14 +1174,14 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                     eva_memory.var_dolar.append([var.get(), "<userEmotion>"])
-                    gui.terminal.insert(INSERT, "\nSTATE: userEmotion : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: userEmotion: var = $" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                 else:
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nSTATE: userEmotion : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                    gui.terminal.insert(INSERT, "\nSTATE: userEmotion: (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
                     tab_load_mem_vars() # Enter data from variable memory into the var table
                     gui.terminal.see(tkinter.END)
                     print("userEmotion command USING VAR...")
@@ -1195,32 +1195,38 @@ def exec_comando(node):
             img_happy = PhotoImage(file = "images/img_happy.png")
             img_angry = PhotoImage(file = "images/img_angry.png")
             img_sad = PhotoImage(file = "images/img_sad.png")
-            img_surprised = PhotoImage(file = "images/img_surprised.png")
+            img_surprise = PhotoImage(file = "images/img_surprise.png")
+            img_fear = PhotoImage(file = "images/img_fear.png")
+            img_disgust = PhotoImage(file = "images/img_disgust.png")
             pop = Toplevel(gui)
             pop.title("userEmotion Command")
             # Disable the maximize and close buttons
             pop.resizable(False, False)
             pop.protocol("WM_DELETE_WINDOW", False)
-            w = 697
+            w = 970
             h = 250
             ws = gui.winfo_screenwidth()
             hs = gui.winfo_screenheight()
             x = (ws/2) - (w/2)
             y = (hs/2) - (h/2)  
             pop.geometry('%dx%d+%d+%d' % (w, h, x, y))
-            Label(pop, text="Eva is analysing your face expression. Please, choose one emotion!", font = ('Arial', 10)).place(x = 146, y = 10)
+            Label(pop, text="Eva is analysing your face expression. Please, choose one emotion!", font = ('Arial', 10)).place(x = 290, y = 10)
             # Images are displayed using labels
             Label(pop, image=img_neutral).place(x = 10, y = 50)
             Label(pop, image=img_happy).place(x = 147, y = 50)
             Label(pop, image=img_angry).place(x = 284, y = 50)
             Label(pop, image=img_sad).place(x = 421, y = 50)
-            Label(pop, image=img_surprised).place(x = 558, y = 50)
+            Label(pop, image=img_surprise).place(x = 558, y = 50)
+            Label(pop, image=img_fear).place(x = 695, y = 50)
+            Label(pop, image=img_disgust).place(x = 832, y = 50)
             Radiobutton(pop, text = "Neutral", variable = var, font = font1, command = None, value = "NEUTRAL").place(x = 35, y = 185)
             Radiobutton(pop, text = "Happy", variable = var, font = font1, command = None, value = "HAPPY").place(x = 172, y = 185)
             Radiobutton(pop, text = "Angry", variable = var, font = font1, command = None, value = "ANGRY").place(x = 312, y = 185)
             Radiobutton(pop, text = "Sad", variable = var, font = font1, command = None, value = "SAD").place(x = 452, y = 185)
-            Radiobutton(pop, text = "Surprised", variable = var, font = font1, command = None, value = "SURPRISED").place(x = 575, y = 185)
-            Button(pop, text = "     OK     ", font = font1, command = fechar_pop).place(x = 310, y = 215)
+            Radiobutton(pop, text = "Surprise", variable = var, font = font1, command = None, value = "SURPRISE").place(x = 580, y = 185)
+            Radiobutton(pop, text = "Fear", variable = var, font = font1, command = None, value = "FEAR").place(x = 725, y = 185)
+            Radiobutton(pop, text = "Disgust", variable = var, font = font1, command = None, value = "DISGUST").place(x = 855, y = 185)
+            Button(pop, text = "           OK          ", font = font1, command = fechar_pop).place(x = 430, y = 215)
             # Wait for release, waiting for the user's response
             while thread_pop_pause: 
                 time.sleep(0.5)
@@ -1239,7 +1245,7 @@ def exec_comando(node):
         
             if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                 eva_memory.var_dolar.append([EVA_DOLLAR, "<qrRead>"])
-                gui.terminal.insert(INSERT, "\nSTATE: qrRead : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                gui.terminal.insert(INSERT, "\nSTATE: QR Code reading: var = $" + ", value=" + eva_memory.var_dolar[-1][0])
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
                 ledAnimation("STOP")
@@ -1247,7 +1253,7 @@ def exec_comando(node):
                 var_name = node.attrib["var"]
                 eva_memory.vars[var_name] = EVA_DOLLAR
                 print("Eva ram => ", eva_memory.vars)
-                gui.terminal.insert(INSERT, "\nSTATE: qrReader : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                gui.terminal.insert(INSERT, "\nSTATE: QR Code reading: (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
                 tab_load_mem_vars() # Enter data from variable memory into the var table
                 gui.terminal.see(tkinter.END)
                 print("qrRead command USING VAR...")
@@ -1262,7 +1268,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                     eva_memory.var_dolar.append([var.get(), "<qrRead>"])
-                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading: var = $" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -1271,7 +1277,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading: (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # Enter data from variable memory into the var table
                     gui.terminal.see(tkinter.END)
                     print("qrRead command USING VAR...")
@@ -1283,7 +1289,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                     eva_memory.var_dolar.append([var.get(), "<qrRead>"])
-                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading: var = $" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -1292,7 +1298,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: QR Code reading: (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # Enter data from variable memory into the var table
                     gui.terminal.see(tkinter.END)
                     print("qrRead command USING VAR...")
@@ -1339,7 +1345,7 @@ def exec_comando(node):
         
             if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                 eva_memory.var_dolar.append([EVA_DOLLAR, "<userID>"])
-                gui.terminal.insert(INSERT, "\nSTATE: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                gui.terminal.insert(INSERT, "\nSTATE: userID: var = $" + ", value=" + eva_memory.var_dolar[-1][0])
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
  
@@ -1347,7 +1353,7 @@ def exec_comando(node):
                 var_name = node.attrib["var"]
                 eva_memory.vars[var_name] = EVA_DOLLAR
                 print("Eva ram => ", eva_memory.vars)
-                gui.terminal.insert(INSERT, "\nSTATE: userID : (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                gui.terminal.insert(INSERT, "\nSTATE: userID: (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
                 tab_load_mem_vars() # Enter data from variable memory into the var table
                 gui.terminal.see(tkinter.END)
                 print("userID command USING VAR...")
@@ -1363,7 +1369,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # mantém a compatibilidade com o uso da variável $
                     eva_memory.var_dolar.append([var.get(), "<userID>"])
-                    gui.terminal.insert(INSERT, "\nSTATE: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: userID: var = $" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -1372,7 +1378,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nSTATE: userID reading : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: userID reading: (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # Enter data from variable memory into the var table
                     gui.terminal.see(tkinter.END)
                     print("userID command USING VAR...")
@@ -1384,7 +1390,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                     eva_memory.var_dolar.append([var.get(), "<userID>"])
-                    gui.terminal.insert(INSERT, "\nSTATE: userID : var=$" + ", value=" + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: userID: var = $" + ", value=" + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -1393,7 +1399,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nSTATE: userID : (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: userID: (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # Enter data from variable memory into the var table
                     gui.terminal.see(tkinter.END)
                     print("userID command USING VAR...")
