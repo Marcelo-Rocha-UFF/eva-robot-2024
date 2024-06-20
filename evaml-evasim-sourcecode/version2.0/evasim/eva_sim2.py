@@ -10,7 +10,7 @@ import platform
 # Select the GUI definition file for the host operating system
 if platform.system() == "Linux":
     print("Linux platform identified. Loading GUI formatting for Linux.")
-    import gui_linux as EvaSIM_gui # Definition of the graphical user interface (Linux)
+    import gui_linux2 as EvaSIM_gui # Definition of the graphical user interface (Linux)
     audio_ext = ".mp3" # Audio extension used by the audio library on Linux
     ibm_audio_ext = "audio/mp3" # Audio extension used to generate watson audios
 elif platform.system() == "Windows":
@@ -61,6 +61,7 @@ topic_base = config.EVA_TOPIC_BASE
 EVA_ROBOT_STATE = "FREE"
 EVA_DOLLAR = ""
 RUNNING_MODE = "SIMULATOR" # EvaSIM operating mode (Physical Robot Simulator or Player)
+
 
 # MQTT
 # The callback for when the client receives a CONNACK response from the server.
@@ -121,6 +122,7 @@ tts.set_service_url(url)
 
 # Create the Tkinter window
 window = Tk()
+
 gui = EvaSIM_gui.Gui(window) # Instance of the Gui class within the graphical user interface definition module
 
 font1 = gui.font1 # Sse the same font defined in the GUI module
@@ -176,7 +178,6 @@ def tab_load_mem_dollar():
 def evaInit():
     gui.bt_power['state'] = DISABLED
     gui.bt_power.unbind("<Button-1>")
-    evaEmotion("POWER_ON")
     gui.terminal.insert(INSERT, "\nSTATE: Initializing.")
     # playsound("my_sounds/power_on" + audio_ext, block = True)
     # gui.terminal.insert(INSERT, "\nSTATE: Speaking a greeting text.")
@@ -188,6 +189,7 @@ def evaInit():
     gui.bt_import.bind("<Button-1>", importFileThread)
     gui.bt_reload['state'] = DISABLED
     gui.bt_reload.bind("<Button-1>", reloadFile)
+    evaEmotion("POWER_ON")
     evaMatrix("white")
     while gui.bt_run_sim['state'] == DISABLED: # Matrix light animation on stand by
         evaMatrix("white")
@@ -527,7 +529,7 @@ def woz_tts(self):
     client.publish(topic_base + "/talk", voice_option + "|" + gui.msg_tts_text.get('1.0','end'))
 
 # TTS buttons binding
-gui.bt_send_tts.bind("<Button-1>", woz_tts)
+gui.bt_send_tts1.bind("<Button-1>", woz_tts)
 
 
 # Led "animations"
@@ -536,7 +538,7 @@ def ledAnimation(animation):
         client.publish(topic_base + "/leds", "STOP")
         client.publish(topic_base + "/leds", animation)
     if animation == "STOP":
-        client.publish(topic_base + "/leds", "STOP") 
+        client.publish(topic_base + "/leds", "STOP")
         evaMatrix("grey")
     elif animation == "LISTEN":
         evaMatrix("green")
@@ -561,43 +563,43 @@ def ledAnimation(animation):
 # Set the Eva emotion
 def evaEmotion(expression):
     if expression == "NEUTRAL":
-        gui.canvas.create_image(156, 161, image = im_eyes_neutral)
+        gui.canvas.create_image(176, 269, image = im_eyes_neutral)
     elif expression == "ANGRY":
-        gui.canvas.create_image(156, 161, image = im_eyes_angry)
+        gui.canvas.create_image(176, 269, image = im_eyes_angry)
     elif expression == "HAPPY":
-        gui.canvas.create_image(156, 161, image = im_eyes_happy)
+        gui.canvas.create_image(176, 269, image = im_eyes_happy)
     elif expression == "SAD":
-        gui.canvas.create_image(156, 161, image = im_eyes_sad)
+        gui.canvas.create_image(176, 269, image = im_eyes_sad)
     elif expression == "FEAR":
-        gui.canvas.create_image(156, 161, image = im_eyes_fear)
+        gui.canvas.create_image(176, 269, image = im_eyes_fear)
     elif expression == "SURPRISE":
-        gui.canvas.create_image(156, 161, image = im_eyes_surprise)
+        gui.canvas.create_image(176, 269, image = im_eyes_surprise)
     elif expression == "DISGUST":
-        gui.canvas.create_image(156, 161, image = im_eyes_disgust)
+        gui.canvas.create_image(176, 269, image = im_eyes_disgust)
     elif expression == "INLOVE":
-        gui.canvas.create_image(156, 161, image = im_eyes_inlove)
+        gui.canvas.create_image(176, 269, image = im_eyes_inlove)
     elif expression == "POWER_ON": 
-        gui.canvas.create_image(156, 161, image = im_eyes_on)
+        gui.canvas.create_image(176, 269, image = im_eyes_on)
     else: 
         print("A wrong expression was selected.")
     if RUNNING_MODE == "SIMULATOR":
-        time.sleep(1) # apenas um tempo simbólico para o simulador
+        time.sleep(0.01) # apenas um tempo simbólico para o simulador
 
 
 # Set the Eva matrix
 def evaMatrix(color):
     if color == "blue":
-        gui.canvas.create_image(155, 349, image = im_matrix_blue)
+        gui.canvas.create_image(175, 457, image = im_matrix_blue)
     elif color == "red":
-        gui.canvas.create_image(155, 349, image = im_matrix_red)
+        gui.canvas.create_image(175, 457, image = im_matrix_red)
     elif color == "yellow":
-        gui.canvas.create_image(155, 349, image = im_matrix_yellow)
+        gui.canvas.create_image(175, 457, image = im_matrix_yellow)
     elif color == "green":
-        gui.canvas.create_image(155, 349, image = im_matrix_green)
+        gui.canvas.create_image(175, 457, image = im_matrix_green)
     elif color == "white":
-        gui.canvas.create_image(155, 349, image = im_matrix_white)
+        gui.canvas.create_image(175, 457, image = im_matrix_white)
     elif color == "grey": # somente para representar a luz da matrix apagada
-        gui.canvas.create_image(155, 349, image = im_matrix_grey)
+        gui.canvas.create_image(175, 457, image = im_matrix_grey)
     else : 
         print("A wrong color to matrix was selected.")
 
@@ -607,12 +609,11 @@ def light(color, state):
     color_map = {"WHITE":"#ffffff", "BLACK":"#000000", "RED":"#ff0000", "PINK":"#e6007e", "GREEN":"#00ff00", "YELLOW":"#ffff00", "BLUE":"#0000ff"}
     if color_map.get(color) != None:
         color = color_map.get(color)
-    if state == "ON":
-        gui.canvas.create_oval(300, 205, 377, 285, fill = color, outline = color )
-        gui.canvas.create_image(340, 285, image = gui.bulb_image) # redesenha a lampada
+        gui.canvas.create_oval(330, 313, 407, 393, fill = color, outline = color )
+        gui.canvas.create_image(370, 393, image = gui.bulb_image) # redesenha a lampada
     else:
-        gui.canvas.create_oval(300, 205, 377, 285, fill = "#000000", outline = "#000000" ) # cor preta indica light off
-        gui.canvas.create_image(340, 285, image = gui.bulb_image) # redesenha a lampada
+        gui.canvas.create_oval(330, 313, 407, 393, fill = "#000000", outline = "#000000" ) # cor preta indica light off
+        gui.canvas.create_image(370, 393, image = gui.bulb_image) # redesenha a lampada
 
 
 # Virtual machine functions
@@ -895,11 +896,13 @@ def exec_comando(node):
 
         if RUNNING_MODE == "EVA_ROBOT":
             client.publish(topic_base + "/log", "EVA will try to speak a text: " + texto[ind_random])
+            evaMatrix("blue")
             ledAnimation("SPEAK")
             EVA_ROBOT_STATE = "BUSY" # Speech is a blocking function. the robot is busy
             client.publish(topic_base + "/talk", root.find("settings")[0].attrib["tone"] + "|" + texto[ind_random])
             while(EVA_ROBOT_STATE != "FREE"):
                 pass
+            evaMatrix("grey")
             ledAnimation("STOP")
         else:
             # Assume the default UTF-8 (Generates the hashing of the audio file)
@@ -916,7 +919,9 @@ def exec_comando(node):
                         try:
                             res = tts.synthesize(texto[ind_random], accept = ibm_audio_ext, voice = root.find("settings")[0].attrib["tone"]).get_result()
                             audio_file.write(res.content)
+                            evaMatrix("blue")
                             playsound("audio_cache_files/" + file_name + audio_ext, block = True) # Play the audio of the speech
+                            evaMatrix("grey")
                         except:
                             print("Voice exception")
                             gui.terminal.insert(INSERT, "\nError when trying to select voice tone, please verify the tone atribute.\n", "error")
@@ -929,7 +934,9 @@ def exec_comando(node):
                     else:
                         audio_file_is_ok = True
             else:
+                evaMatrix("blue")
                 playsound("audio_cache_files/" + file_name + audio_ext, block = True) # Play the audio of the speech
+                evaMatrix("grey")
         
 
 
