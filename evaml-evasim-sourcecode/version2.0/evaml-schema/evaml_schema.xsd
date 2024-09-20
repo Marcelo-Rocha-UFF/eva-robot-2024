@@ -293,6 +293,15 @@ Revision: 2022/08/12
 		</xs:restriction>
 	</xs:simpleType>
 
+	<xs:simpleType name="languageType"> <!-- Some codes for the source languages -->
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PT"/>
+			<xs:enumeration value="EN"/>
+			<xs:enumeration value="FR"/>
+			<xs:enumeration value="DE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
 
   <!-- ** EvaML Commands Definitions ** -->
   <xs:element name="mqtt">
@@ -365,9 +374,17 @@ Revision: 2022/08/12
 	</xs:element>
 
 	<xs:element name="evaEmotion">
-		<xs:complexType>
+		<xs:complexType >
 			<xs:attribute name="id" type="idType"/>
 			<xs:attribute name="emotion" type="evaEmotionType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="textEmotion">
+		<xs:complexType mixed="true">
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="language" type="languageType"/>
+			<xs:attribute name="var" type="xs:string"/>
 		</xs:complexType>
 	</xs:element>
 
@@ -462,6 +479,7 @@ Revision: 2022/08/12
 				<xs:element ref="goto"/>
 				<xs:element ref="motion"/>
 				<xs:element ref="userEmotion"/>
+				<xs:element ref="textEmotion"/>
 				<xs:element ref="userID"/>
 				<xs:element ref="qrRead"/>
 				<xs:element ref="evaEmotion"/>
@@ -491,6 +509,7 @@ Revision: 2022/08/12
 				<xs:element ref="goto"/>
 				<xs:element ref="motion"/>
 				<xs:element ref="userEmotion"/>
+				<xs:element ref="textEmotion"/>
 				<xs:element ref="userID"/>
 				<xs:element ref="qrRead"/>
 				<xs:element ref="evaEmotion"/>
@@ -519,6 +538,7 @@ Revision: 2022/08/12
 				<xs:element ref="goto"/>
 				<xs:element ref="motion"/>
 				<xs:element ref="userEmotion"/>
+				<xs:element ref="textEmotion"/>
 				<xs:element ref="userID"/>
 				<xs:element ref="qrRead"/>
 				<xs:element ref="evaEmotion"/>
@@ -545,6 +565,7 @@ Revision: 2022/08/12
 				<xs:element ref="goto"/>
 				<xs:element ref="motion"/>
 				<xs:element ref="userEmotion"/>
+				<xs:element ref="textEmotion"/>
 				<xs:element ref="userID"/>
 				<xs:element ref="qrRead"/>
 				<xs:element ref="evaEmotion"/>
@@ -595,6 +616,7 @@ Revision: 2022/08/12
 				<xs:element ref="goto"/>
 				<xs:element ref="motion"/>
 				<xs:element ref="userEmotion"/>
+				<xs:element ref="textEmotion"/>
 				<xs:element ref="userID"/>
 				<xs:element ref="qrRead"/>
 				<xs:element ref="evaEmotion"/>

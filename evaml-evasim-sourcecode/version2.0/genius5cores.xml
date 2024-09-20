@@ -1,0 +1,2344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="genius5cores"
+  xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice tone="pt-BR_IsabelaV3Voice" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <evaEmotion emotion="NEUTRAL"/>
+    <light state="OFF"/>
+    <audio source="efx-blin" block="TRUE" />
+    <evaEmotion emotion="HAPPY"/>
+    <motion head="UP" right-arm="POSITION 3"/>
+    <talk>Olá, eu me chamo EVA, qual é o seu nome?</talk>
+    <listen />
+    <motion right-arm="SHAKE2"/>
+    <talk>Muito prazer $, gostaria de jogar um jogo comigo?</talk>
+    <listen />
+    <motion head="CENTER" right-arm="POSITION 1"/>
+    <switch var="$">
+      <case op="contain" value="não">
+        <useMacro macro="recusar" />
+      </case>
+      <case op="contain" value="negativo">
+        <useMacro macro="recusar" />
+      </case>
+      <default>
+        <useMacro macro="começar" />
+      </default>
+    </switch>
+    <random min="1" max="7" id="random"/>
+    <switch var="$">
+        <case op="exact" value="1">
+            <useMacro macro="sequencia1" />
+        </case>
+        <case op="exact" value="2">
+            <useMacro macro="sequencia2" />
+        </case>
+        <case op="exact" value="3">
+            <useMacro macro="sequencia3" />
+        </case>
+        <case op="exact" value="4">
+            <useMacro macro="sequencia4" />
+        </case>
+        <case op="exact" value="5">
+            <useMacro macro="sequencia5" />
+        </case>
+        <case op="exact" value="6">
+            <useMacro macro="sequencia6" />
+        </case>
+        <case op="exact" value="7">
+            <useMacro macro="sequencia7" />
+        </case>
+    </switch>
+  </script>
+  <macros>
+    <macro id="começar">
+        <evaEmotion emotion="NEUTRAL" />
+        <talk>O nome do jogo é gênios. Ele é um jogo de memória, que para ganhar você deverá memorizar uma seqüência de côres. Eu irei mostrar a cor na lâmpada e você me diz as côres que aparecerem, lembrando que cada cor está associada a uma nota musical.</talk>
+        <wait duration="2000"/>
+        <talk>Agora, irei mostrar as quatro côres que serão usadas e seus respectivos sons.</talk>
+        <talk>Cor verde</talk>
+        <!-- <light state="ON" color="WHITE"/> -->
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <!-- <light state="OFF" /> -->
+        <talk>Cor azul</talk>
+        <!-- <light state="ON" color="WHITE"/> -->
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+        <!-- <light state="OFF" /> -->
+        <talk>Cor vermelha</talk>
+        <!-- <light state="ON" color="WHITE"/> -->
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+        <!-- <light state="OFF" /> -->
+        <talk>E cor amarela</talk>
+        <!-- <light state="ON" color="WHITE"/> -->
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="500" />
+        <light state="OFF" />
+        <evaEmotion emotion="HAPPY" />
+        <talk>Agora que você já sabe como o jogo irá funcionar, podemos começar a jogar</talk>
+        <wait duration="2000" />
+        <evaEmotion emotion="NEUTRAL" />
+        <goto target="random" />
+    </macro>
+    <macro id="recusar">
+        <evaEmotion emotion="SAD" />
+        <talk>Certo, espero jogar com você outra hora, até mais!</talk>
+        <light state="OFF" />
+        <stop />
+    </macro>
+    <macro id="recomeçar">
+        <evaEmotion emotion="HAPPY"/>
+        <wait duration="1000"/>
+        <talk>Muito bem, então, devemos recomeçar o jogo.</talk>
+        <evaEmotion emotion="NEUTRAL"/>
+        <goto target="random" />
+    </macro>
+    <macro id="parar">
+        <wait duration="1000"/>
+        <talk>Tudo bem então, foi muito legal jogar com você, até a próxima.</talk>
+        <light state="OFF" />
+        <stop />
+    </macro>
+    <macro id="sequencia1">
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq1listen1" />
+        <evaEmotion emotion="HAPPY" id="seq1return1"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON"  color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq1listen2" />
+        <evaEmotion emotion="HAPPY" id="seq1return2"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON"  color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON"  color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON"  color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq1listen3" />
+        <evaEmotion emotion="HAPPY" id="seq1return3"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq1listen4" />
+        <evaEmotion emotion="HAPPY" id="seq1return4"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq1listen5" />
+            <switch var="$" id="seq1listen1">
+                <case op="contain" value="vermelho">
+                    <goto target="seq1return1" />
+                </case>
+                <case op="contain" value="vermelha">
+                    <goto target="seq1return1" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default> 
+            </switch>
+            <switch var="$" id="seq1listen2">
+                <case op="contain" value="vermelho azul">
+                    <goto target="seq1return2"/>
+                </case>
+                <case op="contain" value="vermelha azul">
+                    <goto target="seq1return2" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                              </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq1listen3">
+                <case op="contain" value="vermelho azul amarelo">
+                    <goto target="seq1return3" />
+                </case>
+                <case op="contain" value="vermelho azul amarela">
+                    <goto target="seq1return3" />
+                </case>
+                <case op="contain" value="vermelha azul amarelo">
+                    <goto target="seq1return3" />
+                </case>
+                <case op="contain" value="vermelha azul amarela">
+                    <goto target="seq1return3" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq1listen4">
+                <case op="contain" value="vermelho azul amarelo verde">
+                    <goto target="seq1return4" />
+                </case>
+                <case op="contain" value="vermelho azul amarela verde">
+                    <goto target="seq1return4" />
+                </case>
+                <case op="contain" value="vermelha azul amarelo verde">
+                    <goto target="seq1return4" />
+                </case>
+                <case op="contain" value="vermelha azul amarela verde">
+                    <goto target="seq1return4" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq1listen5">
+                <case op="contain" value="vermelho azul amarelo verde vermelho">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="vermelho azul amarelo verde vermelha">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="vermelho azul amarela verde vermelho">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="vermelho azul amarela verde vermelha">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="vermelha azul amarelo verde vermelho">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="vermelha azul amarelo verde vermelha">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="vermelha azul amarela verde vermelho">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="vermelha azul amarela verde vermelha">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+    </macro>
+    <macro id="sequencia2">
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq2listen1" />
+        <evaEmotion emotion="HAPPY" id="seq2return1"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq2listen2" />
+        <evaEmotion emotion="HAPPY" id="seq2return2"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq2listen3" />
+        <evaEmotion emotion="HAPPY" id="seq2return3"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq2listen4" />
+        <evaEmotion emotion="HAPPY" id="seq2return4"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq2listen5" />
+            <switch var="$" id="seq2listen1">
+                <case op="contain" value="azul">
+                    <goto target="seq2return1" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq2listen2">
+                <case op="contain" value="azul verde">
+                    <goto target="seq2return2"/>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq2listen3">
+                <case op="contain" value="azul verde amarelo">
+                    <goto target="seq2return3" />
+                </case>
+                <case op="contain" value="azul verde amarela">
+                    <goto target="seq2return3" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq2listen4">
+                <case op="contain" value="azul verde amarelo vermelho">
+                    <goto target="seq2return4" />
+                </case>
+                <case op="contain" value="azul verde amarelo vermelha">
+                    <goto target="seq2return4" />
+                </case>
+                <case op="contain" value="azul verde amarela vermelho">
+                    <goto target="seq2return4" />
+                </case>
+                <case op="contain" value="azul verde amarela vermelha">
+                    <goto target="seq2return4" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq2listen5">
+                <case op="contain" value="azul verde amarelo vermelho verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="azul verde amarelo vermelha verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="azul verde amarela vermelho verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="azul verde amarela vermelha verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+    </macro>
+    <macro id="sequencia3">
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq3listen1" />
+        <evaEmotion emotion="HAPPY" id="seq3return1"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq3listen2" />
+        <evaEmotion emotion="HAPPY" id="seq3return2"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq3listen3" />
+        <evaEmotion emotion="HAPPY" id="seq3return3"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq3listen4" />
+        <evaEmotion emotion="HAPPY" id="seq3return4"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq3listen5" />
+            <switch var="$" id="seq3listen1">
+                <case op="contain" value="amarelo">
+                    <goto target="seq3return1" />
+                </case>
+                <case op="contain" value="amarela">
+                    <goto target="seq3return1" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq3listen2">
+                <case op="contain" value="amarelo azul">
+                    <goto target="seq3return2"/>
+                </case>
+                <case op="contain" value="amarela azul">
+                    <goto target="seq3return2"/>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq3listen3">
+                <case op="contain" value="amarelo azul verde">
+                    <goto target="seq3return3" />
+                </case>
+                <case op="contain" value="amarela azul verde">
+                    <goto target="seq3return3" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq3listen4">
+                <case op="contain" value="amarelo azul verde amarelo">
+                    <goto target="seq3return4" />
+                </case>
+                <case op="contain" value="amarelo azul verde amarela">
+                    <goto target="seq3return4" />
+                </case>
+                <case op="contain" value="amarela azul verde amarelo">
+                    <goto target="seq3return4" />
+                </case>
+                <case op="contain" value="amarela azul verde amarela">
+                    <goto target="seq3return4" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq3listen5">
+                <case op="contain" value="amarelo azul verde amarelo verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="amarelo azul verde amarela verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="amarela azul verde amarelo verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="amarela azul verde amarela verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+    </macro>
+    <macro id="sequencia4">
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq4listen1" />
+        <evaEmotion emotion="HAPPY" id="seq4return1"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq4listen2" />
+        <evaEmotion emotion="HAPPY" id="seq4return2"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq4listen3" />
+        <evaEmotion emotion="HAPPY" id="seq4return3"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq4listen4" />
+        <evaEmotion emotion="HAPPY" id="seq4return4"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq4listen5" />
+            <switch var="$" id="seq4listen1">
+                <case op="contain" value="verde">
+                    <goto target="seq4return1" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq4listen2">
+                <case op="contain" value="verde azul">
+                    <goto target="seq4return2"/>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq4listen3">
+                <case op="contain" value="verde azul verde">
+                    <goto target="seq4return3" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq4listen4">
+                <case op="contain" value="verde azul verde vermelho">
+                    <goto target="seq4return4" />
+                </case>
+                <case op="contain" value="verde azul verde vermelha">
+                    <goto target="seq4return4" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq4listen5">
+                <case op="contain" value="verde azul verde vermelho azul">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="verde azul verde vermelha azul">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <talk>Meus parabéns, você ganhou, $1 sua memória é muito boa. Quer jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+    </macro>
+    <macro id="sequencia5">
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq5listen1" />
+        <evaEmotion emotion="HAPPY" id="seq5return1"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq5listen2" />
+        <evaEmotion emotion="HAPPY" id="seq5return2"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq5listen3" />
+        <evaEmotion emotion="HAPPY" id="seq5return3"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq5listen4" />
+        <evaEmotion emotion="HAPPY" id="seq5return4"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq5listen5" />
+            <switch var="$" id="seq5listen1">
+                <case op="contain" value="vermelho">
+                    <goto target="seq5return1" />
+                </case>
+                <case op="contain" value="vermelha">
+                    <goto target="seq5return1" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq5listen2">
+                <case op="contain" value="vermelho azul">
+                    <goto target="seq5return2"/>
+                </case>
+                <case op="contain" value="vermelha azul">
+                    <goto target="seq5return2"/>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq5listen3">
+                <case op="contain" value="vermelho azul verde">
+                    <goto target="seq5return3" />
+                </case>
+                <case op="contain" value="vermelha azul verde">
+                    <goto target="seq5return3" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq5listen4">
+                <case op="contain" value="vermelho azul verde vermelho">
+                    <goto target="seq5return4" />
+                </case>
+                <case op="contain" value="vermelho azul verde vermelha">
+                    <goto target="seq5return4" />
+                </case>
+                <case op="contain" value="vermelha azul verde vermelho">
+                    <goto target="seq5return4" />
+                </case>
+                <case op="contain" value="vermelha azul verde vermelha">
+                    <goto target="seq5return4" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq5listen5">
+                <case op="contain" value="vermelho azul verde vermelho verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="vermelho azul verde vermelha verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="vermelha azul verde vermelho verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="vermelha azul verde vermelha verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+    </macro>
+    <macro id="sequencia6">
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq6listen1" />
+        <evaEmotion emotion="HAPPY" id="seq6return1"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq6listen2" />
+        <evaEmotion emotion="HAPPY" id="seq6return2"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq6listen3" />
+        <evaEmotion emotion="HAPPY" id="seq6return3"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq6listen4" />
+        <evaEmotion emotion="HAPPY" id="seq6return4"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq6listen5" />
+            <switch var="$" id="seq6listen1">
+                <case op="contain" value="amarelo">
+                    <goto target="seq6return1" />
+                </case>
+                <case op="contain" value="amarela">
+                    <goto target="seq6return1" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq6listen2">
+                <case op="contain" value="amarelo vermelho">
+                    <goto target="seq6return2"/>
+                </case>
+                <case op="contain" value="amarelo vermelha">
+                    <goto target="seq6return2"/>
+                </case>
+                <case op="contain" value="amarela vermelho">
+                    <goto target="seq6return2"/>
+                </case>
+                <case op="contain" value="amarela vermelha">
+                    <goto target="seq6return2"/>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq6listen3">
+                <case op="contain" value="amarelo vermelho azul">
+                    <goto target="seq6return3" />
+                </case>
+                <case op="contain" value="amarelo vermelha azul">
+                    <goto target="seq6return3" />
+                </case>
+                <case op="contain" value="amarela vermelho azul">
+                    <goto target="seq6return3" />
+                </case>
+                <case op="contain" value="amarela vermelha azul">
+                    <goto target="seq6return3" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq6listen4">
+                <case op="contain" value="amarelo vermelho azul vermelho">
+                    <goto target="seq6return4" />
+                </case>
+                <case op="contain" value="amarelo vermelho azul vermelha">
+                    <goto target="seq6return4" />
+                </case>
+                <case op="contain" value="amarelo vermelha azul vermelho">
+                    <goto target="seq6return4" />
+                </case>
+                <case op="contain" value="amarelo vermelha azul vermelha">
+                    <goto target="seq6return4" />
+                </case>
+                <case op="contain" value="amarela vermelho azul vermelho">
+                    <goto target="seq6return4" />
+                </case>
+                <case op="contain" value="amarela vermelho azul vermelha">
+                    <goto target="seq6return4" />
+                </case>
+                <case op="contain" value="amarela vermelha azul vermelho">
+                    <goto target="seq6return4" />
+                </case>
+                <case op="contain" value="amarela vermelha azul vermelha">
+                    <goto target="seq6return4" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq6listen5">
+                <case op="contain" value="amarelo vermelho azul vermelho verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="amarelo vermelho azul vermelha verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="amarelo vermelha azul vermelho verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="amarelo vermelha azul vermelha verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="amarela vermelho azul vermelho verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="amarela vermelho azul vermelha verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="amarela vermelha azul vermelho verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="amarela vermelha azul vermelha verde">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+    </macro>
+    <macro id="sequencia7">
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq7listen1" />
+        <evaEmotion emotion="HAPPY" id="seq7return1"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq7listen2" />
+        <evaEmotion emotion="HAPPY" id="seq7return2"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq7listen3" />
+        <evaEmotion emotion="HAPPY" id="seq7return3"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq7listen4" />
+        <evaEmotion emotion="HAPPY" id="seq7return4"/>
+        <motion head="YES"/>
+        <audio source="efx-display2" block="TRUE" />
+        <talk>Você acertou! vamos continuar.</talk>
+        <wait duration="1000"/>
+        <evaEmotion emotion="NEUTRAL" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="YELLOW"/>
+        <audio source="amarelo" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="GREEN"/>
+        <audio source="verde" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="BLUE"/>
+        <audio source="azul" block="TRUE" />
+        <wait duration="250" />
+         
+        <light state="ON" color="RED"/>
+        <audio source="vermelho" block="TRUE" />
+        <wait duration="250" />
+        <light state="OFF" />
+        <listen />
+        <goto target="seq7listen5" />
+            <switch var="$" id="seq7listen1">
+                <case op="contain" value="verde">
+                    <goto target="seq7return1" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq7listen2">
+                <case op="contain" value="verde amarelo">
+                    <goto target="seq7return2"/>
+                </case>
+                <case op="contain" value="verde amarela">
+                    <goto target="seq7return2"/>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq7listen3">
+                <case op="contain" value="verde amarelo verde">
+                    <goto target="seq7return3" />
+                </case>
+                <case op="contain" value="verde amarela verde">
+                    <goto target="seq7return3" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq7listen4">
+                <case op="contain" value="verde amarelo verde azul">
+                    <goto target="seq7return4" />
+                </case>
+                <case op="contain" value="verde amarela verde azul">
+                    <goto target="seq7return4" />
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+            <switch var="$" id="seq7listen5">
+                <case op="contain" value="verde amarelo verde azul vermelho">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="verde amarelo verde azul vermelha">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="verde amarela verde azul vermelho">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <case op="contain" value="verde amarela verde azul vermelha">
+                    <evaEmotion emotion="HAPPY"/>
+                    <motion head="2YES"/>
+                    <talk>Meus parabéns, você ganhou!</talk>
+                    <audio source="efx-aplausos-bom" block="TRUE" />
+                    <talk>$1, sua memória é muito boa! Gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </case>
+                <default>
+                    <evaEmotion emotion="SAD" />
+                    <wait duration="1000" />
+                    <talk>Mas que pena, você errou, gostaria de jogar novamente?</talk>
+                    <listen />
+                        <switch var="$">
+                            <case op="contain" value="não">
+                                <useMacro macro="parar" />
+                            </case>
+                            <case op="contain" value="negativo">
+                                <useMacro macro="parar" />
+                            </case>
+                            <default>
+                                <useMacro macro="recomeçar" />
+                            </default>
+                        </switch>
+                </default>  
+            </switch>
+    </macro>
+  </macros>
+</evaml>

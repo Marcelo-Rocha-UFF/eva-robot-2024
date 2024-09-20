@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <evaml
   name="demo_360_2023"
-  xsi:noNamespaceSchemaLocation="EvaML-Schema/evaml_schema.xsd"
+  xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <settings>
     <voice tone="en-US_AllisonExpressive" />
@@ -11,11 +11,12 @@
   <script>
     <motion type="CENTER" />
     <evaEmotion emotion="NEUTRAL" />
+    <motion left-arm="POSITION 0" right-arm="POSITION 0"/>
     <light state="OFF" />
     <mqtt topic="FRED/pose" message="sad_foot_slow" />
     <mqtt topic="FRED/expression" message="broken" />
     <mqtt topic="FRED/leds" message="black" />
-    <mqtt topic="FRED/expression" message="speech_off" />
+    <mqtt topic="FRED/expression" message="broken" />
     <wait duration="3000" />
     <light state="ON" color="YELLOW"/>
     <evaEmotion emotion="NEUTRAL" />
@@ -36,7 +37,7 @@
 
     <talk>I can be sad and I can demonstrate this using my facial expression</talk>
     <motion type="2DOWN" />
-    <motion type="NO" />
+    <motion type="2NO" />
     <light state="ON" color="BLUE"/>
     <evaEmotion emotion="SAD" />
     <led animation="SPEAK" />
@@ -68,9 +69,9 @@
     <talk>Hey Fred! Could you say something to the people?</talk>
     <mqtt topic="FRED_1021516/pose" message="left_foot1" />
     <wait duration="1000" />
-    <mqtt topic="FRED_1021516/expression" message="speech_on" />
+    <mqtt topic="FRED_1021516/expression" message="speech_on_1" />
     <audio source="fred_speech1" block="TRUE" />
-    <mqtt topic="FRED_1021516/expression" message="speech_off" />
+    <mqtt topic="FRED_1021516/expression" message="speech_off_1" />
     <wait duration="1400" />
     <mqtt topic="FRED_1021516/pose" message="neutral" />
     <wait duration="2000" />
@@ -78,9 +79,10 @@
     <mqtt topic="FRED_1021516/expression" message="happy" />
     <mqtt topic="FRED_1021516/leds" message="green" />
     <wait duration="1000" />
-    <mqtt topic="FRED_1021516/expression" message="speech_on" />
-    <audio source="fred_speech2" block="TRUE" />
-    <mqtt topic="FRED_1021516/expression" message="speech_off" />
+    <mqtt topic="FRED_1021516/expression" message="speech_on_1" />
+    <audio source="fred_speech2_ehealth" block="TRUE" />
+    <motion head="LEFT3"/>
+    <mqtt topic="FRED_1021516/expression" message="speech_off_1" />
     <wait duration="1400" />
     <mqtt topic="FRED_1021516/pose" message="tiptoe_foot" />
     <wait duration="2000" />
@@ -88,11 +90,12 @@
     <mqtt topic="FRED_14194525/pose" message="tiptoe_foot" />
     <mqtt topic="FRED_14194525/leds" message="green" />
     <wait duration="1000" />
-    <mqtt topic="FRED_14194525/expression" message="speech_on" />
+    <mqtt topic="FRED_14194525/expression" message="speech_on_1" />
     <audio source="frida_speech1" block="TRUE" />
-    <mqtt topic="FRED_14194525/expression" message="speech_off" />
+    <mqtt topic="FRED_14194525/expression" message="speech_off_1" />
     <wait duration="1400" />
 
+    <evaEmotion emotion="INLOVE" />
     <audio source="song-careless" block="FALSE" />
     <mqtt topic="FRED_1021516/expression" message="in_love" />
     <mqtt topic="FRED_1021516/pose" message="broken" />
@@ -101,16 +104,19 @@
     <mqtt topic="FRED/leds" message="rainbow" />
     <wait duration="14000" />
 
+    <evaEmotion emotion="NEUTRAL" />
     <mqtt topic="FRED_14194525/expression" message="happy" />
-    <mqtt topic="FRED_14194525/expression" message="speech_on" />
+    <mqtt topic="FRED_14194525/expression" message="speech_on_1" />
     <audio source="frida_speech3" block="TRUE" />
-    <mqtt topic="FRED_14194525/expression" message="speech_off" />
+    <mqtt topic="FRED_14194525/expression" message="speech_off_1" />
+    <motion head="RIGHT2"/>
     <wait duration="2000" />
     
     <mqtt topic="FRED_1021516/expression" message="happy" />
-    <mqtt topic="FRED_1021516/expression" message="speech_on" />
+    <mqtt topic="FRED_1021516/expression" message="speech_on_1" />
     <audio source="fred_speech3" block="TRUE" />
-    <mqtt topic="FRED_1021516/expression" message="speech_off" />
+    <mqtt topic="FRED_1021516/expression" message="speech_off_1" />
+    <motion right-arm="POSITION 3" left-arm="POSITION 2"/>
     <wait duration="1400" />
 
     <motion type="CENTER" />
@@ -120,6 +126,7 @@
     <led animation="RAINBOW" />
 
     <audio source="song-take-on-me" block="FALSE" />
+    <motion right-arm="SHAKE2" left-arm="SHAKE2"/>
     <mqtt topic="FRED/leds" message="happy" />
     <mqtt topic="FRED/expression" message="happy" />
 
@@ -132,7 +139,12 @@
     <wait duration="12000" />
   
     <evaEmotion emotion="NEUTRAL" />
+    <motion head="CENTER"/>
     <mqtt topic="FRED/pose" message="tiptoe_foot" />
+    <wait duration="3000" />
     <light state="OFF" />
+    <mqtt topic="FRED/expression" message="neutral" />
+    <mqtt topic="FRED/leds" message="black" />
+    <mqtt topic="FRED/pose" message="neutral" />
   </script>
 </evaml>

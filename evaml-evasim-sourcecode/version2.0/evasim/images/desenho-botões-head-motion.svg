@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="desenho-botões-head-motion.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="8.6699536"
+     inkscape:cx="267.18713"
+     inkscape:cy="351.96267"
+     inkscape:window-width="1920"
+     inkscape:window-height="999"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g2323"
+       inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right_btn.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="matrix(0.27417587,0,0,0.2722862,46.114184,61.861369)">
+      <g
+         id="g1615"
+         transform="matrix(1.1662193,0,0,1.1662193,-12.983092,-19.524204)"
+         style="fill:#0000ff;stroke:#0000ff">
+        <path
+           sodipodi:type="star"
+           style="fill:#0000ff;stroke:#0000ff;stroke-width:11.8261;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path1247"
+           inkscape:flatsided="true"
+           sodipodi:sides="3"
+           sodipodi:cx="-14.689413"
+           sodipodi:cy="351.75034"
+           sodipodi:r1="71.301254"
+           sodipodi:r2="35.650627"
+           sodipodi:arg1="0"
+           sodipodi:arg2="1.0471976"
+           inkscape:rounded="0"
+           inkscape:randomized="0"
+           transform="matrix(0.09180083,0,0,0.09361785,90.76513,73.367432)"
+           inkscape:transform-center-x="-1.6363787"
+           inkscape:transform-center-y="-1.212243e-06"
+           inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+           inkscape:export-xdpi="63.5"
+           inkscape:export-ydpi="63.5"
+           d="m 56.611841,351.75034 -106.951881,61.74869 0,-123.49739 z" />
+        <path
+           sodipodi:type="star"
+           style="fill:#0000ff;stroke:#0000ff;stroke-width:11.8261;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path1347"
+           inkscape:flatsided="true"
+           sodipodi:sides="3"
+           sodipodi:cx="-14.689413"
+           sodipodi:cy="351.75034"
+           sodipodi:r1="71.301254"
+           sodipodi:r2="35.650627"
+           sodipodi:arg1="0"
+           sodipodi:arg2="1.0471976"
+           inkscape:rounded="0"
+           inkscape:randomized="0"
+           transform="matrix(0.09180083,0,0,0.09361785,83.976925,73.367432)"
+           inkscape:transform-center-x="-1.6363789"
+           inkscape:transform-center-y="-1.212243e-06"
+           inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+           inkscape:export-xdpi="63.5"
+           inkscape:export-ydpi="63.5"
+           d="m 56.611841,351.75034 -106.951881,61.74869 0,-123.49739 z" />
+      </g>
+      <rect
+         style="fill:none;stroke:#0000ff;stroke-width:2.80453;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect868"
+         width="36.714497"
+         height="26.75169"
+         x="69.301636"
+         y="91.066193"
+         ry="4.117085"
+         inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+         inkscape:export-xdpi="63.5"
+         inkscape:export-ydpi="63.5" />
+      <rect
+         style="fill:none;stroke:none;stroke-width:2.80835;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect1423"
+         width="48.25066"
+         height="38.868416"
+         x="63.53355"
+         y="85.007828"
+         inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right_btn.png"
+         inkscape:export-xdpi="26.32"
+         inkscape:export-ydpi="26.32" />
+    </g>
+    <g
+       id="g2330"
+       inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_left_btn.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="matrix(0.27417587,0,0,0.2722862,46.114184,58.036224)">
+      <g
+         id="g1771"
+         transform="matrix(-1.1662193,0,0,1.1662193,188.30084,33.392465)"
+         style="fill:#0000ff;stroke:#0000ff">
+        <path
+           sodipodi:type="star"
+           style="fill:#0000ff;stroke:#0000ff;stroke-width:11.8261;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path1767"
+           inkscape:flatsided="true"
+           sodipodi:sides="3"
+           sodipodi:cx="-14.689413"
+           sodipodi:cy="351.75034"
+           sodipodi:r1="71.301254"
+           sodipodi:r2="35.650627"
+           sodipodi:arg1="0"
+           sodipodi:arg2="1.0471976"
+           inkscape:rounded="0"
+           inkscape:randomized="0"
+           transform="matrix(0.09180083,0,0,0.09361785,90.76513,73.367432)"
+           inkscape:transform-center-x="-1.6363787"
+           inkscape:transform-center-y="-1.212243e-06"
+           inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+           inkscape:export-xdpi="63.5"
+           inkscape:export-ydpi="63.5"
+           d="m 56.611841,351.75034 -106.951881,61.74869 0,-123.49739 z" />
+        <path
+           sodipodi:type="star"
+           style="fill:#0000ff;stroke:#0000ff;stroke-width:11.8261;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path1769"
+           inkscape:flatsided="true"
+           sodipodi:sides="3"
+           sodipodi:cx="-14.689413"
+           sodipodi:cy="351.75034"
+           sodipodi:r1="71.301254"
+           sodipodi:r2="35.650627"
+           sodipodi:arg1="0"
+           sodipodi:arg2="1.0471976"
+           inkscape:rounded="0"
+           inkscape:randomized="0"
+           transform="matrix(0.09180083,0,0,0.09361785,83.976925,73.367432)"
+           inkscape:transform-center-x="-1.6363789"
+           inkscape:transform-center-y="-1.212243e-06"
+           inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+           inkscape:export-xdpi="63.5"
+           inkscape:export-ydpi="63.5"
+           d="m 56.611841,351.75034 -106.951881,61.74869 0,-123.49739 z" />
+      </g>
+      <rect
+         style="fill:none;stroke:#0000ff;stroke-width:2.80453;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect1773"
+         width="36.714497"
+         height="26.75169"
+         x="69.301636"
+         y="143.98286"
+         ry="4.117085"
+         inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+         inkscape:export-xdpi="63.5"
+         inkscape:export-ydpi="63.5" />
+      <rect
+         style="fill:none;stroke:none;stroke-width:2.80835;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect1777"
+         width="48.25066"
+         height="38.868416"
+         x="63.53355"
+         y="137.9245"
+         inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right_btn.png"
+         inkscape:export-xdpi="26.32"
+         inkscape:export-ydpi="26.32" />
+    </g>
+    <g
+       id="g2337"
+       transform="matrix(0.27417587,0,0,0.2722862,47.480709,61.861369)"
+       inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_up_btn.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <g
+         id="g1950"
+         transform="matrix(0,-0.91398142,1.1662193,0,16.609303,183.50228)"
+         style="fill:#0000ff;stroke:#0000ff">
+        <path
+           sodipodi:type="star"
+           style="fill:#0000ff;stroke:#0000ff;stroke-width:11.8261;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path1946"
+           inkscape:flatsided="true"
+           sodipodi:sides="3"
+           sodipodi:cx="-14.689413"
+           sodipodi:cy="351.75034"
+           sodipodi:r1="71.301254"
+           sodipodi:r2="35.650627"
+           sodipodi:arg1="0"
+           sodipodi:arg2="1.0471976"
+           inkscape:rounded="0"
+           inkscape:randomized="0"
+           transform="matrix(0.09180083,0,0,0.09361785,90.76513,73.367432)"
+           inkscape:transform-center-x="-1.6363787"
+           inkscape:transform-center-y="-1.212243e-06"
+           inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+           inkscape:export-xdpi="63.5"
+           inkscape:export-ydpi="63.5"
+           d="m 56.611841,351.75034 -106.951881,61.74869 0,-123.49739 z" />
+        <path
+           sodipodi:type="star"
+           style="fill:#0000ff;stroke:#0000ff;stroke-width:11.8261;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path1948"
+           inkscape:flatsided="true"
+           sodipodi:sides="3"
+           sodipodi:cx="-14.689413"
+           sodipodi:cy="351.75034"
+           sodipodi:r1="71.301254"
+           sodipodi:r2="35.650627"
+           sodipodi:arg1="0"
+           sodipodi:arg2="1.0471976"
+           inkscape:rounded="0"
+           inkscape:randomized="0"
+           transform="matrix(0.09180083,0,0,0.09361785,83.976925,73.367432)"
+           inkscape:transform-center-x="-1.6363789"
+           inkscape:transform-center-y="-1.212243e-06"
+           inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+           inkscape:export-xdpi="63.5"
+           inkscape:export-ydpi="63.5"
+           d="m 56.611841,351.75034 -106.951881,61.74869 0,-123.49739 z" />
+      </g>
+      <rect
+         style="fill:none;stroke:#0000ff;stroke-width:2.80453;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect1952"
+         width="36.714497"
+         height="26.75169"
+         x="122.2183"
+         y="91.066193"
+         ry="4.117085"
+         inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+         inkscape:export-xdpi="63.5"
+         inkscape:export-ydpi="63.5" />
+      <rect
+         style="fill:none;stroke:none;stroke-width:2.80835;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect1956"
+         width="48.25066"
+         height="38.868416"
+         x="116.45022"
+         y="85.007828"
+         inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right_btn.png"
+         inkscape:export-xdpi="26.32"
+         inkscape:export-ydpi="26.32" />
+    </g>
+    <g
+       id="g2344"
+       transform="matrix(0.27417587,0,0,0.2722862,47.480709,58.036244)"
+       inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_down_btn.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <g
+         id="g2027"
+         transform="matrix(0,0.91398142,1.1662193,0,16.609303,78.29849)"
+         style="fill:#0000ff;stroke:#0000ff">
+        <path
+           sodipodi:type="star"
+           style="fill:#0000ff;stroke:#0000ff;stroke-width:11.8261;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path2023"
+           inkscape:flatsided="true"
+           sodipodi:sides="3"
+           sodipodi:cx="-14.689413"
+           sodipodi:cy="351.75034"
+           sodipodi:r1="71.301254"
+           sodipodi:r2="35.650627"
+           sodipodi:arg1="0"
+           sodipodi:arg2="1.0471976"
+           inkscape:rounded="0"
+           inkscape:randomized="0"
+           transform="matrix(0.09180083,0,0,0.09361785,90.76513,73.367432)"
+           inkscape:transform-center-x="-1.6363787"
+           inkscape:transform-center-y="-1.212243e-06"
+           inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+           inkscape:export-xdpi="63.5"
+           inkscape:export-ydpi="63.5"
+           d="m 56.611841,351.75034 -106.951881,61.74869 0,-123.49739 z" />
+        <path
+           sodipodi:type="star"
+           style="fill:#0000ff;stroke:#0000ff;stroke-width:11.8261;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path2025"
+           inkscape:flatsided="true"
+           sodipodi:sides="3"
+           sodipodi:cx="-14.689413"
+           sodipodi:cy="351.75034"
+           sodipodi:r1="71.301254"
+           sodipodi:r2="35.650627"
+           sodipodi:arg1="0"
+           sodipodi:arg2="1.0471976"
+           inkscape:rounded="0"
+           inkscape:randomized="0"
+           transform="matrix(0.09180083,0,0,0.09361785,83.976925,73.367432)"
+           inkscape:transform-center-x="-1.6363789"
+           inkscape:transform-center-y="-1.212243e-06"
+           inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+           inkscape:export-xdpi="63.5"
+           inkscape:export-ydpi="63.5"
+           d="m 56.611841,351.75034 -106.951881,61.74869 0,-123.49739 z" />
+      </g>
+      <rect
+         style="fill:none;stroke:#0000ff;stroke-width:2.80453;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect2029"
+         width="36.714497"
+         height="26.75169"
+         x="122.2183"
+         y="-170.73457"
+         ry="4.117085"
+         inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right.png"
+         inkscape:export-xdpi="63.5"
+         inkscape:export-ydpi="63.5"
+         transform="scale(1,-1)" />
+      <rect
+         style="fill:none;stroke:none;stroke-width:2.80835;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect2031"
+         width="48.25066"
+         height="38.868416"
+         x="116.45022"
+         y="-176.79294"
+         inkscape:export-filename="/home/marcelo/Insync/marcelo_rocha@midiacom.uff.br/Google Drive/UFF Doutorado MidiaCom/eva-robot-2024/evaml-evasim-sourcecode/version2.0/evasim/images/head_right_btn.png"
+         inkscape:export-xdpi="26.32"
+         inkscape:export-ydpi="26.32"
+         transform="scale(1,-1)" />
+    </g>
+  </g>
+</svg>

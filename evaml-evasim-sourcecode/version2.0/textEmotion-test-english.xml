@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="textEmotion-test-english"
+  xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice tone="en-US_EmmaExpressive" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <motion head="CENTER"/>
+    <evaEmotion emotion="NEUTRAL" />
+    <talk>Hello Marcelo. I will try to indentify the emotion from of your sentence</talk>
+    <wait duration="1000" />
+    <talk>Could you say something?</talk>
+    <listen />
+    <textEmotion />
+    <switch var="$">
+      <case op="exact" value="HAPPY">
+        <useMacro macro="_HAPPY" />
+      </case>
+      <case op="exact" value="SAD">
+        <useMacro macro="_SAD" />
+      </case>
+      <case op="exact" value="ANGRY">
+        <useMacro macro="_ANGRY" />
+      </case>
+      <case op="exact" value="SURPRISE">
+        <useMacro macro="_SURPRISE" />
+      </case>
+      <case op="exact" value="DISGUST">
+        <useMacro macro="_DISGUST" />
+      </case>
+    </switch>
+  </script>
+  <macros>
+    <macro id="_HAPPY">
+      <evaEmotion emotion="HAPPY" />
+      <motion head="2YES"/>
+      <led animation="HAPPY" />
+      <wait duration="5000" />
+      <led animation="STOP" />
+    </macro>
+
+    <macro id="_SAD">
+      <evaEmotion emotion="SAD" />
+      <motion head="DOWN"/>
+      <wait duration="1000" />
+      <motion head="2NO"/>
+      <led animation="SPEAK" />
+      <wait duration="5000" />
+      <led animation="STOP" />
+    </macro>
+
+    <macro id="_ANGRY">
+      <evaEmotion emotion="ANGRY" />
+      <motion head="DOWN"/>
+      <wait duration="1000" />
+      <motion head="2NO"/>
+      <led animation="ANGRY" />
+      <wait duration="5000" />
+      <led animation="STOP" />
+    </macro>
+
+    <macro id="_DISGUST">
+      <evaEmotion emotion="DISGUST" />
+      <motion head="UP"/>
+      <wait duration="1000" />
+      <motion head="2NO"/>
+      <led animation="SURPRISE" />
+      <wait duration="5000" />
+      <led animation="STOP" />
+    </macro>
+
+    <macro id="_SURPRISE">
+      <evaEmotion emotion="SURPRISE" />
+      <motion head="UP"/>
+      <wait duration="1000" />
+      <led animation="SURPRISE" />
+      <wait duration="5000" />
+      <led animation="STOP" />
+    </macro>
+
+  </macros>
+</evaml>

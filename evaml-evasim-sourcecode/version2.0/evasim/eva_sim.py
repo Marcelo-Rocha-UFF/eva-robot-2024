@@ -844,6 +844,12 @@ def exec_comando(node):
 
 
     elif node.tag == "talk": # Blocking function
+        if node.text == None: # There is no text to speech
+            print("There is no text to speech in the element <talk>.")
+            gui.terminal.insert(INSERT, "\nError -> There is no text to speech in the element <talk>. Please, check your code.", "error")
+            gui.terminal.see(tkinter.END)
+            exit(1)
+
         texto = node.text
         # Replace variables throughout the text. variables must exist in memory
         if "#" in texto:
@@ -869,7 +875,7 @@ def exec_comando(node):
         if "$" in texto: # Check if there is $ in the text
             # Checks if var_dollar has any value in the robot's memory
             if (len(eva_memory.var_dolar)) == 0:
-                gui.terminal.insert(INSERT, "\nError -> The variable $ has no value. Please, check your code.", "error")
+                gui.terminal.insert(INSERT, "\nError-> The variable $ has no value. Please, check your code.", "error")
                 gui.terminal.see(tkinter.END)
                 exit(1)
             else: # Find the patterns $ $n or $-n in the string and replace with the corresponding values
@@ -1020,15 +1026,19 @@ def exec_comando(node):
         elif node.attrib['op'] == "contain":      
             # Checks if var_dollar memory has any value
             if (len(eva_memory.var_dolar)) == 0:
-                gui.terminal.insert(INSERT, "\nError -> The variable $ has no value. Please, check your code.", "error")
+                gui.terminal.insert(INSERT, "\nWARNING -> The variable $ has no value. Please, check your code.", "error")
                 gui.terminal.see(tkinter.END)
-                exit(1)  
-
-            # Checks if the string in value is contained in $
-            print("value: ", valor, type(valor))
-            if valor in eva_memory.var_dolar[-1][0].lower(): 
+                # exit(1)  
+            else:
+                # Checks if the string in value is contained in $
+                print("value: ", valor, type(valor))
+                if valor in eva_memory.var_dolar[-1][0].lower(): 
+                    print("case = true")
+                    eva_memory.reg_case = 1 # Turn on the reg case indicating that the comparison result was true
+            if valor in eva_memory.vars[node.attrib['var']]: 
                 print("case = true")
                 eva_memory.reg_case = 1 # Turn on the reg case indicating that the comparison result was true
+
 
         # case 3 (MATHEMATICAL COMPARISON)
         else:

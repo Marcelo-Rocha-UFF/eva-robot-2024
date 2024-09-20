@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="textEmotion-test-portuguese"
+  xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice tone="pt-BR_IsabelaV3Voice" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <motion head="CENTER"/>
+    <evaEmotion emotion="NEUTRAL" />
+    <wait duration="2000" />
+    <!-- <talk>Oi Marcelo. Eu vou tentar identificar a emoção, da sua frase</talk>
+    <wait duration="1000" />
+    <talk>Você poderia dizer algo?</talk>
+    <listen /> -->
+    <textEmotion language="PT" var="EMOCAO_DO_TEXTO">
+      Ganhei muito dinheiro hoje!
+    </textEmotion>
+    <useMacro macro="_TESTE_ROBOT" />
+    <wait duration="1000" />
+    <textEmotion language="PT" var="EMOCAO_DO_TEXTO">
+      Alguém faleceu hoje!
+    </textEmotion>
+    <useMacro macro="_TESTE_ROBOT" />
+    <wait duration="1000" />
+    <textEmotion language="PT" var="EMOCAO_DO_TEXTO">
+      Não gostei dessa comida!
+    </textEmotion>
+    <useMacro macro="_TESTE_ROBOT" />
+    <wait duration="1000" />
+    <motion head="CENTER"/>
+    <textEmotion language="PT" var="EMOCAO_DO_TEXTO">
+      Eu tenho medo de escuro!
+    </textEmotion>
+    <useMacro macro="_TESTE_ROBOT" />
+    <wait duration="1000" />
+    <textEmotion language="PT" var="EMOCAO_DO_TEXTO">
+      O que aconteceu com você?
+    </textEmotion>
+    <useMacro macro="_TESTE_ROBOT" />
+    <wait duration="1000" />
+    <motion head="CENTER"/>
+    <evaEmotion emotion="NEUTRAL" />
+    <wait duration="3000" />
+    <talk>Fique com Deus!</talk>
+  </script>
+  <macros>
+    <macro id="_TESTE_USER">
+      <switch var="EMOCAO_DO_TEXTO">
+        <case op="exact" value="HAPPY">
+          <useMacro macro="_HAPPY" />
+          <talk>Você parece estar feliz!</talk>
+        </case>
+        <case op="exact" value="SAD">
+          <useMacro macro="_SAD" />
+          <talk>Puxa, você parece triste, lamento!</talk>
+        </case>
+        <case op="exact" value="ANGRY">
+          <useMacro macro="_ANGRY" />
+          <talk>Calma, cuidado com a sua pressão!</talk>
+        </case>
+        <case op="exact" value="SURPRISE">
+          <useMacro macro="_SURPRISE" />
+          <talk>Você parece surpreso!</talk>
+        </case>
+        <case op="exact" value="DISGUST">
+          <useMacro macro="_DISGUST" />
+          <talk>Hum, Não fique como nôjo!</talk>
+        </case>
+      </switch>
+    </macro>
+
+    <macro id="_TESTE_ROBOT">
+      <switch var="EMOCAO_DO_TEXTO">
+        <case op="exact" value="HAPPY">
+          <useMacro macro="_HAPPY" />
+          <talk>Me sinto feliz!</talk>
+        </case>
+        <case op="exact" value="FEAR">
+          <useMacro macro="_FEAR" />
+          <talk>Eu estou com muito medo!</talk>
+        </case>
+        <case op="exact" value="SAD">
+          <useMacro macro="_SAD" />
+          <talk>Puxa, me sinto triste, lamento!</talk>
+        </case>
+        <case op="exact" value="ANGRY">
+          <useMacro macro="_ANGRY" />
+          <talk>Estou muito aborrecido!</talk>
+        </case>
+        <case op="exact" value="SURPRISE">
+          <useMacro macro="_SURPRISE" />
+          <talk>Estou surpreso!</talk>
+        </case>
+        <case op="exact" value="DISGUST">
+          <useMacro macro="_DISGUST" />
+          <talk>Nossa, que nojento isso!</talk>
+        </case>
+      </switch>
+    </macro>
+    <macro id="_HAPPY">
+      <evaEmotion emotion="HAPPY" />
+      <motion head="2YES"/>
+      <led animation="HAPPY" />
+      <wait duration="3000" />
+      <led animation="STOP" />
+    </macro>
+
+    <macro id="_SAD">
+      <evaEmotion emotion="SAD" />
+      <motion head="DOWN"/>
+      <wait duration="1000" />
+      <motion head="2NO"/>
+      <led animation="SPEAK" />
+      <wait duration="3000" />
+      <led animation="STOP" />
+    </macro>
+
+    <macro id="_ANGRY">
+      <evaEmotion emotion="ANGRY" />
+      <motion head="DOWN"/>
+      <wait duration="1000" />
+      <motion head="2NO"/>
+      <led animation="ANGRY" />
+      <wait duration="4000" />
+      <led animation="STOP" />
+    </macro>
+
+    <macro id="_DISGUST">
+      <evaEmotion emotion="DISGUST" />
+      <motion head="2UP_RIGHT"/>
+      <wait duration="1000" />
+      <motion head="2NO"/>
+      <led animation="SURPRISE" />
+      <wait duration="3000" />
+      <led animation="STOP" />
+    </macro>
+
+    <macro id="_SURPRISE">
+      <evaEmotion emotion="SURPRISE" />
+      <motion head="2UP"/>
+      <wait duration="1000" />
+      <motion head="2YES"/>
+      <led animation="SURPRISE" />
+      <wait duration="3000" />
+      <led animation="STOP" />
+    </macro>
+
+    <macro id="_FEAR">
+      <evaEmotion emotion="FEAR" />
+      <motion head="DOWN"/>
+      <wait duration="1000" />
+      <led animation="WHITE" />
+      <wait duration="3000" />
+      <led animation="STOP" />
+    </macro>
+
+  </macros>
+</evaml>

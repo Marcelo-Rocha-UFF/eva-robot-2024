@@ -67,7 +67,7 @@ def cria_link(node_from, node_to):
         for case_elem in node_to:
             # todas os cases passam a ter o atrib. "var" igual ao "var" do switch (node_to)
             # sempre havera conteudo em var do <switch>. Isso é garantido pelo xmlschema
-            # restrição. "exact" e "contain" só podem ser usados com va="$"" no switch.
+            # restrição. "exact" e "contain" só podem ser usados com va="$"" no switch. (RESTRIÇÃO REMOVIDA - Pelo uso de var em <listen>, <userEmotion> etc.)
             if case_elem.tag == "case":
                 case_elem.attrib["var"] = node_to.attrib["var"] # copia "var" do <switch> para <case>
                 if case_elem.attrib["var"].isnumeric(): # var só pode conter vars e nunca números (ESSA RESTRIÇÃO FOI MINHA OPÇÃO)
@@ -80,10 +80,14 @@ def cria_link(node_from, node_to):
                     # Esta restrição foi removida pela utilização de variáveis def. pelos usuários em vez de apenas o dollar.
                     # print('  Error -> The "exact" comparison type should only be used with var="$" and not with var="' + node_to.attrib["var"] + '"')
                     # exit(1) # termina com erro
-                if ("$" not in case_elem.attrib["var"]) and (case_elem.attrib["op"] == "contain"): 
-                    # uso indevido de contain com outra variavel que não é o $
-                    print('  Error -> The "contain" comparison type should only be used with var="$" and not with var="' + node_to.attrib["var"] + '"')
-                    exit(1) # termina com erro
+                
+                # Esta restrição foi removida a partir da utilização de variáveis de usuário no comandos <listen>, <userEmotion> etc.
+                # if ("$" not in case_elem.attrib["var"]) and (case_elem.attrib["op"] == "contain"): 
+                #     # uso indevido de contain com outra variavel que não é o $
+                #     print('  Warning -> The "contain" comparison type should only be used with var="$" and not with var="' + node_to.attrib["var"] + '"')
+                #     exit(1) # termina com erro
+                
+                
                 # o uso de $ com indices, em var e em value, não é permitido no robô físico
                 # uso indevido de $ com indice no atributo var do <switch>  
                 if ("$" in case_elem.attrib["var"]) and (len(case_elem.attrib["var"]) > 1):

@@ -57,6 +57,7 @@ class Gui(ttk.Frame):
         self.im_eyes_surprise_btn = PhotoImage(file = "images/eyes_surprise_btn.png")
         self.im_eyes_disgust_btn = PhotoImage(file = "images/eyes_disgust_btn.png")
         self.im_eyes_inlove_btn = PhotoImage(file = "images/eyes_inlove_btn.png")
+        self.im_eyes_on = PhotoImage(file = "images/eyes_on.png")
 
         # Button images (Head Motion)
         self.im_head_right_btn = PhotoImage(file = "images/head_right_btn.png")
@@ -143,6 +144,7 @@ class Gui(ttk.Frame):
         self.canvas_woz.create_image(180, 370, image = self.eva_image) # (X => 180-160 = 20)(Y => 370-262 = 108)
         self.canvas_woz.create_oval(330, 313, 407, 393, fill = "#000000", outline = "#000000" ) # cor preta indica light off
         self.canvas_woz.create_image(370, 393, image = self.bulb_image)
+        self.canvas_woz.create_image(176, 269, image = self.im_eyes_on)
 
         lfs_padx = 6
         # Label frame expressions

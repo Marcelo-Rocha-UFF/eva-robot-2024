@@ -1,12 +1,18 @@
 <evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="teste" xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd">
   <settings>
-    <voice tone="pt-BR_IsabelaV3Voice" />
+    <voice tone="en-US_EmmaExpressive" />
     <lightEffects mode="ON" />
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <light state="OFF" />
-    <wait duration="1000" />
-    <light state="ON" color="GREEN" />
+    <listen var="cliente" />
+    <switch var="cliente">
+      <case op="exact" value="elo">
+        <light state="ON" />
+      </case>
+      <default>
+        <light state="OFF" />
+      </default>
+    </switch>
   </script>
 </evaml>

@@ -329,19 +329,40 @@ gui.bt_clear.bind("<Button-1>", clear_terminal)
 
 # WoZ light functions
 def woz_light_blue(self):
+    # color_map = {"WHITE":"#ffffff", "BLACK":"#000000", "RED":"#ff0000", "PINK":"#e6007e", "GREEN":"#00ff00", "YELLOW":"#ffff00", "BLUE":"#0000ff"}
     client.publish(topic_base + "/light", "BLUE|ON")
+    gui.canvas_woz.create_oval(330, 313, 407, 393, fill = "#0000ff", outline = "#0000ff")
+    gui.canvas_woz.create_image(370, 393, image = gui.bulb_image) # redesenha a lampada
+
 def woz_light_green(self):
     client.publish(topic_base + "/light", "GREEN|ON")
+    gui.canvas_woz.create_oval(330, 313, 407, 393, fill = "#00ff00", outline = "#00ff00")
+    gui.canvas_woz.create_image(370, 393, image = gui.bulb_image) # redesenha a lampada
+
 def woz_light_black(self):
     client.publish(topic_base + "/light", "BLACK|OFF")
+    gui.canvas_woz.create_oval(330, 313, 407, 393, fill = "#000000", outline = "#000000")
+    gui.canvas_woz.create_image(370, 393, image = gui.bulb_image) # redesenha a lampada
+
 def woz_light_pink(self):
     client.publish(topic_base + "/light", "PINK|ON")
+    gui.canvas_woz.create_oval(330, 313, 407, 393, fill = "#e6007e", outline = "#e6007e")
+    gui.canvas_woz.create_image(370, 393, image = gui.bulb_image) # redesenha a lampada
+
 def woz_light_red(self):
     client.publish(topic_base + "/light", "RED|ON")
+    gui.canvas_woz.create_oval(330, 313, 407, 393, fill = "#ff0000", outline = "#ff0000")
+    gui.canvas_woz.create_image(370, 393, image = gui.bulb_image) # redesenha a lampada
+
 def woz_light_yellow(self):
     client.publish(topic_base + "/light", "YELLOW|ON")
+    gui.canvas_woz.create_oval(330, 313, 407, 393, fill = "#ffff00", outline = "#ffff00")
+    gui.canvas_woz.create_image(370, 393, image = gui.bulb_image) # redesenha a lampada
+
 def woz_light_white(self):
     client.publish(topic_base + "/light", "WHITE|ON")
+    gui.canvas_woz.create_oval(330, 313, 407, 393, fill = "#ffffff", outline = "#ffffff")
+    gui.canvas_woz.create_image(370, 393, image = gui.bulb_image) # redesenha a lampada
 
 # WoZ light buttons binding
 gui.bt_bulb_green_btn.bind("<Button-1>", woz_light_green)
@@ -355,20 +376,28 @@ gui.bt_bulb_white_btn.bind("<Button-1>", woz_light_white)
 # WoZ expressions functions
 def woz_expression_angry(self):
     client.publish(topic_base + "/evaEmotion", "ANGRY")
+    gui.canvas_woz.create_image(176, 269, image = im_eyes_angry)
 def woz_expression_fear(self):
     client.publish(topic_base + "/evaEmotion", "FEAR")
+    gui.canvas_woz.create_image(176, 269, image = im_eyes_fear)
 def woz_expression_happy(self):
     client.publish(topic_base + "/evaEmotion", "HAPPY")
+    gui.canvas_woz.create_image(176, 269, image = im_eyes_happy)
 def woz_expression_neutral(self):
     client.publish(topic_base + "/evaEmotion", "NEUTRAL")
+    gui.canvas_woz.create_image(176, 269, image = im_eyes_neutral)
 def woz_expression_sad(self):
     client.publish(topic_base + "/evaEmotion", "SAD")
+    gui.canvas_woz.create_image(176, 269, image = im_eyes_sad)
 def woz_expression_surprise(self):
     client.publish(topic_base + "/evaEmotion", "SURPRISE")
+    gui.canvas_woz.create_image(176, 269, image = im_eyes_surprise)
 def woz_expression_disgust(self):
     client.publish(topic_base + "/evaEmotion", "DISGUST")
+    gui.canvas_woz.create_image(176, 269, image = im_eyes_disgust)
 def woz_expression_inlove(self):
     client.publish(topic_base + "/evaEmotion", "INLOVE")
+    gui.canvas_woz.create_image(176, 269, image = im_eyes_inlove)
 
 # WoZ expression buttons binding
 gui.bt_exp_angry.bind("<Button-1>", woz_expression_angry)
@@ -390,9 +419,15 @@ def woz_led_angry(self):
 def woz_led_sad(self):
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "SAD")
+def woz_led_fear(self):
+    client.publish(topic_base + "/leds", "STOP")
+    client.publish(topic_base + "/leds", "FEAR")
 def woz_led_angry2(self):
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "ANGRY2")
+def woz_led_inlove(self):
+    client.publish(topic_base + "/leds", "STOP")
+    client.publish(topic_base + "/leds", "INLOVE")
 def woz_led_happy(self):
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "HAPPY")
@@ -408,6 +443,9 @@ def woz_led_speak(self):
 def woz_led_surprise(self):
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "SURPRISE")
+def woz_led_disgust(self):
+    client.publish(topic_base + "/leds", "STOP")
+    client.publish(topic_base + "/leds", "DISGUST")
 def woz_led_white(self):
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "WHITE")
@@ -416,12 +454,15 @@ def woz_led_white(self):
 gui.bt_led_stop.bind("<Button-1>", woz_led_stop)
 gui.bt_led_angry.bind("<Button-1>", woz_led_angry)
 gui.bt_led_sad.bind("<Button-1>", woz_led_sad)
+gui.bt_led_fear.bind("<Button-1>", woz_led_fear)
 gui.bt_led_angry2.bind("<Button-1>", woz_led_angry2)
+gui.bt_led_inlove.bind("<Button-1>", woz_led_inlove)
 gui.bt_led_happy.bind("<Button-1>", woz_led_happy)
 gui.bt_led_listen.bind("<Button-1>", woz_led_listen)
 gui.bt_led_rainbow.bind("<Button-1>", woz_led_rainbow)
 gui.bt_led_speak.bind("<Button-1>", woz_led_speak)
 gui.bt_led_surprise.bind("<Button-1>", woz_led_surprise)
+gui.bt_led_disgust.bind("<Button-1>", woz_led_disgust)
 gui.bt_led_white.bind("<Button-1>", woz_led_white)
 
 
@@ -845,6 +886,12 @@ def exec_comando(node):
 
 
     elif node.tag == "talk": # Blocking function
+        if node.text == None: # There is no text to speech
+            print("There is no text to speech.")
+            gui.terminal.insert(INSERT, "\nError -> There is no text to speech in the element <talk>. Please, check your code.", "error")
+            gui.terminal.see(tkinter.END)
+            exit(1)
+
         texto = node.text
         # Replace variables throughout the text. variables must exist in memory
         if "#" in texto:
@@ -1154,17 +1201,35 @@ def exec_comando(node):
             client.publish(topic_base + "/log", "EVA is analysing the text emotion...")
             EVA_ROBOT_STATE = "BUSY"
             ledAnimation("RAINBOW")
-            client.publish(topic_base + "/textEmotion", eva_memory.var_dolar[-1][0])
+            if node.text == None: # Verify if there is a text defined by develop to be analysed
+                text_to_be_analysed = eva_memory.var_dolar[-1][0] # it uses the $ content
+            else:
+                text_to_be_analysed = node.text # It uses the string from the element
+
+            if node.get("language") == None: 
+                client.publish(topic_base + "/textEmotion", "PT|" + text_to_be_analysed) # Default is source language to portuguese "PT"
+            else:
+                client.publish(topic_base + "/textEmotion", node.get("language") + "|" + text_to_be_analysed) # Set the language used in the text
 
             while (EVA_ROBOT_STATE != "FREE"):
                 pass
-            
+        
             if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                 eva_memory.var_dolar.append([EVA_DOLLAR, "<textEmotion>"])
                 gui.terminal.insert(INSERT, "\nSTATE: textEmotion: var=$" + ", value = " + eva_memory.var_dolar[-1][0])
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
                 ledAnimation("STOP")
+            else:
+                var_name = node.attrib["var"]
+                eva_memory.vars[var_name] = EVA_DOLLAR
+                print("Eva ram => ", eva_memory.vars)
+                gui.terminal.insert(INSERT, "\nSTATE: textEmotion (using the user variable '" + var_name + "'): " + str(eva_memory.vars[var_name]))
+                tab_load_mem_vars() # Enter data from variable memory into the variable table
+                gui.terminal.see(tkinter.END)
+                print("textEmotion command USING VAR...")
+                ledAnimation("STOP")
+            
 
 
     elif node.tag == "userEmotion":

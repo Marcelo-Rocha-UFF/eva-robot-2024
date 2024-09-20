@@ -14,6 +14,13 @@
     <evaEmotion emotion="NEUTRAL" />
     <led animation="STOP" />
     <motion head="CENTER" right-arm="POSITION 0" left-arm="POSITION 0"/>
+    <talk>Hi everyone!</talk>
+    <talk>My name is EVA.</talk>
+    <audio source="efx-blin2" block="TRUE" />
+    <talk>I am a social robot</talk>
+    <wait duration="1500" />
+    <talk>I can be used in healthcare and educational applications</talk>
+    <audio source="efx-blin2" block="TRUE" />
     <talk>Now I will initiate a test of all my capabilities</talk>
 
 
@@ -146,12 +153,13 @@
     <!-- Listening test -->
     <led animation="STOP" />
     <motion head="CENTER"/>
-    <evaEmotion emotion="NEUTRAL" />
+    <!-- <evaEmotion emotion="NEUTRAL" />
     <talk>Please, could you say your name?</talk>
     <listen />
     <talk>Hello $</talk>
-    <talk>How are you?</talk>
-    <wait duration="2000" />
+    <talk>How are you?</talk> -->
+    <talk>That is alll folks</talk>
+    <wait duration="1000" />
     <talk>Good bye!</talk>
     <light state="OFF" />
   </script>
