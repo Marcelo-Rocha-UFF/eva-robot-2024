@@ -10,7 +10,7 @@
     <evaEmotion emotion="NEUTRAL" key="1002" />
     <led animation="STOP" key="1003" />
     <motion head="CENTER" right-arm="POSITION 0" left-arm="POSITION 0" key="1004" />
-    <talk key="1005">Hi everyone!</talk>
+    <talk key="1005">Hi every body!</talk>
     <talk key="1006">My name is EVA.</talk>
     <audio source="efx-blin2" block="TRUE" key="1007" />
     <talk key="1008">I am a social robot</talk>

@@ -1,18 +1,158 @@
-<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="teste" xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd" id="698dc19d489c4e4db73e28a713eab07b">
+<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="eva_demo" xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd" id="fb74fb37ee6f50390462a0fe1e980687">
   <settings>
     <voice tone="en-US_EmmaExpressive" key="1000" />
     <lightEffects mode="ON" />
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <listen var="cliente" key="1001" />
-    <switch var="cliente">
-      <case op="exact" value="elo" key="1002" child_proc="false">
-        <light state="ON" color="WHITE" key="1003" />
-      </case>
-      <default key="1004" child_proc="false">
-        <light state="OFF" key="1005" />
-      </default>
-    </switch>
+    
+    <light state="OFF" key="1001" />
+    <evaEmotion emotion="NEUTRAL" key="1002" />
+    <led animation="STOP" key="1003" />
+    <motion head="CENTER" right-arm="POSITION 0" left-arm="POSITION 0" key="1004" />
+    <talk key="1005">Hi every body!</talk>
+    <talk key="1006">My name is EVA.</talk>
+    <audio source="efx-blin2" block="TRUE" key="1007" />
+    <talk key="1008">I am a social robot</talk>
+    <wait duration="1500" key="1009" />
+    <talk key="1010">I can be used in healthcare and educational applications</talk>
+    <audio source="efx-blin2" block="TRUE" key="1011" />
+    <talk key="1012">Now I will initiate a test of all my capabilities</talk>
+
+
+    
+    <talk key="1013">I will start testing the smart bulb</talk>
+    <audio source="efx-display" block="FALSE" key="1014" />
+    <light state="ON" color="WHITE" key="1015" />
+    <wait duration="1000" key="1016" />
+    <audio source="efx-display" block="FALSE" key="1017" />
+    <light state="ON" color="BLUE" key="1018" />
+    <wait duration="1000" key="1019" />
+    <audio source="efx-display" block="FALSE" key="1020" />
+    <light state="ON" color="GREEN" key="1021" />
+    <wait duration="1000" key="1022" />
+    <audio source="efx-display" block="FALSE" key="1023" />
+    <light state="ON" color="RED" key="1024" />
+    <wait duration="1000" key="1025" />
+    <audio source="efx-display" block="FALSE" key="1026" />
+    <light state="ON" color="YELLOW" key="1027" />
+    <wait duration="1000" key="1028" />
+
+
+    
+    <talk key="1029">I can express emotions using my gaze and I will test it now</talk>
+    <audio source="efx-blin2" block="FALSE" key="1030" />
+    <evaEmotion emotion="HAPPY" key="1031" />
+    <wait duration="2000" key="1032" />
+    <audio source="efx-blin2" block="FALSE" key="1033" />
+    <evaEmotion emotion="SAD" key="1034" />
+    <wait duration="2000" key="1035" />
+    <audio source="efx-blin2" block="FALSE" key="1036" />
+    <evaEmotion emotion="ANGRY" key="1037" />
+    <wait duration="2000" key="1038" />
+    <audio source="efx-blin2" block="FALSE" key="1039" />
+    <evaEmotion emotion="FEAR" key="1040" />
+    <wait duration="2000" key="1041" />
+    <audio source="efx-blin2" block="FALSE" key="1042" />
+    <evaEmotion emotion="SURPRISE" key="1043" />
+    <wait duration="2000" key="1044" />
+    <audio source="efx-blin2" block="FALSE" key="1045" />
+    <evaEmotion emotion="DISGUST" key="1046" />
+    <wait duration="2000" key="1047" />
+    <audio source="efx-blin2" block="FALSE" key="1048" />
+    <evaEmotion emotion="INLOVE" key="1049" />
+    <wait duration="2000" key="1050" />
+
+    
+    
+    <evaEmotion emotion="NEUTRAL" key="1051" />
+    <talk key="1052">Now, I will run some animations using the leds on my chest</talk>
+    <audio source="efx-robot" block="FALSE" key="1053" />
+    <light state="ON" color="GREEN" key="1054" />
+    <led animation="HAPPY" key="1055" />
+    <wait duration="5000" key="1056" />
+    <audio source="efx-robot" block="FALSE" key="1057" />
+    <light state="ON" color="RED" key="1058" />
+    <led animation="ANGRY" key="1059" />
+    <wait duration="5000" key="1060" />
+    <audio source="efx-robot" block="FALSE" key="1061" />
+    <light state="ON" color="YELLOW" key="1062" />
+    <led animation="SURPRISE" key="1063" />
+    <wait duration="5000" key="1064" />
+    <audio source="efx-robot" block="FALSE" key="1065" />
+    <light state="ON" color="WHITE" key="1066" />
+    <led animation="RAINBOW" key="1067" />
+    <wait duration="5000" key="1068" />
+
+    
+    <led animation="STOP" key="1069" />
+    <talk key="1070">I have non verbal capabilities so I can move my head</talk>
+    <wait duration="1000" key="1071" />
+    <talk key="1072">I can move up</talk>
+    <audio source="efx-robot-head" block="FALSE" key="1073" />
+    <motion type="2UP" key="1074" />
+    <wait duration="2000" key="1075" />
+    <motion type="CENTER" key="1076" />
+    <wait duration="2000" key="1077" />
+    <talk key="1078">I can move down</talk>
+    <audio source="efx-robot-head" block="FALSE" key="1079" />
+    <motion type="2DOWN" key="1080" />
+    <wait duration="2000" key="1081" />
+    <motion type="CENTER" key="1082" />
+    <wait duration="2000" key="1083" />
+    <talk key="1084">I can say no</talk>
+    <light state="ON" color="RED" key="1085" />
+    <led animation="ANGRY" key="1086" />
+    <evaEmotion emotion="ANGRY" key="1087" />
+    <motion head="DOWN" key="1088" />
+    <wait duration="1000" key="1089" />
+    <motion type="NO" key="1090" />
+    <wait duration="4000" key="1091" />
+    <talk key="1092">and I can say yes</talk>
+    <led animation="HAPPY" key="1093" />
+    <light state="ON" color="GREEN" key="1094" />
+    <evaEmotion emotion="HAPPY" key="1095" />
+    <motion type="2YES" key="1096" />
+    <wait duration="4000" key="1097" />
+    <evaEmotion emotion="NEUTRAL" key="1098" />
+    <motion head="CENTER" key="1099" />
+    <light state="ON" color="WHITE" key="1100" />
+    
+    
+    <talk key="1101">I can move my right arm</talk>
+    <audio source="efx-robot-arm" block="FALSE" key="1102" />
+    <motion right-arm="POSITION 3" key="1103" />
+    <wait duration="2000" key="1104" />
+    <talk key="1105">I can move my left arm</talk>
+    <audio source="efx-robot-arm" block="FALSE" key="1106" />
+    <motion left-arm="POSITION 2" key="1107" />
+    <wait duration="2000" key="1108" />
+    <talk key="1109">and I can shake my arms</talk>
+    <audio source="song-samba-loop" block="FALSE" key="1110" />
+    <motion left-arm="SHAKE2" right-arm="SHAKE2" key="1111" />
+    <wait duration="6000" key="1112" />
+    <motion right-arm="POSITION 0" left-arm="POSITION 0" key="1113" />
+
+    
+    <talk key="1114">I can also play sounds</talk>
+    <audio source="efx-blin" block="TRUE" key="1115" />
+    <talk key="1116">I can play some good music too</talk>
+    <audio source="song-rude-magic" block="FALSE" key="1117" />
+    <led animation="SURPRISE" key="1118" />
+    <motion head="RIGHT_UP2" right-arm="POSITION 3" left-arm="POSITION 0" key="1119" />
+    <evaEmotion emotion="HAPPY" key="1120" />
+    <wait duration="7000" key="1121" />
+    <motion head="LEFT_UP2" right-arm="POSITION 0" left-arm="POSITION 3" key="1122" />
+    <wait duration="7000" key="1123" />
+    <motion head="CENTER" right-arm="POSITION 0" left-arm="POSITION 0" key="1124" />
+
+    
+    <led animation="STOP" key="1125" />
+    <motion head="CENTER" key="1126" />
+    
+    <talk key="1127">That is alll folks</talk>
+    <wait duration="1000" key="1128" />
+    <talk key="1129">Good bye!</talk>
+    <light state="OFF" key="1130" />
   </script>
 </evaml>

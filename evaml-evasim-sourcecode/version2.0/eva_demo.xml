@@ -14,7 +14,7 @@
     <evaEmotion emotion="NEUTRAL" />
     <led animation="STOP" />
     <motion head="CENTER" right-arm="POSITION 0" left-arm="POSITION 0"/>
-    <talk>Hi everyone!</talk>
+    <talk>Hi every body!</talk>
     <talk>My name is EVA.</talk>
     <audio source="efx-blin2" block="TRUE" />
     <talk>I am a social robot</talk>

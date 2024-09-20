@@ -9,9 +9,9 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <listen var="cliente"/>
-    <switch var="cliente">
-      <case op="exact" value="elo">
+    <listen var="nome"/>
+    <switch var="idade">
+      <case op="contain" value="sim">
         <light state="ON" />
       </case>
       <default>

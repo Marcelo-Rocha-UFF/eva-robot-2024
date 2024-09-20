@@ -5,9 +5,9 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <listen var="cliente" key="1001" />
-    <switch var="cliente">
-      <case op="exact" value="elo" key="1002" child_proc="true" var="cliente">
+    <listen var="nome" key="1001" />
+    <switch var="idade">
+      <case op="contain" value="sim" key="1002" child_proc="true" var="idade">
         <light state="ON" color="WHITE" key="1003" />
       </case>
       <default key="1004" child_proc="true" value="" op="exact">
