@@ -130,8 +130,8 @@ if ROBOT_MODE_ENABLED: # Only if robot-mode=on was selected in command line
     client.connect(broker, port)
     client.loop_start()
 
-else: # User not selected the robot-mode=on in commend line
-    class Fake_Mqtt_Client(): # Fake mqtt class to work woth mqtt commands
+else: # User not selected the robot-mode=on in command line
+    class Fake_Mqtt_Client(): # A fake mqtt class to work with mqtt commands
         def __init__(self):
             print("A fake mqtt client was created!")
         def publish(self, fake_topic, fake_message):
