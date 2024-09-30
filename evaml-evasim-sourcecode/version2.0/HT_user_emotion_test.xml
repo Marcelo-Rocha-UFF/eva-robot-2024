@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <evaml
-  name="user_emotion_test"
+  name="HT_user_emotion_test"
   xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <settings>
@@ -10,6 +10,8 @@
   </settings>
   <script>
     <light state="OFF" />
+    <motion head="CENTER" right-arm="POSITION 0" left-arm="POSITION 0"/>
+    <evaEmotion emotion="NEUTRAL" />
     <wait duration="2000" />
     <light state="ON" color="RED"/>
     <talk>Olá, vou tentar identificar a sua expressão facial</talk>
@@ -18,24 +20,37 @@
     <userEmotion var="EMOTION_FROM_USER" />
     <switch var="EMOTION_FROM_USER">
       <case op="exact" value="NEUTRAL">
+        <evaEmotion emotion="NEUTRAL" />
         <talk>Você parece estar neutro</talk>
       </case>
       <case op="exact" value="HAPPY">
+        <evaEmotion emotion="HAPPY" />
+        <motion head="YES"/>
         <talk>Você parece estar feliz</talk>
       </case>
       <case op="exact" value="SAD">
+        <motion head="2DOWN"/>
+        <evaEmotion emotion="SAD" />
         <talk>Você parece estar triste</talk>
       </case>
       <case op="exact" value="ANGRY">
+        <motion head="2DOWN"/>
+        <evaEmotion emotion="ANGRY" />
         <talk>Você parece estar com raiva</talk>
       </case>
       <case op="exact" value="FEAR">
+        <motion right-arm="POSITION 3"/>
+        <evaEmotion emotion="FEAR" />
         <talk>Você parece estar com medo</talk>
       </case>
       <case op="exact" value="SURPRISE">
+        <motion right-arm="POSITION 3" left-arm="POSITION 3"/>
+        <evaEmotion emotion="SURPRISE" />
         <talk>Você parece surpreso</talk>
       </case>
       <case op="eq" value="DISGUST">
+        <motion head="2UP_RIGHT"/>
+        <evaEmotion emotion="DISGUST" />
         <talk>Você parece estar com nojo</talk>
       </case>
     </switch>

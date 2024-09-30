@@ -1,4 +1,4 @@
-<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="genius5cores" xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd" id="24ae969c238217c0622ebcf21ac454f2">
+<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="HT_genius5cores" xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd" id="9355011a4db5d7ff8f5643e5f65056d4">
   <settings>
     <voice tone="pt-BR_IsabelaV3Voice" key="1000" />
     <lightEffects mode="ON" />

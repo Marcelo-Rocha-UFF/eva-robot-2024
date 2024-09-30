@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <evaml
-  name="textEmotion-test-portuguese"
+  name="HT_textEmotion-test-portuguese"
   xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <settings>
@@ -9,47 +9,29 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <motion head="CENTER"/>
+    <light state="OFF" />
+    <motion head="CENTER" left-arm="POSITION 0" right-arm="POSITION 0"/>
     <evaEmotion emotion="NEUTRAL" />
     <wait duration="2000" />
-    <!-- <talk>Oi Marcelo. Eu vou tentar identificar a emoção, da sua frase</talk>
+    <talk>Olá, como vai?</talk>
+    <talk> Eu vou tentar identificar a emoção da sua frase</talk>
+    <light state="ON" color="GREEN"/>
     <wait duration="1000" />
     <talk>Você poderia dizer algo?</talk>
-    <listen /> -->
-    <textEmotion language="PT" var="EMOCAO_DO_TEXTO">
-      Ganhei muito dinheiro hoje!
-    </textEmotion>
-    <useMacro macro="_TESTE_ROBOT" />
-    <wait duration="1000" />
-    <textEmotion language="PT" var="EMOCAO_DO_TEXTO">
-      Alguém faleceu hoje!
-    </textEmotion>
-    <useMacro macro="_TESTE_ROBOT" />
-    <wait duration="1000" />
-    <textEmotion language="PT" var="EMOCAO_DO_TEXTO">
-      Não gostei dessa comida!
-    </textEmotion>
-    <useMacro macro="_TESTE_ROBOT" />
-    <wait duration="1000" />
+    <listen />
+    <textEmotion language="PT" var="EMOCAO_DO_TEXTO"></textEmotion>
+    <useMacro macro="_TESTE_USER" />
     <motion head="CENTER"/>
-    <textEmotion language="PT" var="EMOCAO_DO_TEXTO">
-      Eu tenho medo de escuro!
-    </textEmotion>
-    <useMacro macro="_TESTE_ROBOT" />
-    <wait duration="1000" />
-    <textEmotion language="PT" var="EMOCAO_DO_TEXTO">
-      O que aconteceu com você?
-    </textEmotion>
-    <useMacro macro="_TESTE_ROBOT" />
-    <wait duration="1000" />
-    <motion head="CENTER"/>
+    <wait duration="2000" />
     <evaEmotion emotion="NEUTRAL" />
-    <wait duration="3000" />
-    <talk>Fique com Deus!</talk>
+    <motion left-arm="POSITION 0" right-arm="POSITION 0"/>
   </script>
   <macros>
     <macro id="_TESTE_USER">
       <switch var="EMOCAO_DO_TEXTO">
+        <case op="exact" value="NEUTRAL">
+          <talk>Você parece estar neutro, tranqüilo!</talk>
+        </case>
         <case op="exact" value="HAPPY">
           <useMacro macro="_HAPPY" />
           <talk>Você parece estar feliz!</talk>
@@ -70,62 +52,54 @@
           <useMacro macro="_DISGUST" />
           <talk>Hum, Não fique como nôjo!</talk>
         </case>
-      </switch>
-    </macro>
-
-    <macro id="_TESTE_ROBOT">
-      <switch var="EMOCAO_DO_TEXTO">
-        <case op="exact" value="HAPPY">
-          <useMacro macro="_HAPPY" />
-          <talk>Me sinto feliz!</talk>
-        </case>
         <case op="exact" value="FEAR">
           <useMacro macro="_FEAR" />
-          <talk>Eu estou com muito medo!</talk>
-        </case>
-        <case op="exact" value="SAD">
-          <useMacro macro="_SAD" />
-          <talk>Puxa, me sinto triste, lamento!</talk>
-        </case>
-        <case op="exact" value="ANGRY">
-          <useMacro macro="_ANGRY" />
-          <talk>Estou muito aborrecido!</talk>
-        </case>
-        <case op="exact" value="SURPRISE">
-          <useMacro macro="_SURPRISE" />
-          <talk>Estou surpreso!</talk>
-        </case>
-        <case op="exact" value="DISGUST">
-          <useMacro macro="_DISGUST" />
-          <talk>Nossa, que nojento isso!</talk>
+          <talk>Não fique com medo! Eu estarei ao seu lado!</talk>
+          <audio source="song-i-will-be-there" block="FALSE" />
+          <led animation="RAINBOW" />
+          <evaEmotion emotion="HAPPY" />
+          <motion head="RIGHT_UP2"/>
+          <wait duration="2000" />
+          <motion  head="2NO"/>
+          <wait duration="5000" />
+          <motion head="LEFT_UP2"/>
+          <wait duration="2000" />
+          <motion  head="2NO"/>
+          <wait duration="6000" />
+          <led animation="STOP" />
         </case>
       </switch>
     </macro>
     <macro id="_HAPPY">
+      <audio source="song-happy" block="FALSE" />
       <evaEmotion emotion="HAPPY" />
-      <motion head="2YES"/>
+      <motion right-arm="POSITION 2" left-arm="POSITION 3"/>
+      <wait duration="1400" />
+      <motion head="2YES" right-arm="SHAKE2" left-arm="SHAKE2"/>
       <led animation="HAPPY" />
-      <wait duration="3000" />
+      <wait duration="5500" />
       <led animation="STOP" />
     </macro>
 
     <macro id="_SAD">
+      <audio source="song-oh-no" block="FALSE" />
       <evaEmotion emotion="SAD" />
-      <motion head="DOWN"/>
+      <motion head="2DOWN_LEFT" left-arm="POSITION 3"/>
       <wait duration="1000" />
       <motion head="2NO"/>
       <led animation="SPEAK" />
-      <wait duration="3000" />
+      <wait duration="5000" />
       <led animation="STOP" />
     </macro>
 
     <macro id="_ANGRY">
+      <audio source="song-mj-thriller2" block="FALSE" />
       <evaEmotion emotion="ANGRY" />
       <motion head="DOWN"/>
       <wait duration="1000" />
       <motion head="2NO"/>
       <led animation="ANGRY" />
-      <wait duration="4000" />
+      <wait duration="7000" />
       <led animation="STOP" />
     </macro>
 
@@ -140,21 +114,21 @@
     </macro>
 
     <macro id="_SURPRISE">
+      <audio source="song-surprise" block="FALSE" />
       <evaEmotion emotion="SURPRISE" />
-      <motion head="2UP"/>
-      <wait duration="1000" />
-      <motion head="2YES"/>
+      <motion head="UP" right-arm="POSITION 3"/>
       <led animation="SURPRISE" />
-      <wait duration="3000" />
+      <wait duration="6000" />
       <led animation="STOP" />
     </macro>
 
     <macro id="_FEAR">
+      <audio source="song-fear" block="FALSE" />
       <evaEmotion emotion="FEAR" />
-      <motion head="DOWN"/>
+      <motion head="DOWN_RIGHT" right-arm="POSITION 3"/>
       <wait duration="1000" />
       <led animation="WHITE" />
-      <wait duration="3000" />
+      <wait duration="5000" />
       <led animation="STOP" />
     </macro>
 

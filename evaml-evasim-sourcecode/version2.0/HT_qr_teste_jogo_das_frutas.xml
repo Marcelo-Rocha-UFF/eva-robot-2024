@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <evaml
-  name="qr_teste_jogo_das_frutas"
+  name="HT_qr_teste_jogo_das_frutas"
   xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <settings>
@@ -99,7 +99,14 @@
       </default>
     </switch>
     <useMacro macro="INIT" />
-    <talk>Ao todo, você fez #SCORE pontos</talk>
+    <switch var="SCORE">
+      <case op="eq" value="1">
+        <talk>Ao todo, você fez #SCORE ponto</talk>
+      </case>
+      <default>
+        <talk>Ao todo, você fez #SCORE pontos</talk>
+      </default>
+    </switch>
     <talk>Até a próxima</talk>
     </script>
 

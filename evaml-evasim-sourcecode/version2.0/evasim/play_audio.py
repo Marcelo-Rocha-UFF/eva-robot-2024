@@ -1,27 +1,23 @@
 import platform
+import subprocess
+ 
+import config # Module with the constants and parameters used in other modules.
 
 # I stopped using the Playsound library because it was too much trouble!
-# if platform.system() == "Linux":
-#     from playsound import playsound as ps
-#     print("Linux audio library loaded")
-#     def playsound(audio_file, block = True):
-#         ps(audio_file, block)
 
+# Playsound for Linux
 if platform.system() == "Linux":
     # As future work, it would be interesting to use the SOX library as well as in the Audio Module of the physical robot.
-    import pygame
-    pygame.init()
-    print("Linux (Pygame) audio library loaded")
     def playsound(audio_file, block = True):
-        sound = pygame.mixer.Sound(audio_file)
-        playing = sound.play()
         if block == True:
-            while playing.get_busy():
-                pygame.time.delay(100)
+            play = subprocess.Popen(['play', audio_file], stdout=subprocess.PIPE)
+            play.communicate()[0]
         else:
-            pass
+            play = subprocess.Popen(['play', audio_file], stdout=subprocess.PIPE)
 
 
+
+# Playsound for Windows (It is not working because we are not still using Windows)
 elif platform.system() == "Windows":
     print("Windows audio library loaded")
     # playing audio

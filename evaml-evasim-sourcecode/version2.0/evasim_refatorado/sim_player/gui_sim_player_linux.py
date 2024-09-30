@@ -14,7 +14,7 @@ class Gui(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
 
-        parent.title("EvaSIM - Script Player for EvaML - Version 1.0 - UFF / MidiaCom / CICESE")
+        parent.title("Embodied Voice Assistant Simulator - Script Player for EvaML - Version 2.0 - UFF / MidiaCom / CICESE")
         self.w = 1270
         self.h = 620
         parent.geometry(str(self.w) + "x" + str(self.h))
@@ -402,8 +402,8 @@ class Gui(ttk.Frame):
         self.terminal.delete('1.0', END)
         # Creating terminal text
         self.terminal.insert(INSERT, "=============================================================================================================================\n")
-        self.terminal.insert(INSERT, "                                                                                                                 EvaSIM - Script Player for EvaML\n")
-        self.terminal.insert(INSERT, "                                                                                                   Version 1.0 - UFF / MidiaCom / CICESE - [2024]\n")
+        self.terminal.insert(INSERT, "                                                                                      Embodied Voice Assistant Simulator - Script Player for EvaML\n")
+        self.terminal.insert(INSERT, "                                                                                                   Version 2.0 - UFF / MidiaCom / CICESE - [2024]\n")
         self.terminal.insert(INSERT, "=============================================================================================================================")
 
         self.terminal.pack()

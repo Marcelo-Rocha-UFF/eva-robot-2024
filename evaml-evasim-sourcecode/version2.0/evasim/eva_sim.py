@@ -1,29 +1,10 @@
 #!/usr/bin/env python3
 # EvaSIM 2.0 - Software Simulador para o robô EVA
-# Author: Marcelo Marques da Rocha
-# MidiaCOM Lab - Universidade Federal Fluminense - Rio de Janeiro - Brazil
-
-from paho.mqtt import client as mqtt_client
+# Software developed by Marcelo Marques da Rocha
+# MidiaCom Laboratory - Universidade Federal Fluminense
+# This work was funded by CAPES and Google Research
 
 import platform 
-
-# Select the GUI definition file for the host operating system
-if platform.system() == "Linux":
-    print("Linux platform identified. Loading GUI formatting for Linux.")
-    import gui_linux as EvaSIM_gui # Definition of the graphical user interface (Linux)
-    audio_ext = ".mp3" # Audio extension used by the audio library on Linux
-    ibm_audio_ext = "audio/mp3" # Audio extension used to generate watson audios
-elif platform.system() == "Windows":
-    # This version of the Graphical User Interface (GUI) has been discontinued.
-    print("Windows platform identified. Loading GUI formatting for Windows.")
-    print("This version of the Graphical User Interface (GUI) has been discontinued. Sorry!")
-    exit(1)
-    # import gui_windows as EvaSIM_gui # definition of the graphical user interface (Windows) [This file is outdated and has been discontinued]
-    # audio_ext = ".wav"
-    # ibm_audio_ext = "audio/wav"
-else:
-    print("Sorry, the current OS is not supported by EvaSIM.") # Incompatible OS
-    exit(1)
 
 import hashlib
 import re
@@ -36,6 +17,7 @@ import eva_memory # EvaSIM memory module
 import json_to_evaml_conv # json to XML conversion module (No longer used in this version of the simulator)
 
 from tkinter import *
+from tkinter import messagebox
 from tkinter import filedialog as fd
 import tkinter
 
@@ -46,13 +28,47 @@ from play_audio import playsound
 
 import time
 import threading
+import sys
 
-from ibm_watson.text_to_speech_v1 import Voice
-from ibm_watson import TextToSpeechV1
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+import config # Module with the constants and parameters used in other modules.
 
+TTS_IBM_WATSON = False # Define the use of IBM Watson service
+ROBOT_MODE_ENABLED = False # 
 
-import config # Module with network device settings
+if len(sys.argv) > 1: # Verify if is an argument in the command line
+    for parameter in sys.argv[1:]: # Sweep all parameters
+        if parameter.lower() == "tts=ibm-watson": # Watson was selected
+            TTS_IBM_WATSON = True
+        elif parameter.lower() == "robot-mode=on":
+            ROBOT_MODE_ENABLED = True
+        elif parameter.lower() == "h" or parameter.lower() == "-h" or parameter.lower() == "help" or parameter.lower() == "-help":
+            print("\n############################################################")
+            print("                   EvaSIM Help Information")
+            print("############################################################")
+            print("-help, help\tShow all available parameters.") 
+            print("tts=ibm-watson\tUse the IBM Watson TTS service.") 
+            print("robot-mode=on\tEnable robot mode control and execution.")
+            print("############################################################\n")
+            exit(1)
+        else:
+            print("\nSorry, I guess you entered an illegal parameter.")
+            exit(1)
+            
+# Select the GUI definition file for the host operating system
+if platform.system() == "Linux":
+    print("\nLinux platform identified. Loading GUI formatting for Linux.\n")
+    import gui_linux as EvaSIM_gui # Definition of the graphical user interface (Linux)
+    audio_ext = ".mp3" # Audio extension used by the audio library on Linux
+    ibm_audio_ext = "audio/mp3" # Audio extension used to generate watson audios
+elif platform.system() == "Windows":
+    # This version of the Graphical User Interface (GUI) has been discontinued.
+    print("Windows platform identified. Loading GUI formatting for Windows.")
+    print("This version of the Graphical User Interface (GUI) has been discontinued. Sorry!\n")
+    exit(1)
+else:
+    print("Sorry, the current OS is not supported by EvaSIM.") # Incompatible OS
+    exit(1)
+
 
 broker = config.MQTT_BROKER_ADRESS # broker adress
 port = config.MQTT_PORT # broker port
@@ -62,30 +78,66 @@ EVA_ROBOT_STATE = "FREE"
 EVA_DOLLAR = ""
 RUNNING_MODE = "SIMULATOR" # EvaSIM operating mode (Physical Robot Simulator or Player)
 
-# MQTT
-# The callback for when the client receives a CONNACK response from the server.
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
-    # Subscribing in on_connect() means that if we lose the connection and
-    # Reconnect then subscriptions will be renewed.
-    client.subscribe(topic=[(topic_base + '/state', 1), ])
-    client.subscribe(topic=[(topic_base + '/var/dollar', 1), ])
 
-# The callback for when a PUBLISH message is received from the server.
-def on_message(client, userdata, msg):
-    global EVA_ROBOT_STATE
-    global EVA_DOLLAR
-    if msg.topic == topic_base + '/state':
-        EVA_ROBOT_STATE = "FREE" # msg.payload.decode()
-    elif msg.topic == topic_base + '/var/dollar':
-        EVA_DOLLAR = msg.payload.decode()
-        
+# Watson library import and api key configuration
+if TTS_IBM_WATSON: # Only if tts=ibm-watson option was selected in command line
+    print("\n\nWARNING: You have chosen to use the IBM Watson Text-To-Speech service. To do this, you must have installed the Watson library for Python and you must also have, in the EvaSIM directory, the file (ibm_cred.txt) with the IBM service credentials.")
+    print("\n\nPlease, press <ENTER> to continue or <ctrl> + c to stop.")
+    input()
 
-client = mqtt_client.Client()
-client.on_connect = on_connect
-client.on_message = on_message
-client.connect(broker, port)
-client.loop_start()
+    from ibm_watson.text_to_speech_v1 import Voice
+    from ibm_watson import TextToSpeechV1
+    from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+
+    with open("ibm_cred.txt", "r") as ibm_cred:
+        ibm_config = ibm_cred.read().splitlines()
+    apikey = ibm_config[0]
+    url = ibm_config[1]
+    # Setup watson service
+    authenticator = IAMAuthenticator(apikey)
+    # TTS service
+    tts = TextToSpeechV1(authenticator = authenticator)
+    tts.set_service_url(url)
+
+
+# import and config mqtt library and client
+if ROBOT_MODE_ENABLED: # Only if robot-mode=on was selected in command line
+    print("\n\nWARNING: You have chosen to use the Robot mode. To do this, you must have installed the paho.mqtt library and also install and configure the mosquitto broker.")
+    print("\n\nPlease, press <ENTER> to continue or <ctrl> + c to stop.")
+    input()
+    from paho.mqtt import client as mqtt_client
+    # MQTT
+    # The callback for when the client receives a CONNACK response from the server.
+    def on_connect(client, userdata, flags, rc):
+        print("Connected with result code " + str(rc))
+        # Subscribing in on_connect() means that if we lose the connection and
+        # Reconnect then subscriptions will be renewed.
+        client.subscribe(topic=[(topic_base + '/state', 1), ])
+        client.subscribe(topic=[(topic_base + '/var/dollar', 1), ])
+
+    # The callback for when a PUBLISH message is received from the server.
+    def on_message(client, userdata, msg):
+        global EVA_ROBOT_STATE
+        global EVA_DOLLAR
+        if msg.topic == topic_base + '/state':
+            EVA_ROBOT_STATE = "FREE" # msg.payload.decode()
+        elif msg.topic == topic_base + '/var/dollar':
+            EVA_DOLLAR = msg.payload.decode()
+            
+    client = mqtt_client.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.connect(broker, port)
+    client.loop_start()
+
+else: # User not selected the robot-mode=on in commend line
+    class Fake_Mqtt_Client(): # Fake mqtt class to work woth mqtt commands
+        def __init__(self):
+            print("A fake mqtt client was created!")
+        def publish(self, fake_topic, fake_message):
+            print(f"A fake publish method with topic: {fake_topic} and message: {fake_message} is being executed.")
+    client = Fake_Mqtt_Client()
+
 
 
 # VM global variables
@@ -105,18 +157,6 @@ def lock_thread_pop():
 def unlock_thread_pop():
     global thread_pop_pause
     thread_pop_pause = False
-
-
-# Watson config api key
-with open("ibm_cred.txt", "r") as ibm_cred:
-    ibm_config = ibm_cred.read().splitlines()
-apikey = ibm_config[0]
-url = ibm_config[1]
-# Setup watson service
-authenticator = IAMAuthenticator(apikey)
-# TTS service
-tts = TextToSpeechV1(authenticator = authenticator)
-tts.set_service_url(url)
 
 
 # Create the Tkinter window
@@ -178,11 +218,6 @@ def evaInit():
     gui.bt_power.unbind("<Button-1>")
     evaEmotion("POWER_ON")
     gui.terminal.insert(INSERT, "\nSTATE: Initializing.")
-    # playsound("my_sounds/power_on" + audio_ext, block = True)
-    # gui.terminal.insert(INSERT, "\nSTATE: Speaking a greeting text.")
-    # playsound("my_sounds/greetings" + audio_ext, block = True)
-    # gui.terminal.insert(INSERT, '\nSTATE: Speaking "Load a script file and enjoy."')
-    # playsound("my_sounds/load_a_script" + audio_ext, block = True)
     gui.terminal.insert(INSERT, "\nSTATE: Entering in standby mode.")
     gui.bt_import['state'] = NORMAL
     gui.bt_import.bind("<Button-1>", importFileThread)
@@ -248,7 +283,7 @@ def stopScript(self):
     global play, EVA_ROBOT_STATE
     gui.bt_run_sim['state'] = NORMAL
     gui.bt_run_sim.bind("<Button-1>", setSimMode)
-    gui.bt_run_robot['state'] = NORMAL
+    if ROBOT_MODE_ENABLED: gui.bt_run_robot['state'] = NORMAL
     gui.bt_run_robot.bind("<Button-1>", setEVAMode)
     gui.bt_stop['state'] = DISABLED
     gui.bt_stop.unbind("<Button-1>")
@@ -285,12 +320,13 @@ def importFile():
     links_node = root.find("links")
     gui.bt_run_sim['state'] = NORMAL
     gui.bt_run_sim.bind("<Button-1>", setSimMode)
-    gui.bt_run_robot['state'] = NORMAL
+    if ROBOT_MODE_ENABLED: gui.bt_run_robot['state'] = NORMAL
     gui.bt_run_robot.bind("<Button-1>", setEVAMode)
     gui.bt_stop['state'] = DISABLED
     gui.bt_reload['state'] = NORMAL
     evaEmotion("NEUTRAL")
     only_file_name = str(script_file).split("/")[-1].split("'")[0]
+    window.title("Eva Simulator for EvaML - Version 2.0 - UFF / MidiaCom / CICESE -- [ " + only_file_name + " ]")
     gui.terminal.insert(INSERT, '\nSTATE: Script => ' + only_file_name + ' was LOADED.')
     gui.terminal.see(tkinter.END)
 
@@ -341,6 +377,8 @@ def woz_light_yellow(self):
 def woz_light_white(self):
     client.publish(topic_base + "/light", "WHITE|ON")
 
+
+
 # WoZ light buttons binding
 gui.bt_bulb_green_btn.bind("<Button-1>", woz_light_green)
 gui.bt_bulb_blue_btn.bind("<Button-1>", woz_light_blue)
@@ -349,6 +387,7 @@ gui.bt_bulb_pink_btn.bind("<Button-1>", woz_light_pink)
 gui.bt_bulb_red_btn.bind("<Button-1>", woz_light_red)
 gui.bt_bulb_yellow_btn.bind("<Button-1>", woz_light_yellow)
 gui.bt_bulb_white_btn.bind("<Button-1>", woz_light_white)
+
 
 # WoZ expressions functions
 def woz_expression_angry(self):
@@ -367,6 +406,7 @@ def woz_expression_disgust(self):
     client.publish(topic_base + "/evaEmotion", "DISGUST")
 def woz_expression_inlove(self):
     client.publish(topic_base + "/evaEmotion", "INLOVE")
+
 
 # WoZ expression buttons binding
 gui.bt_exp_angry.bind("<Button-1>", woz_expression_angry)
@@ -409,6 +449,7 @@ def woz_led_surprise(self):
 def woz_led_white(self):
     client.publish(topic_base + "/leds", "STOP")
     client.publish(topic_base + "/leds", "WHITE")
+
 
 # WoZ led buttons binding
 gui.bt_led_stop.bind("<Button-1>", woz_led_stop)
@@ -485,6 +526,8 @@ def woz_arm_left_motion_shake(self):
 def woz_arm_right_motion_shake(self):
     client.publish(topic_base + "/motion/arm/right", "SHAKE2")
 
+
+
 # Woz arms motion buttons binding
 gui.bt_arm_left_motion_up.bind("<Button-1>", woz_arm_left_motion_up)
 gui.bt_arm_right_motion_up.bind("<Button-1>", woz_arm_right_motion_up)
@@ -526,6 +569,7 @@ def woz_tts(self):
     print(voice_option + "|" + gui.msg_tts_text.get('1.0','end').strip())
     client.publish(topic_base + "/talk", voice_option + "|" + gui.msg_tts_text.get('1.0','end'))
 
+
 # TTS buttons binding
 gui.bt_send_tts.bind("<Button-1>", woz_tts)
 
@@ -536,7 +580,6 @@ def ledAnimation(animation):
         client.publish(topic_base + "/leds", "STOP")
         client.publish(topic_base + "/leds", animation)
     if animation == "STOP":
-        client.publish(topic_base + "/leds", "STOP") 
         evaMatrix("grey")
     elif animation == "LISTEN":
         evaMatrix("green")
@@ -619,6 +662,7 @@ def light(color, state):
 # Execute the commands
 def exec_comando(node):
     global EVA_ROBOT_STATE
+    global img_neutral, img_happy, img_angry, img_sad, img_surprise
     if node.tag == "voice":
         gui.terminal.insert(INSERT, "\nSTATE: Selected Voice => " + node.attrib["tone"])
         gui.terminal.see(tkinter.END)
@@ -746,18 +790,24 @@ def exec_comando(node):
 
 
     elif node.tag == "listen":
+        if node.get("language") == None: # Maintains compatibility with the use of <listen> in old scripts
+            # It will be used the default value defined in config.py file
+            language_for_listen = config.LANG_DEFAULT_SPEECH_RECOGNITION
+        else:
+            language_for_listen =  node.attrib["language"]
+
         if RUNNING_MODE == "EVA_ROBOT": 
             client.publish(topic_base + "/log", "EVA is listening...")
             EVA_ROBOT_STATE = "BUSY"
             ledAnimation("LISTEN")
-            client.publish(topic_base + "/listen", " ")
+            client.publish(topic_base + "/listen", language_for_listen)
 
             while (EVA_ROBOT_STATE != "FREE"):
                 pass
 
             if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                 eva_memory.var_dolar.append([EVA_DOLLAR, "<listen>"])
-                gui.terminal.insert(INSERT, "\nSTATE: Listening: var = $" + ", value = " + eva_memory.var_dolar[-1][0])
+                gui.terminal.insert(INSERT, "\nSTATE: Listening (language -> " + language_for_listen + "): var = $" + ", value = " + eva_memory.var_dolar[-1][0])
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
                 ledAnimation("STOP")
@@ -766,7 +816,7 @@ def exec_comando(node):
                 var_name = node.attrib["var"]
                 eva_memory.vars[var_name] = EVA_DOLLAR
                 print("Eva ram => ", eva_memory.vars)
-                gui.terminal.insert(INSERT, "\nSTATE: Listening: (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
+                gui.terminal.insert(INSERT, "\nSTATE: Listening (language -> " + language_for_listen + "): (using the user variable '" + var_name + "'): " + EVA_DOLLAR)
                 tab_load_mem_vars() # Enter data from variable memory into the var table
                 gui.terminal.see(tkinter.END)
                 print("Listen command USING VAR...")
@@ -780,7 +830,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                     eva_memory.var_dolar.append([var.get(), "<listen>"])
-                    gui.terminal.insert(INSERT, "\nSTATE: Listening: var = $" + ", value = " + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening (language -> " + language_for_listen + "): var = $" + ", value = " + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -789,7 +839,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nSTATE: Listening: (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening (language -> " + language_for_listen + "): (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # Enter data from variable memory into the var table
                     gui.terminal.see(tkinter.END)
                     print("Listen command USING VAR...")
@@ -801,7 +851,7 @@ def exec_comando(node):
                 print(var.get())
                 if node.get("var") == None: # Maintains compatibility with the use of the $ variable
                     eva_memory.var_dolar.append([var.get(), "<listen>"])
-                    gui.terminal.insert(INSERT, "\nSTATE: Listening: var = $" + ", value = " + eva_memory.var_dolar[-1][0])
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening (language -> " + language_for_listen + ">: var = $" + ", value = " + eva_memory.var_dolar[-1][0])
                     tab_load_mem_dollar()
                     gui.terminal.see(tkinter.END)
                     pop.destroy()
@@ -810,7 +860,7 @@ def exec_comando(node):
                     var_name = node.attrib["var"]
                     eva_memory.vars[var_name] = var.get()
                     print("Eva ram => ", eva_memory.vars)
-                    gui.terminal.insert(INSERT, "\nSTATE: Listening: (using the user variable '" + var_name + "'): " + var.get())
+                    gui.terminal.insert(INSERT, "\nSTATE: Listening (language -> " + language_for_listen + "): (using the user variable '" + var_name + "'): " + var.get())
                     tab_load_mem_vars() # Enter data from variable memory into the var table
                     gui.terminal.see(tkinter.END)
                     print("Listen command USING VAR...")
@@ -824,14 +874,14 @@ def exec_comando(node):
             # Disable the maximize and close buttons
             pop.resizable(False, False)
             pop.protocol("WM_DELETE_WINDOW", False)
-            w = 300
+            w = 450
             h = 150
             ws = gui.winfo_screenwidth()
             hs = gui.winfo_screenheight()
             x = (ws/2) - (w/2)
             y = (hs/2) - (h/2)  
             pop.geometry('%dx%d+%d+%d' % (w, h, x, y))
-            label = Label(pop, text="Eva is listening... Please, enter your answer!", font = ('Arial', 10))
+            label = Label(pop, text="Eva is listening (language -> " + language_for_listen + ")... Please, enter your answer!", font = ('Arial', 10))
             label.pack(pady=20)
             E1 = Entry(pop, textvariable = var, font = ('Arial', 10))
             E1.bind("<Return>", fechar_pop_ret)
@@ -903,40 +953,57 @@ def exec_comando(node):
             client.publish(topic_base + "/log", "EVA will try to speak a text: " + texto[ind_random])
             ledAnimation("SPEAK")
             EVA_ROBOT_STATE = "BUSY" # Speech is a blocking function. the robot is busy
-            client.publish(topic_base + "/talk", root.find("settings")[0].attrib["tone"] + "|" + texto[ind_random])
+            if node.get("tone") == None: # Usuario não selecionou a voz no talk. A opção global será utilizada
+                client.publish(topic_base + "/talk", root.find("settings")[0].attrib["tone"] + "|" + texto[ind_random])
+            else:
+                client.publish(topic_base + "/talk", node.attrib["tone"] + "|" + texto[ind_random]) # voz selecionado em talk será utilizada
             while(EVA_ROBOT_STATE != "FREE"):
                 pass
             ledAnimation("STOP")
         else:
-            # Assume the default UTF-8 (Generates the hashing of the audio file)
-            # Also, uses the voice tone attribute in file hashing
-            hash_object = hashlib.md5(texto[ind_random].encode())
-            file_name = "_audio_"  + root.find("settings")[0].attrib["tone"] + hash_object.hexdigest()
+            if not TTS_IBM_WATSON: # without IBM-Watson
+                gui.option_add('*Dialog.msg.width', 30)
+                gui.option_add('*Dialog.msg.font', 'Arial 14')
+                lock_thread_pop()
+                messagebox.showinfo("TTS - Message Box - EVA is speaking!", texto[ind_random])
+                unlock_thread_pop() # Reactivate the script processing thread
 
-            # Checks if the speech audio already exists in the folder
-            if not (os.path.isfile("audio_cache_files/" + file_name + audio_ext)): # If it doesn't exist, call Watson
-                audio_file_is_ok = False
-                while(not audio_file_is_ok):
-                    # Eva TTS functions
-                    with open("audio_cache_files/" + file_name + audio_ext, 'wb') as audio_file:
-                        try:
-                            res = tts.synthesize(texto[ind_random], accept = ibm_audio_ext, voice = root.find("settings")[0].attrib["tone"]).get_result()
-                            audio_file.write(res.content)
-                            playsound("audio_cache_files/" + file_name + audio_ext, block = True) # Play the audio of the speech
-                        except:
-                            print("Voice exception")
-                            gui.terminal.insert(INSERT, "\nError when trying to select voice tone, please verify the tone atribute.\n", "error")
-                            gui.terminal.see(tkinter.END)
-                            exit(1)
-                    file_size = os.path.getsize("audio_cache_files/" + file_name + audio_ext)
-                    if file_size == 0: # Corrupted file
-                        print("#### Corrupted file.. (It's necessary to use the same implementation like in tts-module in EVA robot!)")
-                        os.remove("audio_cache_files/" + file_name + audio_ext)
-                    else:
-                        audio_file_is_ok = True
-            else:
-                playsound("audio_cache_files/" + file_name + audio_ext, block = True) # Play the audio of the speech
-        
+            elif TTS_IBM_WATSON:
+                # Using IBM Watson ################################
+                # Assume the default UTF-8 (Generates the hashing of the audio file)
+                # Also, uses the voice tone attribute in file hashing
+                if node.get("tone") == None: # Usuario não selecionou a voz no talk. A opção global será utilizada
+                    tone_voice = root.find("settings")[0].attrib["tone"]
+                else:
+                    tone_voice = node.attrib["tone"]
+
+                hash_object = hashlib.md5(texto[ind_random].encode())
+                file_name = "_audio_"  + tone_voice + hash_object.hexdigest()
+
+                # Checks if the speech audio already exists in the folder
+                if not (os.path.isfile("audio_cache_files/" + file_name + audio_ext)): # If it doesn't exist, call Watson
+                    audio_file_is_ok = False
+                    while(not audio_file_is_ok):
+                        # Eva TTS functions
+                        with open("audio_cache_files/" + file_name + audio_ext, 'wb') as audio_file:
+                            try:
+                                res = tts.synthesize(texto[ind_random], accept = ibm_audio_ext, voice = tone_voice).get_result()
+                                audio_file.write(res.content)
+                                playsound("audio_cache_files/" + file_name + audio_ext, block = True) # Play the audio of the speech
+                            except:
+                                print("Voice exception")
+                                gui.terminal.insert(INSERT, "\nError when trying to select voice tone, please verify the tone atribute.\n", "error")
+                                gui.terminal.see(tkinter.END)
+                                exit(1)
+                        file_size = os.path.getsize("audio_cache_files/" + file_name + audio_ext)
+                        if file_size == 0: # Corrupted file
+                            print("#### Corrupted file.. (It's necessary to use the same implementation like in tts-module in EVA robot!)")
+                            os.remove("audio_cache_files/" + file_name + audio_ext)
+                        else:
+                            audio_file_is_ok = True
+                else:
+                    playsound("audio_cache_files/" + file_name + audio_ext, block = True) # Play the audio of the speech
+            ##############################
 
 
     elif node.tag == "evaEmotion":
@@ -991,6 +1058,7 @@ def exec_comando(node):
             exit(1)
 
 
+##########################################################
     elif node.tag == "case": 
         global valor
         eva_memory.reg_case = 0 # Clear the case flag
@@ -998,16 +1066,17 @@ def exec_comando(node):
         valor = valor.lower() # Comparisons are not case sensitive
         # Handles comparison types and operators
         # Case 1 (op = "exact")
-        if node.attrib['op'] == "exact":
+        if node.attrib['op'] == "exact": # Exact é sempre uma comparação de STRINGS
             # Case in which a user variable was defined for a command: QRcode, random, userEmotion or userId
             if node.attrib['var'] != "$":
                 # It remains to check whether the variable exists in the robot's memory
                 # eva_memory.vars[st_var_value[1:]
                 print("value: ", valor, type(valor), node.attrib['var'], eva_memory.vars[node.attrib['var']])
-                if valor == eva_memory.vars[node.attrib['var']].lower():
+                if valor[0] == "#": # é uma referência a uma variável
+                    valor = valor[1:] # remove o # da referência
+                if valor == str(eva_memory.vars[node.attrib['var']]).lower(): # Comparação de STRINGS
                     print("case = true")
                     eva_memory.reg_case = 1 # Turn on the reg case indicating that the comparison result was true
-
 
             # Checks if var_dollar memory has any value
             elif (len(eva_memory.var_dolar)) == 0:
@@ -1025,7 +1094,7 @@ def exec_comando(node):
         # Case 2 (op = "contain")
         elif node.attrib['op'] == "contain":      
             # Checa se a comparação é com o dollar
-            if "$" in node.attrib['var']:
+            if "$" == node.attrib['var'][0]:
                 if (len(eva_memory.var_dolar)) == 0: # Checks if var_dollar memory has any value
                     gui.terminal.insert(INSERT, "\nError -> The variable $ has no value. Please, check your code.", "error")
                     gui.terminal.see(tkinter.END)
@@ -1038,12 +1107,19 @@ def exec_comando(node):
                         eva_memory.reg_case = 1 # Turn on the reg case indicating that the comparison result was true
             # se não é com dollar então é com uma var do usuário
             elif node.attrib['var'] in eva_memory.vars: # verifica se a variável de usuário existe na memória
-                if valor in eva_memory.vars[node.attrib['var']]: # Verifica se 
-                    print("case = true")
-                    eva_memory.reg_case = 1 # Turn on the reg case indicating that the comparison result was true
+                if "#" == valor[0]:
+                    valor = valor[1:]
+                    if str(eva_memory.vars[valor]).lower() in str(eva_memory.vars[node.attrib['var']]).lower():
+                        print("case = true")
+                        eva_memory.reg_case = 1 # Turn on the reg case indicating that the comparison result was true
+                else:
+                    if valor in eva_memory.vars[node.attrib['var']]:
+                        print("case = true")
+                        eva_memory.reg_case = 1 # Turn on the reg case indicating that the comparison result was true
             else:
                 gui.terminal.insert(INSERT, "\nError -> The variable '" + node.attrib['var'] + "' does no exist. Please, check your code.", "error")
                 gui.terminal.see(tkinter.END)
+##########################################################
 
 
         # case 3 (MATHEMATICAL COMPARISON)
@@ -1158,12 +1234,16 @@ def exec_comando(node):
 
 
     elif node.tag == "textEmotion":
-
+        # Falta implementar o modo Simulador ###############
         if RUNNING_MODE == "EVA_ROBOT": 
             client.publish(topic_base + "/log", "EVA is analysing the text emotion...")
             EVA_ROBOT_STATE = "BUSY"
             ledAnimation("RAINBOW")
-            client.publish(topic_base + "/textEmotion", eva_memory.var_dolar[-1][0])
+            if node.get("language") == None:
+                client.publish(topic_base + "/textEmotion", config.LANG_DEFAULT_GOOGLE_TRANSLATING + "|" + eva_memory.var_dolar[-1][0])
+            else:
+                client.publish(topic_base + "/textEmotion", node.attrib["language"] + "|" + eva_memory.var_dolar[-1][0])
+                
 
             while (EVA_ROBOT_STATE != "FREE"):
                 pass
@@ -1174,10 +1254,84 @@ def exec_comando(node):
                 tab_load_mem_dollar()
                 gui.terminal.see(tkinter.END)
                 ledAnimation("STOP")
+            else:
+                var_name = node.attrib["var"]
+                eva_memory.vars[var_name] = EVA_DOLLAR
+                print("Eva ram => ", eva_memory.vars)
+                gui.terminal.insert(INSERT, "\nSTATE: textEmotion (using the user variable '" + var_name + "'): " + str(eva_memory.vars[var_name]))
+                tab_load_mem_vars() # Enter data from variable memory into the var table
+                gui.terminal.see(tkinter.END)
+                print("textEmotion command USING VAR...")
+            ledAnimation("STOP")
+        
+        else:
+
+            lock_thread_pop()
+            ledAnimation("LISTEN")
+            def fechar_pop(): # Pop up window closing function
+                print(var.get())
+                if node.get("var") == None: # Maintains compatibility with the use of the $ variable
+                    eva_memory.var_dolar.append([var.get(), "<textEmotion>"])
+                    gui.terminal.insert(INSERT, "\nSTATE: textEmotion: var = $" + ", value = " + eva_memory.var_dolar[-1][0])
+                    tab_load_mem_dollar()
+                    gui.terminal.see(tkinter.END)
+                else:
+                    var_name = node.attrib["var"]
+                    eva_memory.vars[var_name] = var.get()
+                    print("Eva ram => ", eva_memory.vars)
+                    gui.terminal.insert(INSERT, "\nSTATE: textEmotion (using the user variable '" + var_name + "'): " + str(eva_memory.vars[var_name]))
+                    tab_load_mem_vars() # Enter data from variable memory into the var table
+                    gui.terminal.see(tkinter.END)
+                    print("textEmotion command USING VAR...")
+                pop.destroy()
+                ledAnimation("STOP")
+                unlock_thread_pop() # Reactivate the script processing thread
+
+            var = StringVar()
+            var.set("NEUTRAL")
+            img_neutral = PhotoImage(file = "images/img_neutral.png")
+            img_happy = PhotoImage(file = "images/img_happy.png")
+            img_angry = PhotoImage(file = "images/img_angry.png")
+            img_sad = PhotoImage(file = "images/img_sad.png")
+            img_surprise = PhotoImage(file = "images/img_surprise.png")
+            img_fear = PhotoImage(file = "images/img_fear.png")
+            img_disgust = PhotoImage(file = "images/img_disgust.png")
+            pop = Toplevel(gui)
+            pop.title("textEmotion Command")
+            # Disable the maximize and close buttons
+            pop.resizable(False, False)
+            pop.protocol("WM_DELETE_WINDOW", False)
+            w = 970
+            h = 250
+            ws = gui.winfo_screenwidth()
+            hs = gui.winfo_screenheight()
+            x = (ws/2) - (w/2)
+            y = (hs/2) - (h/2)  
+            pop.geometry('%dx%d+%d+%d' % (w, h, x, y))
+            Label(pop, text="Eva is analysing the sentiment of your text. Please, choose one emotion!", font = ('Arial', 10)).place(x = 290, y = 10)
+            # Images are displayed using labels
+            Label(pop, image=img_neutral).place(x = 10, y = 50)
+            Label(pop, image=img_happy).place(x = 147, y = 50)
+            Label(pop, image=img_angry).place(x = 284, y = 50)
+            Label(pop, image=img_sad).place(x = 421, y = 50)
+            Label(pop, image=img_surprise).place(x = 558, y = 50)
+            Label(pop, image=img_fear).place(x = 695, y = 50)
+            Label(pop, image=img_disgust).place(x = 832, y = 50)
+            Radiobutton(pop, text = "Neutral", variable = var, font = font1, command = None, value = "NEUTRAL").place(x = 35, y = 185)
+            Radiobutton(pop, text = "Happy", variable = var, font = font1, command = None, value = "HAPPY").place(x = 172, y = 185)
+            Radiobutton(pop, text = "Angry", variable = var, font = font1, command = None, value = "ANGRY").place(x = 312, y = 185)
+            Radiobutton(pop, text = "Sad", variable = var, font = font1, command = None, value = "SAD").place(x = 452, y = 185)
+            Radiobutton(pop, text = "Surprise", variable = var, font = font1, command = None, value = "SURPRISE").place(x = 580, y = 185)
+            Radiobutton(pop, text = "Fear", variable = var, font = font1, command = None, value = "FEAR").place(x = 725, y = 185)
+            Radiobutton(pop, text = "Disgust", variable = var, font = font1, command = None, value = "DISGUST").place(x = 855, y = 185)
+            Button(pop, text = "           OK          ", font = font1, command = fechar_pop).place(x = 430, y = 215)
+            # Wait for release, waiting for the user's response
+            while thread_pop_pause: 
+                time.sleep(0.5)
 
 
     elif node.tag == "userEmotion":
-        global img_neutral, img_happy, img_angry, img_sad, img_surprise
+        # global img_neutral, img_happy, img_angry, img_sad, img_surprise
         
         if RUNNING_MODE == "EVA_ROBOT": 
             client.publish(topic_base + "/log", "EVA is capturing the user emotion...")
@@ -1470,6 +1624,7 @@ def exec_comando(node):
                 time.sleep(0.5)
             ledAnimation("STOP")
 
+
 def busca_commando(key : str): # The keys are strings
 	# Search in settings. This is because "voice" is in settings and voice is always the first element
 	for elem in root.find("settings").iter():
@@ -1481,7 +1636,6 @@ def busca_commando(key : str): # The keys are strings
 		if elem.get("key") != None: # Check if node has key attribute
 			if elem.attrib["key"] == key:
 				return elem
-
 
 
 # Search and insert links in the list that have "att_from" equal to the "from" attribute of the link
@@ -1543,7 +1697,7 @@ def link_process(anterior = -1):
     # Restore the buttons states (run and stop)
     gui.bt_run_sim['state'] = NORMAL
     gui.bt_run_sim.bind("<Button-1>", setSimMode)
-    gui.bt_run_robot['state'] = NORMAL
+    if ROBOT_MODE_ENABLED: gui.bt_run_robot['state'] = NORMAL
     gui.bt_run_robot.bind("<Button-1>", setEVAMode)
     gui.bt_import['state'] = NORMAL
     gui.bt_reload['state'] = NORMAL

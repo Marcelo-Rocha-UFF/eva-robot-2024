@@ -2,11 +2,15 @@
 <!--
 XML Schema for the EvaML Language
 This is EvaML
-Copyright : 2022 LABORATORIO MIDIACOM, All Rights Reserved.
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
 See https://www.midiacom.uff.br
 PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
-Author : Marcelo Marques da Rocha
-Revision: 2022/08/12
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2024/09/26
 -->
 <!-- ** Data type definitions ** -->
 	<xs:simpleType name="idType">
@@ -35,13 +39,17 @@ Revision: 2022/08/12
 			<xs:enumeration value="en-US_HenryV3Voice"/>
 			<xs:enumeration value="es-LA_SofiaV3Voice"/>
 			<xs:enumeration value="es-ES_LauraV3Voice"/>
-			<xs:enumeration value="es-ES_EnriqueV3Voice"/>
+			<xs:enumeration value="es-ES_EnriqueV3Voice"/>     
+			<xs:enumeration value="fr-FR_NicolasV3Voice"/>
+			<xs:enumeration value="fr-FR_ReneeV3Voice"/>
+			<xs:enumeration value="de-DE_BirgitV3Voice"/>
+			<xs:enumeration value="de-DE_DieterV3Voice"/>
 		</xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="headMotionListType">
 		<xs:restriction base="xs:string">
-			<!-- comandos compatíveis com o soft. de controle dos servomotores do CICESE (versão anterior do XMLSchema). -->
+			<!-- commands compatible with CICESE servomotor control software (previous version of XMLSchema). -->
 			<xs:enumeration value="YES"/>
 			<xs:enumeration value="2YES"/>
 			<xs:enumeration value="NO"/>
@@ -63,7 +71,7 @@ Revision: 2022/08/12
 			<xs:enumeration value="2UP_RIGHT"/>
 			<xs:enumeration value="UP_LEFT"/>
 			<xs:enumeration value="2UP_LEFT"/>
-			<!-- comandos baseados no novo soft. de controle dos servomotores usando a placa Arduino. -->
+			<!-- commands based on the new servomotor control software using the Arduino board. -->
 			<xs:enumeration value="UP1"/>
 			<xs:enumeration value="UP2"/>
 			<xs:enumeration value="DOWN1"/>
@@ -93,14 +101,14 @@ Revision: 2022/08/12
 
 	<xs:simpleType name="armMotionListType">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="POSITION 0"/> <!-- move o braço para a posição inicial (0) -->
+			<xs:enumeration value="POSITION 0"/> <!-- Move arm to starting position (0) -->
 			<xs:enumeration value="POSITION 1"/>
 			<xs:enumeration value="POSITION 2"/>
-			<xs:enumeration value="POSITION 3"/> <!-- Move o braço para a posição máxima (3) -->
-			<xs:enumeration value="UP"/> <!-- Move o braço para a próxima posição superior -->
-			<xs:enumeration value="DOWN"/> <!-- Move o braço para a próxima posição inferior -->
-			<xs:enumeration value="SHAKE1"/> <!-- Balança o braço para cima e para baixo em torno da posição corrente (1 x ciclo) -->
-			<xs:enumeration value="SHAKE2"/> <!-- Balança o braço para cima e para baixo em torno da posição corrente (2 x ciclo) -->
+			<xs:enumeration value="POSITION 3"/> <!-- Move arm to starting position (3) -->
+			<xs:enumeration value="UP"/> <!-- Move arm to next higher position -->
+			<xs:enumeration value="DOWN"/> <!-- Move arm to next lower position -->
+			<xs:enumeration value="SHAKE1"/> <!-- Swings arm up and down around current position (1 x cycle) -->
+			<xs:enumeration value="SHAKE2"/> <!-- Swing arm up and down around current position (2 x cycle) -->
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -153,7 +161,10 @@ Revision: 2022/08/12
             <xs:enumeration value="song-ben"/>
             <xs:enumeration value="song-caneta-azul"/>
             <xs:enumeration value="song-exodus"/>
+			<xs:enumeration value="song-fear"/>
+			<xs:enumeration value="song-happy"/>
 			<xs:enumeration value="song-i-believe-i-can-fly"/>
+			<xs:enumeration value="song-i-will-be-there" />
             <xs:enumeration value="song-mj-heal-the-world"/>
             <xs:enumeration value="song-here-comes-the-sun"/>
 			<xs:enumeration value="song-macarena-edit"/>
@@ -164,6 +175,7 @@ Revision: 2022/08/12
 			<xs:enumeration value="song-rude-magic"/>
 			<xs:enumeration value="song-sad-violin"/>
 			<xs:enumeration value="song-samba-loop"/>
+			<xs:enumeration value="song-surprise"/>
             <xs:enumeration value="song-take-on-me"/>
             <xs:enumeration value="song-the-girl-from-ipanema"/>
             <xs:enumeration value="song-the-imperial-march"/>
@@ -198,6 +210,14 @@ Revision: 2022/08/12
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="TRUE"/>
 			<xs:enumeration value="FALSE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="listenLanguageType"> <!-- Language for STT service -->
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="pt-BR"/> <!-- Portuguese (Brazil) -->
+			<xs:enumeration value="en-US"/> <!-- English (EUA) -->
+			<xs:enumeration value="es-ES"/> <!-- Spanish (Spain) -->
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -247,7 +267,7 @@ Revision: 2022/08/12
 
 	<xs:simpleType name="counterVarType">
 		<xs:restriction base="xs:token">
-			<!-- O nome de uma variavel só pode começar por letras e ser seguido por letras, números e o caracter _ -->
+			<!-- A variable name can only start with letters and be followed by letters, numbers and the character _ -->
 			<xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]*"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -264,19 +284,19 @@ Revision: 2022/08/12
 
 	<xs:simpleType name="switchVarOnlyDollar">
 		<xs:restriction base="xs:token">
-			<xs:pattern value="\$[1-9-]?[0-9]*"/> <!-- variável do tipo $. Ex.: $, $1, $-2-->
+			<xs:pattern value="\$[1-9-]?[0-9]*"/> <!-- Variable of type $. Ex.: $, $1, $-2-->
 		</xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="switchVarAll">
 		<xs:restriction base="xs:token">
-			<!-- O nome de uma variavel só pode começar por letras e ser seguido por letras, números e o caracter _ -->
+			<!-- A variable name can only start with letters and be followed by letters, numbers and the character _ -->
 			<xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]*"/>
 		</xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="switchVarType">
-		<!-- A variável é definida como a união (um ou outro) dos dois tipos definidos anteriormente -->
+		<!-- The variable is defined as the union (one or the other) of the two types defined previously -->
 		<xs:union memberTypes="switchVarOnlyDollar switchVarAll" />
 	</xs:simpleType>
 
@@ -293,7 +313,7 @@ Revision: 2022/08/12
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="languageType"> <!-- Some codes for the source languages -->
+	<xs:simpleType name="languageType"> <!-- Some codes for the source languages for Google translating processing -->
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="PT"/>
 			<xs:enumeration value="EN"/>
@@ -330,6 +350,7 @@ Revision: 2022/08/12
 	<xs:element name="talk">
 		<xs:complexType mixed="true">
 			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="tone" type="voiceType"/>
 		</xs:complexType>
 	</xs:element>
 
@@ -381,7 +402,7 @@ Revision: 2022/08/12
 	</xs:element>
 
 	<xs:element name="textEmotion">
-		<xs:complexType mixed="true">
+		<xs:complexType>
 			<xs:attribute name="id" type="idType"/>
 			<xs:attribute name="language" type="languageType"/>
 			<xs:attribute name="var" type="xs:string"/>
@@ -398,6 +419,9 @@ Revision: 2022/08/12
 		<xs:complexType>
 			<xs:attribute name="id" type="idType"/>
 			<xs:attribute name="var" type="xs:string"/>
+			<!-- The language attribute was not defined as mandatory to maintain compatibility with old scripts -->
+			<!-- The default value will be defined in EvaML code function -->
+			<xs:attribute name="language" type="listenLanguageType"/> 
 		</xs:complexType>
 	</xs:element>
 
@@ -439,8 +463,8 @@ Revision: 2022/08/12
 	<xs:element name="motion">
 		<xs:complexType>
 			<xs:attribute name="id" type="idType"/>
-			<xs:attribute name="type" type="headMotionListType"/> <!-- Continua existindo para manter a compatibilidade com o modelo anterior -->
-			<!-- Novas funcionalidades head, leftArm e rightArm -->
+			<xs:attribute name="type" type="headMotionListType"/> <!-- Still exists to maintain compatibility with the previous model -->
+			<!-- New head, leftArm and rightArm features -->
 			<xs:attribute name="head" type="headMotionListType"/>
 			<xs:attribute name="left-arm" type="armMotionListType"/>
 			<xs:attribute name="right-arm" type="armMotionListType"/>

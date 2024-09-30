@@ -313,7 +313,7 @@ def clear_terminal(self):
     gui.terminal.delete('1.0', END)
     # Creating terminal text
     gui.terminal.insert(INSERT, "=============================================================================================================================\n")
-    gui.terminal.insert(INSERT, "                                                                                                                       Eva Simulator for EvaML\n")
+    gui.terminal.insert(INSERT, "                                                                                      Embodied Voice Assistant Simulator - Script Player for EvaML\n")
     gui.terminal.insert(INSERT, "                                                                                                   Version 2.0 - UFF / MidiaCom / CICESE - [2024]\n")
     gui.terminal.insert(INSERT, "=============================================================================================================================")
 
@@ -831,17 +831,26 @@ def exec_comando(node):
         
         # Case 2 (op = "contain")
         elif node.attrib['op'] == "contain":      
-            # Checks if var_dollar memory has any value
-            if (len(eva_memory.var_dolar)) == 0:
-                gui.terminal.insert(INSERT, "\nError -> The variable $ has no value. Please, check your code.", "error")
+            # Checa se a comparação é com o dollar
+            if "$" in node.attrib['var']:
+                if (len(eva_memory.var_dolar)) == 0: # Checks if var_dollar memory has any value
+                    gui.terminal.insert(INSERT, "\nError -> The variable $ has no value. Please, check your code.", "error")
+                    gui.terminal.see(tkinter.END)
+                    exit(1)  
+                else:
+                    # Checks if the string in value is contained in $
+                    print("value: ", valor, type(valor))
+                    if valor in eva_memory.var_dolar[-1][0].lower(): 
+                        print("case = true")
+                        eva_memory.reg_case = 1 # Turn on the reg case indicating that the comparison result was true
+            # se não é com dollar então é com uma var do usuário
+            elif node.attrib['var'] in eva_memory.vars: # verifica se a variável de usuário existe na memória
+                if valor in eva_memory.vars[node.attrib['var']]: # Verifica se 
+                    print("case = true")
+                    eva_memory.reg_case = 1 # Turn on the reg case indicating that the comparison result was true
+            else:
+                gui.terminal.insert(INSERT, "\nError -> The variable '" + node.attrib['var'] + "' does no exist. Please, check your code.", "error")
                 gui.terminal.see(tkinter.END)
-                exit(1)  
-
-            # Checks if the string in value is contained in $
-            print("value: ", valor, type(valor))
-            if valor in eva_memory.var_dolar[-1][0].lower(): 
-                print("case = true")
-                eva_memory.reg_case = 1 # Turn on the reg case indicating that the comparison result was true
 
         # case 3 (MATHEMATICAL COMPARISON)
         else:

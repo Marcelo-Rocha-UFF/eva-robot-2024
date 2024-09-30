@@ -19,3 +19,6 @@ ACCEPT_AUDIO_EXTENSION = "audio/mp3"
 
 # Default voice (language) for the IBM Watson service.
 VOICE_TONE = "pt-BR_IsabelaV3Voice" 
+
+# Default language for Google translating
+LANG_DEFAULT_GOOGLE_TRANSLATING = "PT"

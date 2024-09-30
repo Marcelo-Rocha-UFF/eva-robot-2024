@@ -4,19 +4,17 @@
   xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <settings>
-    <voice tone="en-US_EmmaExpressive" />
+    <voice tone="pt-BR_IsabelaV3Voice" />
     <lightEffects mode="ON" />
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <listen var="nome"/>
-    <switch var="idade">
-      <case op="contain" value="sim">
-        <light state="ON" />
-      </case>
-      <default>
-        <light state="OFF" />
-      </default>
-    </switch>
+    <talk>Fale algo em português</talk>
+    <listen language="pt-BR"/>
+    <talk tone="pt-BR_IsabelaV3Voice" >Você falou $</talk>
+    <talk>Agora, fale algo em inglês</talk>
+    <listen language="en-US"/>
+    <talk>Você disse</talk>
+    <talk tone="en-US_MichaelExpressive">$</talk>
   </script>
 </evaml>
