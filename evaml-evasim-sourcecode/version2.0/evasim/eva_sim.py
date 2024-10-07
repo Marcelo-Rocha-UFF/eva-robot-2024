@@ -161,6 +161,7 @@ def unlock_thread_pop():
 
 # Create the Tkinter window
 window = Tk()
+window.geometry("0x0+100+40")
 gui = EvaSIM_gui.Gui(window) # Instance of the Gui class within the graphical user interface definition module
 
 font1 = gui.font1 # Sse the same font defined in the GUI module
@@ -962,11 +963,47 @@ def exec_comando(node):
             ledAnimation("STOP")
         else:
             if not TTS_IBM_WATSON: # without IBM-Watson
-                gui.option_add('*Dialog.msg.width', 30)
-                gui.option_add('*Dialog.msg.font', 'Arial 14')
                 lock_thread_pop()
-                messagebox.showinfo("TTS - Message Box - EVA is speaking!", texto[ind_random])
-                unlock_thread_pop() # Reactivate the script processing thread
+                ledAnimation("SPEAK")
+                # Pop up window closing function for OK button
+                def fechar_pop_bt():
+                    pop.destroy()
+                    unlock_thread_pop() # Reactivate the script processing thread
+                    
+                # Window (GUI) creation
+                var = StringVar()
+                pop = Toplevel(gui)
+                pop.title("TTS - Message Box - EVA is speaking!")
+                # Disable the maximize and close buttons
+                pop.resizable(False, False)
+                pop.protocol("WM_DELETE_WINDOW", False)
+                w = int(45 * len(texto[ind_random])/4.5)
+                h = 150
+                ws = gui.winfo_screenwidth()
+                hs = gui.winfo_screenheight()
+                x = (ws/2) - (w/2)
+                y = (hs/2) - (h/2)  
+                pop.geometry('%dx%d+%d+%d' % (w, h, x, y))
+                label = Label(pop, text=texto[ind_random], font = ('Arial', 14))
+                label.pack(pady=20)
+                Button(pop, text="    OK    ", font = font1, command=fechar_pop_bt).pack(pady=20)
+                # Wait for release, waiting for the user's response
+                while thread_pop_pause: 
+                    time.sleep(0.5)
+                ledAnimation("STOP")
+
+
+                # gui.option_add('*Dialog.msg.width', 30)
+                # gui.option_add('*Dialog.msg.font', 'Arial 14')
+                # lock_thread_pop()
+                # lock = threading.Lock()
+                # lock.acquire()
+                # messagebox.showinfo("TTS - Message Box - EVA is speaking!", texto[ind_random])
+                # lock.release()
+                # time.sleep(.1)
+                # while thread_pop_pause: 
+                #     time.sleep(0.5)
+                #     ledAnimation("STOP")
 
             elif TTS_IBM_WATSON:
                 # Using IBM Watson ################################
@@ -1661,10 +1698,11 @@ def link_process(anterior = -1):
 
     global fila_links
     while (len(fila_links) != 0) and (play == True):
+        print("########################### Len  ",  len(fila_links), fila_links)
         from_key = fila_links[0].attrib["from"] # Key of the command to execute
         to_key = fila_links[0].attrib["to"] # Key of next command
-        print("from:", from_key, ", to_key:", to_key)
         comando_from = busca_commando(from_key).tag # Tag of the command to be executed
+        print("Elemem:", comando_from,  ", from:", from_key, ", to_key:", to_key)
 
         # Prevents the same node from running consecutively. This happens with the node that precedes the "cases"
         if anterior != from_key:
@@ -1676,6 +1714,7 @@ def link_process(anterior = -1):
         if (comando_from == "case") or (comando_from == "default"): # If the command executed was a case or a default
             if eva_memory.reg_case == 1: # Check the flag to see if the "case" was true
                 fila_links = [] # Empty the queue, as the flow will continue from this "case" onwards
+                print("******************** Limpando fila de links")
                 print("Jumping the command = ", comando_from)
                 # Follows the flow of the success "case" looking for the "prox. link"
                 if not(busca_links(to_key)): # If there is no longer a link, the command indicated by "to_key" is the last one in the flow
@@ -1683,6 +1722,7 @@ def link_process(anterior = -1):
                     print("End of block.")
                     
             else:
+                print("Len de fila links:", len(fila_links))
                 print("The element:", comando_from, " will be removed from queue.")
                 fila_links.pop(0) # If the "case" failed, it is removed from the queue and consequently its flow is discarded
                 print("false")
@@ -1692,6 +1732,7 @@ def link_process(anterior = -1):
             if not(busca_links(to_key)): # As previously mentioned
                 exec_comando(busca_commando(to_key))
                 print("End of block.")
+    
     gui.terminal.insert(INSERT, "\nSTATE: End of script.")
     gui.terminal.see(tkinter.END)
     # Restore the buttons states (run and stop)
