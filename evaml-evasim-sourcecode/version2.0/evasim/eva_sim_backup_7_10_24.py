@@ -975,26 +975,24 @@ def exec_comando(node):
                 pop = Toplevel(gui)
                 pop.title("TTS - Message Box - EVA is speaking!")
                 # Disable the maximize and close buttons
-                # pop.resizable(False, False)
+                pop.resizable(False, False)
                 pop.protocol("WM_DELETE_WINDOW", False)
                 w = int(45 * len(texto[ind_random])/4.5)
-                if w < 330: # minimum width allowed
-                    w = 330
-                h = 200
+                h = 150
                 ws = gui.winfo_screenwidth()
                 hs = gui.winfo_screenheight()
                 x = (ws/2) - (w/2)
                 y = (hs/2) - (h/2)  
                 pop.geometry('%dx%d+%d+%d' % (w, h, x, y))
-                label = Label(pop, text=texto[ind_random], font = ('Arial', 12))
+                label = Label(pop, text=texto[ind_random], font = ('Arial', 14))
                 label.pack(pady=20)
-                Button(pop, text="    OK    ", font = ('Arial', 12), command=fechar_pop_bt).pack(pady=20)
+                Button(pop, text="    OK    ", font = font1, command=fechar_pop_bt).pack(pady=20)
                 # Wait for release, waiting for the user's response
                 while thread_pop_pause: 
                     time.sleep(0.5)
                 ledAnimation("STOP")
 
-                # We had a problem here. Something like a deadlock, perhaps...
+
                 # gui.option_add('*Dialog.msg.width', 30)
                 # gui.option_add('*Dialog.msg.font', 'Arial 14')
                 # lock_thread_pop()
@@ -1684,15 +1682,12 @@ def busca_links(att_from):
         if att_from == links_node[i].attrib["from"]:
             fila_links.append(links_node[i])
             achou_link = True
-
-    for l in fila_links:
-        print("link: " + l.attrib["from"] + " -> " + l.attrib["to"] )
     return achou_link
 
 
 # Execute commands in the link stack
 def link_process(anterior = -1):
-    global play, fila_links
+    global play
     print("Play state............", play)
     gui.terminal.insert(INSERT, "\n---------------------------------------------------")
     gui.terminal.insert(INSERT, "\nSTATE: Starting the script: " + root.attrib["name"] + "_EvaML.xml")
@@ -1701,11 +1696,12 @@ def link_process(anterior = -1):
     if RUNNING_MODE == "EVA_ROBOT":
         client.publish(topic_base + "/log", "Starting the script: " + root.attrib["name"] + "_EvaML.xml")
 
+    global fila_links
     while (len(fila_links) != 0) and (play == True):
+        print("########################### Len  ",  len(fila_links), fila_links)
         from_key = fila_links[0].attrib["from"] # Key of the command to execute
         to_key = fila_links[0].attrib["to"] # Key of next command
         comando_from = busca_commando(from_key).tag # Tag of the command to be executed
-        comando_target = busca_commando(to_key).tag # Tag of target command
         print("Elemem:", comando_from,  ", from:", from_key, ", to_key:", to_key)
 
         # Prevents the same node from running consecutively. This happens with the node that precedes the "cases"
@@ -1713,24 +1709,18 @@ def link_process(anterior = -1):
             exec_comando(busca_commando(from_key))
             anterior = from_key
             print("ant: ", anterior, ", from: ", from_key)
-
+        
+        
         if (comando_from == "case") or (comando_from == "default"): # If the command executed was a case or a default
             if eva_memory.reg_case == 1: # Check the flag to see if the "case" was true
-                if comando_target == "case" or comando_target == "default":
-                    fila_aux = []
-                    for l in fila_links:
-                        if l.attrib["from"] == from_key:
-                            fila_aux.append(l)
-                    fila_links = []
-                    for f in fila_aux:
-                        busca_links(f.attrib["to"])
-                else:
-                    fila_links = [] # Empty the queue, as the flow will continue from this "case" onwards
-                    print("Jumping the command = ", comando_from)
-                    # Follows the flow of the success "case" looking for the "prox. link"
-                    if not(busca_links(to_key)): # If there is no longer a link, the command indicated by "to_key" is the last one in the flow
-                        exec_comando(busca_commando(to_key))
-                        print("End of block.")
+                fila_links = [] # Empty the queue, as the flow will continue from this "case" onwards
+                print("******************** Limpando fila de links")
+                print("Jumping the command = ", comando_from)
+                # Follows the flow of the success "case" looking for the "prox. link"
+                if not(busca_links(to_key)): # If there is no longer a link, the command indicated by "to_key" is the last one in the flow
+                    exec_comando(busca_commando(to_key))
+                    print("End of block.")
+                    
             else:
                 print("Len de fila links:", len(fila_links))
                 print("The element:", comando_from, " will be removed from queue.")
@@ -1742,7 +1732,7 @@ def link_process(anterior = -1):
             if not(busca_links(to_key)): # As previously mentioned
                 exec_comando(busca_commando(to_key))
                 print("End of block.")
-
+    
     gui.terminal.insert(INSERT, "\nSTATE: End of script.")
     gui.terminal.see(tkinter.END)
     # Restore the buttons states (run and stop)
