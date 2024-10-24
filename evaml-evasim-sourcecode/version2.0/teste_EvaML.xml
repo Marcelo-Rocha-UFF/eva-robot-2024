@@ -5,8 +5,16 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <audio source="song-aquarela" block="TRUE" key="1001" />
-    <audio source="efx-tic-toc" block="FALSE" key="1002" />
-    
+    <counter var="A" op="=" value="1" key="1001" />
+    <switch var="A">
+      <case op="exact" value="1" key="1002" child_proc="true" var="A">
+        <light state="ON" color="WHITE" key="1003" />
+        <goto target="END" />
+      </case>
+      <default key="1004" child_proc="true" value="" op="exact">
+        <random min="1" max="1" key="1005" />
+      </default>
+    </switch>
+    <led animation="HAPPY" id="END" key="1006" />
   </script>
-<links><link from="1000" to="1001" /><link from="1001" to="1002" /></links></evaml>
+<links><link from="1000" to="1001" /><link from="1001" to="1002" /><link from="1002" to="1003" /><link from="1003" to="1006" /><link from="1001" to="1004" /><link from="1004" to="1005" /><link from="1005" to="1006" /></links></evaml>

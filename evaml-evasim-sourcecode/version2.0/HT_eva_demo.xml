@@ -171,8 +171,8 @@
     <talk>How are you?</talk> -->
     <talk>Bem, a minha demonstração termina aqui</talk>
     <wait duration="1000" />
-    <talk>Desêjo boa sorte a vocês no racatôn educa 360</talk>
-    <wait duration="1000" />
+    <!-- <talk>Desêjo boa sorte a vocês no racatôn educa 360</talk> -->
+    <!-- <wait duration="1000" /> -->
     <talk>Até mais!</talk>
     <light state="OFF" />
     <evaEmotion emotion="NEUTRAL" />
