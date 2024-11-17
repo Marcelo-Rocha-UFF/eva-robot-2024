@@ -34,6 +34,8 @@ int eva_tilt_down_limit = eva_tilt_center - (2 * (tilt_range - 10)); // Angulo m
 int eva_pan_right_limit = eva_pan_center - (3 * pan_range); // Limite máximo do movimento para a direita.
 int eva_pan_left_limit = eva_pan_center + (3 * pan_range); // Limite máximo do movimento para a esquerda.
 
+//
+
 // timers para simular a independência dos movimentos.
 unsigned long head_timer; // timer para a movimentação da cabeça do robô.
 // the head states can be all chars that represents the head motion commands: U, u, c, l, r etc.

@@ -1,0 +1,172 @@
+<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="BIS" xsi:noNamespaceSchemaLocation="evaml-schema/evaml_schema.xsd" id="f874a3540c84daa7e6e0e3ea543365bf">
+  <settings>
+    <voice tone="pt-BR_IsabelaV3Voice" key="1000" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    
+     <motion type="CENTER" key="1001" />
+    <listen key="1002" />
+    <evaEmotion emotion="HAPPY" key="1003" />
+    <talk key="1004">Olá, que bom que você veio.</talk>
+    <wait duration="2000" key="1005" />
+    <motion left-arm="POSITION 0" right-arm="POSITION 3" key="1006" />
+    <motion right-arm="DOWN" key="1007" />
+    <wait duration="2000" key="1008" />  
+    <evaEmotion emotion="NEUTRAL" key="1009" />
+    <talk key="1010">Como você está se sentindo? Escolha um dos QR Côudes.</talk>
+    
+    <qrRead var="sentimento" key="1011" />
+    <switch var="sentimento">
+      <case op="exact" value="feliz" key="1012" child_proc="true" var="sentimento">
+        <evaEmotion emotion="HAPPY" key="1013" />
+        <motion type="2UP" key="1014" />
+        <light state="ON" color="PINK" key="1015" />
+        <audio source="song-samba-loop" block="TRUE" key="1016" />
+        <talk key="1017">Que bom que você está feliz.</talk>
+        <light state="ON" color="WHITE" key="1018" />
+        <audio source="efx-blin" block="TRUE" key="1019" />
+        <talk key="1020">Tenha um bom dia</talk>
+      </case>
+      <case op="exact" value="apaixonada" key="1021" child_proc="true" var="sentimento">
+        <evaEmotion emotion="HAPPY" key="1022" />
+        <motion type="2UP" key="1023" />
+        <light state="ON" color="PINK" key="1024" />
+        <audio source="song-samba-loop" block="TRUE" key="1025" />
+        <talk key="1026">Que bom que você está feliz.</talk>
+        <light state="ON" color="WHITE" key="1027" />
+        <audio source="efx-blin" block="TRUE" key="1028" />
+        <talk key="1029">Tenha um bom dia</talk>
+      </case>
+      <case op="exact" value="triste" key="1030" child_proc="true" var="sentimento">
+        <evaEmotion emotion="SAD" key="1031" />
+        <light state="ON" color="BLUE" key="1032" />
+        <talk key="1033">Eu posso te ajudar com isso.</talk>
+        <random min="1" max="4" key="1034" />
+        <switch var="$">
+          <case op="eq" value="1" key="1035" child_proc="true" var="$">
+            <evaEmotion emotion="HAPPY" key="1036" />
+            <light state="ON" color="YELLOW" key="1037" />
+            <talk key="1038">Então ouça esta música </talk>
+            <motion left-arm="SHAKE2" right-arm="SHAKE2" key="1039" />
+            <audio source="song-happy" block="TRUE" key="1040" />
+          </case>
+          <case op="eq" value="2" key="1041" child_proc="true" var="$">
+            <evaEmotion emotion="HAPPY" key="1042" />
+            <light state="ON" color="YELLOW" key="1043" />
+            <talk key="1044">Então ouça esta música </talk>
+            <motion left-arm="SHAKE2" right-arm="SHAKE2" key="1045" />
+            <audio source="song-rude-magic" block="TRUE" key="1046" />
+          </case>
+          <case op="eq" value="3" key="1047" child_proc="true" var="$">
+            <evaEmotion emotion="NEUTRAL" key="1048" />
+            <light state="ON" color="WHITE" key="1049" />
+            <audio source="efx-blin" block="TRUE" key="1050" />
+            <talk key="1051">Então sugiro que assista as branquelas </talk>
+          </case>
+          <case op="eq" value="4" key="1052" child_proc="true" var="$">
+            <evaEmotion emotion="NEUTRAL" key="1053" />
+            <light state="ON" color="WHITE" key="1054" />
+            <audio source="efx-blin" block="TRUE" key="1055" />
+            <talk key="1056">Então sugiro que assista fuga das galinhas </talk>
+          </case>
+        <default key="1057" child_proc="false" value="" op="exact" /></switch>
+      </case>
+      <case op="exact" value="raiva" key="1058" child_proc="true" var="sentimento">
+        <evaEmotion emotion="SAD" key="1059" />
+        <light state="ON" color="BLUE" key="1060" />
+        <talk key="1061">Eu posso te ajudar com isso.</talk>
+        <random min="1" max="4" key="1062" />
+        <switch var="$">
+          <case op="eq" value="1" key="1063" child_proc="true" var="$">
+            <evaEmotion emotion="HAPPY" key="1064" />
+            <light state="ON" color="YELLOW" key="1065" />
+            <talk key="1066">Então ouça esta música </talk>
+            <motion left-arm="SHAKE2" right-arm="SHAKE2" key="1067" />
+            <audio source="song-happy" block="TRUE" key="1068" />
+          </case>
+          <case op="eq" value="2" key="1069" child_proc="true" var="$">
+            <evaEmotion emotion="HAPPY" key="1070" />
+            <light state="ON" color="YELLOW" key="1071" />
+            <talk key="1072">Então ouça esta música </talk>
+            <motion left-arm="SHAKE2" right-arm="SHAKE2" key="1073" />
+            <audio source="song-rude-magic" block="TRUE" key="1074" />
+          </case>
+          <case op="eq" value="3" key="1075" child_proc="true" var="$">
+            <evaEmotion emotion="NEUTRAL" key="1076" />
+            <light state="ON" color="WHITE" key="1077" />
+            <audio source="efx-blin" block="TRUE" key="1078" />
+            <talk key="1079">Então sugiro que assista as branquelas </talk>
+          </case>
+          <case op="eq" value="4" key="1080" child_proc="true" var="$">
+            <evaEmotion emotion="NEUTRAL" key="1081" />
+            <light state="ON" color="WHITE" key="1082" />
+            <audio source="efx-blin" block="TRUE" key="1083" />
+            <talk key="1084">Então sugiro que assista fuga das galinhas </talk>
+          </case>
+        <default key="1085" child_proc="false" value="" op="exact" /></switch>
+      </case>
+      <case op="exact" value="Nojo" key="1086" child_proc="true" var="sentimento">
+        <evaEmotion emotion="SAD" key="1087" />
+        <light state="ON" color="BLUE" key="1088" />
+        <talk key="1089">Eu posso te ajudar com isso.</talk>
+        <random min="1" max="4" key="1090" />
+        <switch var="$">
+          <case op="eq" value="1" key="1091" child_proc="true" var="$">
+            <evaEmotion emotion="HAPPY" key="1092" />
+            <light state="ON" color="YELLOW" key="1093" />
+            <talk key="1094">Então ouça esta música </talk>
+            <motion left-arm="SHAKE2" right-arm="SHAKE2" key="1095" />
+            <audio source="song-happy" block="TRUE" key="1096" />
+          </case>
+          <case op="eq" value="2" key="1097" child_proc="true" var="$">
+            <evaEmotion emotion="HAPPY" key="1098" />
+            <light state="ON" color="YELLOW" key="1099" />
+            <talk key="1100">Então ouça esta música </talk>
+            <motion left-arm="SHAKE2" right-arm="SHAKE2" key="1101" />
+            <audio source="song-rude-magic" block="TRUE" key="1102" />
+          </case>
+          <case op="eq" value="3" key="1103" child_proc="true" var="$">
+            <evaEmotion emotion="NEUTRAL" key="1104" />
+            <light state="ON" color="WHITE" key="1105" />
+            <audio source="efx-blin" block="TRUE" key="1106" />
+            <talk key="1107">Então sugiro que assista as branquelas </talk>
+          </case>
+          <case op="eq" value="4" key="1108" child_proc="true" var="$">
+            <evaEmotion emotion="NEUTRAL" key="1109" />
+            <light state="ON" color="WHITE" key="1110" />
+            <audio source="efx-blin" block="TRUE" key="1111" />
+            <talk key="1112">Então sugiro que assista fuga das galinhas </talk>
+          </case>
+        <default key="1113" child_proc="false" value="" op="exact" /></switch>
+      </case>
+      <default key="1114" child_proc="true" value="" op="exact">
+        <talk key="1115"> Vou te contar uma piada</talk>
+        <audio source="efx-mario-game-intro" block="TRUE" key="1116" />
+        <evaEmotion emotion="HAPPY" key="1117" />
+        <light state="ON" color="RED" key="1118" />
+        <talk key="1119">Como chamar um cão mágico?</talk>
+        <talk key="1120">LA-BRA-CA-BRA-DOR</talk>
+        <talk key="1121">Consegui te deixar feliz?</talk>
+        <listen var="resposta" key="1122" />
+        <switch var="resposta">
+          <case op="contain" value="sim" key="1123" child_proc="true" var="resposta">
+            <evaEmotion emotion="HAPPY" key="1124" />
+            <light state="ON" color="YELLOW" key="1125" />
+            <talk key="1126">Fico feliz em ter te ajudado</talk>
+          </case>
+          <default key="1127" child_proc="true" value="" op="exact">
+            <evaEmotion emotion="SAD" key="1128" />
+            <motion type="2DOWN" key="1129" />
+            <talk key="1130">Pouxa, pensei que tivesse acertado dessa vez.</talk>
+            <motion type="CENTER" key="1131" />
+            <evaEmotion emotion="HAPPY" key="1132" />
+            <motion type="2UP" key="1133" />
+            <talk key="1134">Acho melhor conversar com um adulto confiável.</talk>
+          </default>
+        </switch>
+      </default>
+    </switch>
+  </script>
+<links><link from="1000" to="1001" /><link from="1001" to="1002" /><link from="1002" to="1003" /><link from="1003" to="1004" /><link from="1004" to="1005" /><link from="1005" to="1006" /><link from="1006" to="1007" /><link from="1007" to="1008" /><link from="1008" to="1009" /><link from="1009" to="1010" /><link from="1010" to="1011" /><link from="1011" to="1012" /><link from="1012" to="1013" /><link from="1013" to="1014" /><link from="1014" to="1015" /><link from="1015" to="1016" /><link from="1016" to="1017" /><link from="1017" to="1018" /><link from="1018" to="1019" /><link from="1019" to="1020" /><link from="1011" to="1021" /><link from="1021" to="1022" /><link from="1022" to="1023" /><link from="1023" to="1024" /><link from="1024" to="1025" /><link from="1025" to="1026" /><link from="1026" to="1027" /><link from="1027" to="1028" /><link from="1028" to="1029" /><link from="1011" to="1030" /><link from="1030" to="1031" /><link from="1031" to="1032" /><link from="1032" to="1033" /><link from="1033" to="1034" /><link from="1034" to="1035" /><link from="1035" to="1036" /><link from="1036" to="1037" /><link from="1037" to="1038" /><link from="1038" to="1039" /><link from="1039" to="1040" /><link from="1034" to="1041" /><link from="1041" to="1042" /><link from="1042" to="1043" /><link from="1043" to="1044" /><link from="1044" to="1045" /><link from="1045" to="1046" /><link from="1034" to="1047" /><link from="1047" to="1048" /><link from="1048" to="1049" /><link from="1049" to="1050" /><link from="1050" to="1051" /><link from="1034" to="1052" /><link from="1052" to="1053" /><link from="1053" to="1054" /><link from="1054" to="1055" /><link from="1055" to="1056" /><link from="1034" to="1057" /><link from="1011" to="1058" /><link from="1058" to="1059" /><link from="1059" to="1060" /><link from="1060" to="1061" /><link from="1061" to="1062" /><link from="1062" to="1063" /><link from="1063" to="1064" /><link from="1064" to="1065" /><link from="1065" to="1066" /><link from="1066" to="1067" /><link from="1067" to="1068" /><link from="1062" to="1069" /><link from="1069" to="1070" /><link from="1070" to="1071" /><link from="1071" to="1072" /><link from="1072" to="1073" /><link from="1073" to="1074" /><link from="1062" to="1075" /><link from="1075" to="1076" /><link from="1076" to="1077" /><link from="1077" to="1078" /><link from="1078" to="1079" /><link from="1062" to="1080" /><link from="1080" to="1081" /><link from="1081" to="1082" /><link from="1082" to="1083" /><link from="1083" to="1084" /><link from="1062" to="1085" /><link from="1011" to="1086" /><link from="1086" to="1087" /><link from="1087" to="1088" /><link from="1088" to="1089" /><link from="1089" to="1090" /><link from="1090" to="1091" /><link from="1091" to="1092" /><link from="1092" to="1093" /><link from="1093" to="1094" /><link from="1094" to="1095" /><link from="1095" to="1096" /><link from="1090" to="1097" /><link from="1097" to="1098" /><link from="1098" to="1099" /><link from="1099" to="1100" /><link from="1100" to="1101" /><link from="1101" to="1102" /><link from="1090" to="1103" /><link from="1103" to="1104" /><link from="1104" to="1105" /><link from="1105" to="1106" /><link from="1106" to="1107" /><link from="1090" to="1108" /><link from="1108" to="1109" /><link from="1109" to="1110" /><link from="1110" to="1111" /><link from="1111" to="1112" /><link from="1090" to="1113" /><link from="1011" to="1114" /><link from="1114" to="1115" /><link from="1115" to="1116" /><link from="1116" to="1117" /><link from="1117" to="1118" /><link from="1118" to="1119" /><link from="1119" to="1120" /><link from="1120" to="1121" /><link from="1121" to="1122" /><link from="1122" to="1123" /><link from="1123" to="1124" /><link from="1124" to="1125" /><link from="1125" to="1126" /><link from="1122" to="1127" /><link from="1127" to="1128" /><link from="1128" to="1129" /><link from="1129" to="1130" /><link from="1130" to="1131" /><link from="1131" to="1132" /><link from="1132" to="1133" /><link from="1133" to="1134" /></links></evaml>

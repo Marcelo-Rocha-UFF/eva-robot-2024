@@ -5,16 +5,35 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <counter var="A" op="=" value="1" key="1001" />
-    <switch var="A">
-      <case op="exact" value="1" key="1002" child_proc="true" var="A">
-        <light state="ON" color="WHITE" key="1003" />
-        <goto target="END" />
-      </case>
-      <default key="1004" child_proc="true" value="" op="exact">
-        <random min="1" max="1" key="1005" />
-      </default>
-    </switch>
-    <led animation="HAPPY" id="END" key="1006" />
+    <talk key="1001">Diga uma palavra</talk>
+    <listen key="1002" />
+    <talk key="1003">Diga uma palavra</talk>
+    <listen key="1004" />
+    <talk key="1005">Mostre um QR Coude</talk>
+    <qrRead key="1006" />
+    <talk key="1007">Diga uma palavra</talk>
+    <listen key="1008" />
+    <talk key="1009">Diga uma palavra</talk>
+    <listen key="1010" />
+    <talk key="1011">Mostre um QR Coude</talk>
+    <qrRead var="VAR_QR1" key="1012" />
+    <talk key="1013">Diga uma palavra</talk>
+    <listen key="1014" />
+    <talk key="1015">Mostre um QR Coude</talk>
+    <qrRead var="VAR_QR2" key="1016" />
+    <talk key="1017">Diga uma palavra</talk>
+    <listen var="VAR1" key="1018" />
+    <talk key="1019">Diga uma palavra</talk>
+    <listen var="VAR2" key="1020" />
+    <talk key="1021">Mostre um QR Coude</talk>
+    <qrRead key="1022" />
+    <talk key="1023">Diga uma palavra</talk>
+    <listen var="VAR3" key="1024" />
+    <talk key="1025">Mostre um QR Coude</talk>
+    <qrRead var="VAR_QR3" key="1026" />
+    <talk key="1027">Diga uma palavra</talk>
+    <listen var="VAR4" key="1028" />
+    <talk key="1029">Diga uma palavra</talk>
+    <listen var="VAR5" key="1030" />
   </script>
-<links><link from="1000" to="1001" /><link from="1001" to="1002" /><link from="1002" to="1003" /><link from="1003" to="1006" /><link from="1001" to="1004" /><link from="1004" to="1005" /><link from="1005" to="1006" /></links></evaml>
+<links><link from="1000" to="1001" /><link from="1001" to="1002" /><link from="1002" to="1003" /><link from="1003" to="1004" /><link from="1004" to="1005" /><link from="1005" to="1006" /><link from="1006" to="1007" /><link from="1007" to="1008" /><link from="1008" to="1009" /><link from="1009" to="1010" /><link from="1010" to="1011" /><link from="1011" to="1012" /><link from="1012" to="1013" /><link from="1013" to="1014" /><link from="1014" to="1015" /><link from="1015" to="1016" /><link from="1016" to="1017" /><link from="1017" to="1018" /><link from="1018" to="1019" /><link from="1019" to="1020" /><link from="1020" to="1021" /><link from="1021" to="1022" /><link from="1022" to="1023" /><link from="1023" to="1024" /><link from="1024" to="1025" /><link from="1025" to="1026" /><link from="1026" to="1027" /><link from="1027" to="1028" /><link from="1028" to="1029" /><link from="1029" to="1030" /></links></evaml>

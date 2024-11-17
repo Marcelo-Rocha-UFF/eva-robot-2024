@@ -114,16 +114,28 @@ if ROBOT_MODE_ENABLED: # Only if robot-mode=on was selected in command line
         # Reconnect then subscriptions will be renewed.
         client.subscribe(topic=[(topic_base + '/state', 1), ])
         client.subscribe(topic=[(topic_base + '/var/dollar', 1), ])
+        client.subscribe(topic=[(topic_base + '/abort', 1), ])
+        client.subscribe(topic=[(topic_base + '/terminal', 1), ])
+        
 
     # The callback for when a PUBLISH message is received from the server.
     def on_message(client, userdata, msg):
         global EVA_ROBOT_STATE
         global EVA_DOLLAR
         if msg.topic == topic_base + '/state':
-            EVA_ROBOT_STATE = "FREE" # msg.payload.decode()
+            EVA_ROBOT_STATE = "FREE" # unblock EvaSIM execution
         elif msg.topic == topic_base + '/var/dollar':
             EVA_DOLLAR = msg.payload.decode()
-            
+            EVA_ROBOT_STATE = "FREE" # unblock EvaSIM execution
+        elif msg.topic == topic_base + '/abort': # topic used to abort the EvaSIM execution based on some external problem
+            gui.terminal.insert(INSERT, "\nPANIC -> The execution was aborted based on a external problem. " + msg.payload.decode(), "error") 
+            gui.terminal.see(tkinter.END)
+            stopScript(None)
+        elif msg.topic == topic_base + '/terminal': # topic used to print external messages in EvaSIM terminal
+            gui.terminal.insert(INSERT, "\nExternal message -> " + msg.payload.decode() + ".", "tip") 
+            gui.terminal.see(tkinter.END)
+
+
     client = mqtt_client.Client()
     client.on_connect = on_connect
     client.on_message = on_message

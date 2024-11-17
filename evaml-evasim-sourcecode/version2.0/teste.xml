@@ -9,16 +9,35 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <counter var="A" op="=" value="1" />
-    <switch var="A">
-      <case op="exact" value="1">
-        <light state="ON" />
-        <goto target="END" />
-      </case>
-      <default>
-        <random min="1" max="1" />
-      </default>
-    </switch>
-    <led animation="HAPPY" id="END" />
+    <talk>Diga uma palavra</talk>
+    <listen />
+    <talk>Diga uma palavra</talk>
+    <listen />
+    <talk>Mostre um QR Coude</talk>
+    <qrRead />
+    <talk>Diga uma palavra</talk>
+    <listen />
+    <talk>Diga uma palavra</talk>
+    <listen />
+    <talk>Mostre um QR Coude</talk>
+    <qrRead  var="VAR_QR1"/>
+    <talk>Diga uma palavra</talk>
+    <listen />
+    <talk>Mostre um QR Coude</talk>
+    <qrRead  var="VAR_QR2"/>
+    <talk>Diga uma palavra</talk>
+    <listen var="VAR1"/>
+    <talk>Diga uma palavra</talk>
+    <listen var="VAR2"/>
+    <talk>Mostre um QR Coude</talk>
+    <qrRead />
+    <talk>Diga uma palavra</talk>
+    <listen var="VAR3"/>
+    <talk>Mostre um QR Coude</talk>
+    <qrRead  var="VAR_QR3"/>
+    <talk>Diga uma palavra</talk>
+    <listen var="VAR4"/>
+    <talk>Diga uma palavra</talk>
+    <listen var="VAR5"/>
   </script>
 </evaml>
