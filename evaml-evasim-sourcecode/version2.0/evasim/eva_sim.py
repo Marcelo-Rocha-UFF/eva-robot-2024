@@ -128,7 +128,7 @@ if ROBOT_MODE_ENABLED: # Only if robot-mode=on was selected in command line
             EVA_DOLLAR = msg.payload.decode()
             EVA_ROBOT_STATE = "FREE" # unblock EvaSIM execution
         elif msg.topic == topic_base + '/abort': # topic used to abort the EvaSIM execution based on some external problem
-            gui.terminal.insert(INSERT, "\nPANIC -> The execution was aborted based on a external problem. " + msg.payload.decode(), "error") 
+            gui.terminal.insert(INSERT, "\nAborting -> Execution was aborted due to an external problem: " + msg.payload.decode(), "error") 
             gui.terminal.see(tkinter.END)
             stopScript(None)
         elif msg.topic == topic_base + '/terminal': # topic used to print external messages in EvaSIM terminal
