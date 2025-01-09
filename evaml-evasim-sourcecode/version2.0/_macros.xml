@@ -5,35 +5,44 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <talk>Diga uma palavra</talk>
-    <listen />
-    <talk>Diga uma palavra</talk>
-    <listen />
-    <talk>Mostre um QR Coude</talk>
-    <qrRead />
-    <talk>Diga uma palavra</talk>
-    <listen />
-    <talk>Diga uma palavra</talk>
-    <listen />
-    <talk>Mostre um QR Coude</talk>
-    <qrRead var="VAR_QR1" />
-    <talk>Diga uma palavra</talk>
-    <listen />
-    <talk>Mostre um QR Coude</talk>
-    <qrRead var="VAR_QR2" />
-    <talk>Diga uma palavra</talk>
-    <listen var="VAR1" />
-    <talk>Diga uma palavra</talk>
-    <listen var="VAR2" />
-    <talk>Mostre um QR Coude</talk>
-    <qrRead />
-    <talk>Diga uma palavra</talk>
-    <listen var="VAR3" />
-    <talk>Mostre um QR Coude</talk>
-    <qrRead var="VAR_QR3" />
-    <talk>Diga uma palavra</talk>
-    <listen var="VAR4" />
-    <talk>Diga uma palavra</talk>
-    <listen var="VAR5" />
+   <motion head="2UP" />
+   <wait duration="3000" />
+   <motion head="CENTER" />
+   <wait duration="3000" />
+   <motion head="2LEFT" />
+   <wait duration="3000" />
+   <motion head="CENTER" />
+   <wait duration="3000" />
+   <motion head="2RIGHT" />
+   <wait duration="3000" />
+   <motion head="CENTER" />
+   <wait duration="3000" />
+   <motion head="DOWN" />
+   <wait duration="2000" />
+   <motion head="2YES" />
+   <wait duration="8000" />
+   <motion head="DOWN" />
+   <wait duration="2000" />
+   <motion head="2NO" />
+   <wait duration="8000" />
+   <motion head="CENTER" />
+   <wait duration="3000" />
+   <motion head="UP" />
+   <wait duration="3000" />
+   <motion head="2YES" />
+   <wait duration="8000" />
+   <motion head="CENTER" />
+   <wait duration="3000" />
+   <motion head="UP_RIGHT" />
+   <wait duration="3000" />
+   <motion head="UP_RIGHT" />
+   <wait duration="3000" />
+   <motion head="CENTER" />
+   <wait duration="3000" />
+   <motion head="UP_LEFT" />
+   <wait duration="3000" />
+   <motion head="UP_LEFT" />
+   <wait duration="3000" />
+   <motion head="CENTER" />
   </script>
 </evaml>
