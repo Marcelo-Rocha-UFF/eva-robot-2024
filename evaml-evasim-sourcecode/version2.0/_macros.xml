@@ -5,44 +5,8 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-   <motion head="2UP" />
-   <wait duration="3000" />
-   <motion head="CENTER" />
-   <wait duration="3000" />
-   <motion head="2LEFT" />
-   <wait duration="3000" />
-   <motion head="CENTER" />
-   <wait duration="3000" />
-   <motion head="2RIGHT" />
-   <wait duration="3000" />
-   <motion head="CENTER" />
-   <wait duration="3000" />
-   <motion head="DOWN" />
-   <wait duration="2000" />
-   <motion head="2YES" />
-   <wait duration="8000" />
-   <motion head="DOWN" />
-   <wait duration="2000" />
-   <motion head="2NO" />
-   <wait duration="8000" />
-   <motion head="CENTER" />
-   <wait duration="3000" />
-   <motion head="UP" />
-   <wait duration="3000" />
-   <motion head="2YES" />
-   <wait duration="8000" />
-   <motion head="CENTER" />
-   <wait duration="3000" />
-   <motion head="UP_RIGHT" />
-   <wait duration="3000" />
-   <motion head="UP_RIGHT" />
-   <wait duration="3000" />
-   <motion head="CENTER" />
-   <wait duration="3000" />
-   <motion head="UP_LEFT" />
-   <wait duration="3000" />
-   <motion head="UP_LEFT" />
-   <wait duration="3000" />
-   <motion head="CENTER" />
+    <talk>Diga alguma coisa</talk>
+    <listen />
+    <talk>Você disse $</talk>
   </script>
 </evaml>
