@@ -17,7 +17,7 @@
     <talk>Hi every body!</talk>
     <talk>My name is EVA.</talk>
     <audio source="efx-blin2" block="TRUE" />
-    <talk>I am a social robot</talk>
+    <talk>I am a social robot.</talk>
     <wait duration="1500" />
     <talk>I can be used in healthcare and educational applications</talk>
     <audio source="efx-blin2" block="TRUE" />
