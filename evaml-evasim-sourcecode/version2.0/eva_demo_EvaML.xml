@@ -13,7 +13,7 @@
     <talk key="1005">Hi every body!</talk>
     <talk key="1006">My name is EVA.</talk>
     <audio source="efx-blin2" block="TRUE" key="1007" />
-    <talk key="1008">I am a social robot</talk>
+    <talk key="1008">I am a social robot.</talk>
     <wait duration="1500" key="1009" />
     <talk key="1010">I can be used in healthcare and educational applications</talk>
     <audio source="efx-blin2" block="TRUE" key="1011" />

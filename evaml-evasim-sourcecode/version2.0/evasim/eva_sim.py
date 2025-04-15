@@ -433,7 +433,7 @@ gui.bt_exp_inlove.bind("<Button-1>", woz_expression_inlove)
 
 # WoZ led functions
 def woz_led_stop(self):
-    client.publish(topic_base + '/log', "Leds Animation: " + "STOP") 
+    client.publish(topic_base + '/syslog', "Leds Animation: " + "STOP") 
     client.publish(topic_base + "/leds", "STOP")
 def woz_led_angry(self):
     client.publish(topic_base + "/leds", "STOP")
@@ -577,7 +577,7 @@ gui.bt_head_motion_down_right.bind("<Button-1>", woz_head_motion_down_right)
 
 # TTS function
 def woz_tts(self):
-    client.publish(topic_base + "/log", "EVA will try to speak a text: " + gui.msg_tts_text.get('1.0','end').strip())
+    client.publish(topic_base + "/syslog", "EVA will try to speak a text: " + gui.msg_tts_text.get('1.0','end').strip())
     voice_option = gui.Lb_voices.get(ANCHOR)
     print(voice_option + "|" + gui.msg_tts_text.get('1.0','end').strip())
     client.publish(topic_base + "/talk", voice_option + "|" + gui.msg_tts_text.get('1.0','end'))
@@ -681,7 +681,7 @@ def exec_comando(node):
         gui.terminal.see(tkinter.END)
         gui.terminal.insert(INSERT, "\nTIP: If the <talk> command doesn't speak some text, try emptying the audio_cache_files folder", "tip")
         if RUNNING_MODE == "EVA_ROBOT":
-            client.publish(topic_base + "/log", "Using the voice: " + node.attrib["tone"]) # 
+            client.publish(topic_base + "/syslog", "Using the voice: " + node.attrib["tone"]) # 
 
 
     if node.tag == "motion": # Movement of the head and arms
@@ -810,7 +810,7 @@ def exec_comando(node):
             language_for_listen =  node.attrib["language"]
 
         if RUNNING_MODE == "EVA_ROBOT": 
-            client.publish(topic_base + "/log", "EVA is listening...")
+            client.publish(topic_base + "/syslog", "EVA is listening...")
             EVA_ROBOT_STATE = "BUSY"
             ledAnimation("LISTEN")
             client.publish(topic_base + "/listen", language_for_listen)
@@ -906,6 +906,60 @@ def exec_comando(node):
             ledAnimation("STOP")
 
 
+    elif node.tag == "log": # Send a log information
+        if node.text == None: # There is no text to send
+            print("There is no text to send in the element <log>.")
+            gui.terminal.insert(INSERT, "\nError -> There is no text to send in the element <log>. Please, check your code.", "error")
+            gui.terminal.see(tkinter.END)
+            exit(1)
+
+        texto = node.text
+        # Replace variables throughout the text. variables must exist in memory
+        if "#" in texto:
+            # Checks if the robot's memory (vars) is empty
+            if eva_memory.vars == {}:
+                gui.terminal.insert(INSERT, "\nError -> No variables have been defined. Please, check your code.", "error")
+                gui.terminal.see(tkinter.END)
+                exit(1)
+
+            var_list = re.findall(r'\#[a-zA-Z]+[0-9]*', texto) # Generate list of occurrences of vars (#...)
+            for v in var_list:
+                if v[1:] in eva_memory.vars:
+                    texto = texto.replace(v, str(eva_memory.vars[v[1:]]))
+                else:
+                    # If the variable does not exist in the robot's memory, it displays an error message
+                    print("================================")
+                    error_string = "\nError -> The variable #" + v[1:] + " has not been declared. Please, check your code."
+                    gui.terminal.insert(INSERT, error_string, "error")
+                    gui.terminal.see(tkinter.END)
+                    exit(1)
+
+        # This part replaces the $, or the $-1 or the $1 in the text
+        if "$" in texto: # Check if there is $ in the text
+            # Checks if var_dollar has any value in the robot's memory
+            if (len(eva_memory.var_dolar)) == 0:
+                gui.terminal.insert(INSERT, "\nError-> The variable $ has no value. Please, check your code.", "error")
+                gui.terminal.see(tkinter.END)
+                exit(1)
+            else: # Find the patterns $ $n or $-n in the string and replace with the corresponding values
+                dollars_list = re.findall(r'\$[-0-9]*', texto) # Find dollar patterns and return a list of occurrences
+                dollars_list = sorted(dollars_list, key=len, reverse=True) # Sort the list in descending order of length (of the element)
+                for var_dollar in dollars_list:
+                    if len(var_dollar) == 1: # Is the dollar ($)
+                        texto = texto.replace(var_dollar, eva_memory.var_dolar[-1][0])
+                    else: # May be of type $n or $-n
+                        if "-" in var_dollar: # $-n type
+                            indice = int(var_dollar[2:]) # Var dollar is of type $-n. then just take n and convert it to int
+                            texto = texto.replace(var_dollar, eva_memory.var_dolar[-(indice + 1)][0]) 
+                        else: # tipo $n
+                            indice = int(var_dollar[1:]) # Var dollar is of type $n. then just take n and convert it to int
+                            texto = texto.replace(var_dollar, eva_memory.var_dolar[(indice - 1)][0])
+
+        client.publish(topic_base + "/log", node.attrib["name"] + "_" + str(time.time_ns()) + '_' + texto)    
+        gui.terminal.insert(INSERT, '\nSTATE: Sending log name:' + node.attrib["name"] + ', log text: ' + texto )
+        gui.terminal.see(tkinter.END)
+
+
     elif node.tag == "talk": # Blocking function
         if node.text == None: # There is no text to speech
             print("There is no text to speech in the element <talk>.")
@@ -963,7 +1017,7 @@ def exec_comando(node):
         gui.terminal.see(tkinter.END)
 
         if RUNNING_MODE == "EVA_ROBOT":
-            client.publish(topic_base + "/log", "EVA will try to speak a text: " + texto[ind_random])
+            client.publish(topic_base + "/syslog", "EVA will try to speak a text: " + texto[ind_random])
             ledAnimation("SPEAK")
             EVA_ROBOT_STATE = "BUSY" # Speech is a blocking function. the robot is busy
             if node.get("tone") == None: # Usuario não selecionou a voz no talk. A opção global será utilizada
@@ -1006,7 +1060,7 @@ def exec_comando(node):
                     time.sleep(0.5)
                 ledAnimation("STOP")
 
-                # We had a problem here. Something like a deadlock, perhaps...
+                # # We had a problem here. Something like a deadlock, perhaps...
                 # gui.option_add('*Dialog.msg.width', 30)
                 # gui.option_add('*Dialog.msg.font', 'Arial 14')
                 # lock_thread_pop()
@@ -1086,7 +1140,7 @@ def exec_comando(node):
         try:
             if block == True:
                 if RUNNING_MODE == "EVA_ROBOT":
-                    client.publish(topic_base + "/log", "EVA will play a sound in blocking mode.")
+                    client.publish(topic_base + "/syslog", "EVA will play a sound in blocking mode.")
                     EVA_ROBOT_STATE = "BUSY"
                     client.publish(topic_base + "/audio", sound_file + "|" + "TRUE")
                     while (EVA_ROBOT_STATE != "FREE"):
@@ -1097,7 +1151,7 @@ def exec_comando(node):
 
             else: # Block = False
                 if RUNNING_MODE == "EVA_ROBOT":
-                    client.publish(topic_base + "/log", "EVA will play a sound in no-blocking mode.")
+                    client.publish(topic_base + "/syslog", "EVA will play a sound in no-blocking mode.")
                     client.publish(topic_base + "/audio", sound_file + "|" + "FALSE")
                 else:
                     playsound("audio_files/" + sound_file + ".wav", block = block) 
@@ -1287,7 +1341,7 @@ def exec_comando(node):
     elif node.tag == "textEmotion":
         # Falta implementar o modo Simulador ###############
         if RUNNING_MODE == "EVA_ROBOT": 
-            client.publish(topic_base + "/log", "EVA is analysing the text emotion...")
+            client.publish(topic_base + "/syslog", "EVA is analysing the text emotion...")
             EVA_ROBOT_STATE = "BUSY"
             ledAnimation("RAINBOW")
             if node.get("language") == None:
@@ -1385,7 +1439,7 @@ def exec_comando(node):
         # global img_neutral, img_happy, img_angry, img_sad, img_surprise
         
         if RUNNING_MODE == "EVA_ROBOT": 
-            client.publish(topic_base + "/log", "EVA is capturing the user emotion...")
+            client.publish(topic_base + "/syslog", "EVA is capturing the user emotion...")
             EVA_ROBOT_STATE = "BUSY"
             ledAnimation("LISTEN")
             client.publish(topic_base + "/userEmotion", " ")
@@ -1476,7 +1530,7 @@ def exec_comando(node):
 
     elif node.tag == "qrRead":
         if RUNNING_MODE == "EVA_ROBOT": 
-            client.publish(topic_base + "/log", "EVA is capturing QR Code information...")
+            client.publish(topic_base + "/syslog", "EVA is capturing QR Code information...")
             EVA_ROBOT_STATE = "BUSY"
             client.publish(topic_base + "/qrRead", " ")
             ledAnimation("LISTEN")
@@ -1711,7 +1765,7 @@ def link_process(anterior = -1):
     gui.terminal.see(tkinter.END)
 
     if RUNNING_MODE == "EVA_ROBOT":
-        client.publish(topic_base + "/log", "Starting the script: " + root.attrib["name"] + "_EvaML.xml")
+        client.publish(topic_base + "/syslog", "Starting the script: " + root.attrib["name"] + "_EvaML.xml")
 
     while (len(fila_links) != 0) and (play == True):
         from_key = fila_links[0].attrib["from"] # Key of the command to execute

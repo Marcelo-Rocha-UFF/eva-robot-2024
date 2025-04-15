@@ -265,6 +265,13 @@ Revision: 2024/09/26
 		<xs:union memberTypes="lightListColorType lightRgbColorType" />
 	</xs:simpleType>
 
+	<xs:simpleType name="logNameType">
+		<xs:restriction base="xs:token">
+			<!-- A variable name can only start with letters and be followed by letters, numbers and the character -->
+			<xs:pattern value="[a-zA-Z][a-zA-Z0-9]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+
 	<xs:simpleType name="counterVarType">
 		<xs:restriction base="xs:token">
 			<!-- A variable name can only start with letters and be followed by letters, numbers and the character _ -->
@@ -351,6 +358,13 @@ Revision: 2024/09/26
 		<xs:complexType mixed="true">
 			<xs:attribute name="id" type="idType"/>
 			<xs:attribute name="tone" type="voiceType"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="log">
+		<xs:complexType mixed="true">
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="name" type="logNameType" use="required"/>
 		</xs:complexType>
 	</xs:element>
 
@@ -498,6 +512,7 @@ Revision: 2024/09/26
 				<xs:element ref="random"/>
 				<xs:element ref="wait"/>
 				<xs:element ref="talk"/>
+				<xs:element ref="log"/>
 				<xs:element ref="stop"/>
 				<xs:element ref="light"/>
 				<xs:element ref="goto"/>
@@ -528,6 +543,7 @@ Revision: 2024/09/26
 				<xs:element ref="random"/>
 				<xs:element ref="wait"/>
 				<xs:element ref="talk"/>
+				<xs:element ref="log"/>
 				<xs:element ref="stop"/>
 				<xs:element ref="light"/>
 				<xs:element ref="goto"/>
@@ -557,6 +573,7 @@ Revision: 2024/09/26
 				<xs:element ref="random"/>
 				<xs:element ref="wait"/>
 				<xs:element ref="talk"/>
+				<xs:element ref="log"/>
 				<xs:element ref="stop"/>
 				<xs:element ref="light"/>
 				<xs:element ref="goto"/>
@@ -584,6 +601,7 @@ Revision: 2024/09/26
 				<xs:element ref="random"/>
 				<xs:element ref="wait"/>
 				<xs:element ref="talk"/>
+				<xs:element ref="log"/>
 				<xs:element ref="stop"/>
 				<xs:element ref="light"/>
 				<xs:element ref="goto"/>
@@ -635,6 +653,7 @@ Revision: 2024/09/26
 				<xs:element ref="random"/>
 				<xs:element ref="wait"/>
 				<xs:element ref="talk"/>
+				<xs:element ref="log"/>
 				<xs:element ref="stop"/>
 				<xs:element ref="light"/>
 				<xs:element ref="goto"/>
