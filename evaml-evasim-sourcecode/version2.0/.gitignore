@@ -1,0 +1,8 @@
+# Ignorar todos os arquivos que começam com ponto
+.*
+
+# Mas não ignorar estes arquivos específicos
+!.gitignore
+!.github/
+!.gitlab-ci.yml
+!.editorconfig
