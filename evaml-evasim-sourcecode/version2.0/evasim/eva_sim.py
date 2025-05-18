@@ -78,6 +78,7 @@ EVA_ROBOT_STATE = "FREE"
 EVA_DOLLAR = ""
 RUNNING_MODE = "SIMULATOR" # EvaSIM operating mode (Physical Robot Simulator or Player)
 
+log_seq_numbers = {} # It is used to define the order of the log texts sent.
 
 # Watson library import and api key configuration
 if TTS_IBM_WATSON: # Only if tts=ibm-watson option was selected in command line
@@ -264,12 +265,15 @@ def setEVAMode(self):
 
 # Activate the thread that runs the script
 def runScript():
-    global play, fila_links
+    global play, fila_links, log_seq_numbers
     # initialize the robot memory
     print("Intializing the robot memory.")
     eva_memory.var_dolar = []
     eva_memory.vars = {}
     eva_memory.reg_case = 0
+    # initialize the log seq numbers
+    print("Intializing the log seq numbers.")
+    log_seq_numbers = {}
     # Cleaning the tables
     print("Clearing memory map tables.")
     tab_load_mem_dollar()
@@ -685,11 +689,11 @@ def exec_comando(node):
 
 
     if node.tag == "motion": # Movement of the head and arms
-        if node.get("left-arm") != None: # Move the left arm
-            gui.terminal.insert(INSERT, "\nSTATE: Moving the left arm! Movement type => " + node.attrib["left-arm"], "motion")
+        if node.get("leftArm") != None: # Move the left arm
+            gui.terminal.insert(INSERT, "\nSTATE: Moving the left arm! Movement type => " + node.attrib["leftArm"], "motion")
             gui.terminal.see(tkinter.END)
-        if node.get("right-arm") != None: # Move the right arm
-            gui.terminal.insert(INSERT, "\nSTATE: Moving the right arm! Movement type => " + node.attrib["right-arm"], "motion")
+        if node.get("rightArm") != None: # Move the right arm
+            gui.terminal.insert(INSERT, "\nSTATE: Moving the right arm! Movement type => " + node.attrib["rightArm"], "motion")
             gui.terminal.see(tkinter.END)
         if node.get("head") != None: # Move head with the new format (<head> element)
                 gui.terminal.insert(INSERT, "\nSTATE: Moving the head! Movement type => " + node.attrib["head"], "motion")
@@ -700,10 +704,10 @@ def exec_comando(node):
                 gui.terminal.see(tkinter.END)
         print("Moving the head and/or the arms.")
         if RUNNING_MODE == "EVA_ROBOT":
-            if node.get("left-arm") != None: # Move the left arm
-                client.publish(topic_base + "/motion/arm/left", node.attrib["left-arm"]); # comando para o robô físico
-            if node.get("right-arm") != None:  # Move the right arm
-                client.publish(topic_base + "/motion/arm/right", node.attrib["right-arm"]); # comando para o robô físico
+            if node.get("leftArm") != None: # Move the left arm
+                client.publish(topic_base + "/motion/arm/left", node.attrib["leftArm"]); # comando para o robô físico
+            if node.get("rightArm") != None:  # Move the right arm
+                client.publish(topic_base + "/motion/arm/right", node.attrib["rightArm"]); # comando para o robô físico
             if node.get("head") != None: # Move head with the new format (<head> element)
                     client.publish(topic_base + "/motion/head", node.attrib["head"]); # Command for the physical robot
                     time.sleep(0.2) # This pause is necessary for arm commands to be received via the serial port
@@ -765,16 +769,56 @@ def exec_comando(node):
 
     elif node.tag == "mqtt":
         mqtt_topic = node.attrib["topic"]
-        mqtt_message = node.attrib["message"]
-        if (len(mqtt_topic) or len(mqtt_message)) == 0: # erro
-            gui.terminal.insert(INSERT, "\nError -> The topic or message attribute is empty.")
+        if (len(mqtt_topic)) == 0: # erro
+            gui.terminal.insert(INSERT, "\nError -> The topic is empty.")
             gui.terminal.see(tkinter.END)
             exit(1)
-        else:
-            client.publish(mqtt_topic, mqtt_message)
-            print("Publishing a MQTT message to an external device.", mqtt_topic, mqtt_message)
-            gui.terminal.insert(INSERT, "\nSTATE: MQTT publishing. Topic = " + mqtt_topic + " and Message = " + mqtt_message + ".")
+
+        if node.text == None: # There is no text to send.
+            gui.terminal.insert(INSERT, "\nError -> There is no message to send.")
             gui.terminal.see(tkinter.END)
+            exit(1)
+
+        texto = node.text
+        palavras = texto.split()
+        texto = ' '.join(palavras) # Removendo mais de um espaço entre as palavras.
+        texto = texto.replace('\n', '').replace('\r', '').replace('\t', '') # Remove tabulações e salto de linha.
+        # Replace variables throughout the text. variables must exist in memory
+        
+        if "#" in texto:
+            var_list = re.findall(r'\#[a-zA-Z]+[a-zA-Z0-9_-]*', texto) # Generate list of occurrences of vars (#...)
+            for v in var_list:
+                if v[1:] in eva_memory.vars:
+                    texto = texto.replace(v, str(eva_memory.vars[v[1:]]))
+                else:
+                    # If the variable does not exist in the robot's memory, it displays an error message
+                    print("[b white on red blink] FATAL ERROR [/]:  The variable [b white]#" + v[1:] + "[/] used in[b white] MQTT[/] element, [b yellow reverse] has not been declared [/]. Please, check your code.✋⛔️")
+                    exit(1)
+
+        # This part replaces the $, or the $-1 or the $1 in the text
+        if "$" in texto: # Check if there is $ in the text
+            # Checks if var_dollar has any value in the robot's memory
+            if (len(eva_memory.var_dolar)) == 0:
+                exit(1)
+            else: # Find the patterns $ $n or $-n in the string and replace with the corresponding values
+                dollars_list = re.findall(r'\$[-0-9]*', texto) # Find dollar patterns and return a list of occurrences
+                dollars_list = sorted(dollars_list, key=len, reverse=True) # Sort the list in descending order of length (of the element)
+                for var_dollar in dollars_list:
+                    if len(var_dollar) == 1: # Is the dollar ($)
+                        texto = texto.replace(var_dollar, eva_memory.var_dolar[-1][0])
+                    else: # May be of type $n or $-n
+                        if "-" in var_dollar: # $-n type
+                            indice = int(var_dollar[2:]) # Var dollar is of type $-n. then just take n and convert it to int
+                            texto = texto.replace(var_dollar, eva_memory.var_dolar[-(indice + 1)][0]) 
+                        else: # tipo $n
+                            indice = int(var_dollar[1:]) # Var dollar is of type $n. then just take n and convert it to int
+                            texto = texto.replace(var_dollar, eva_memory.var_dolar[(indice - 1)][0])
+
+
+        client.publish(mqtt_topic, texto)
+        print("Publishing a MQTT message to an external device.", mqtt_topic, texto)
+        gui.terminal.insert(INSERT, "\nSTATE: MQTT publishing. Topic = " + mqtt_topic + " and Message = " + texto + ".")
+        gui.terminal.see(tkinter.END)
 
 
     elif node.tag == "random":
@@ -907,6 +951,7 @@ def exec_comando(node):
 
 
     elif node.tag == "log": # Send a log information
+        global log_seq_numbers
         if node.text == None: # There is no text to send
             print("There is no text to send in the element <log>.")
             gui.terminal.insert(INSERT, "\nError -> There is no text to send in the element <log>. Please, check your code.", "error")
@@ -922,7 +967,7 @@ def exec_comando(node):
                 gui.terminal.see(tkinter.END)
                 exit(1)
 
-            var_list = re.findall(r'\#[a-zA-Z]+[0-9]*', texto) # Generate list of occurrences of vars (#...)
+            var_list = re.findall(r'\#[a-zA-Z]+[a-zA-Z0-9_-]*', texto) # Generate list of occurrences of vars (#...)
             for v in var_list:
                 if v[1:] in eva_memory.vars:
                     texto = texto.replace(v, str(eva_memory.vars[v[1:]]))
@@ -955,7 +1000,12 @@ def exec_comando(node):
                             indice = int(var_dollar[1:]) # Var dollar is of type $n. then just take n and convert it to int
                             texto = texto.replace(var_dollar, eva_memory.var_dolar[(indice - 1)][0])
 
-        client.publish(topic_base + "/log", node.attrib["name"] + "_" + str(time.time_ns()) + '_' + texto)    
+        if node.attrib["name"] in log_seq_numbers:
+            log_seq_number = log_seq_numbers[node.attrib["name"]] = log_seq_numbers[node.attrib["name"]] + 1
+        else:
+            log_seq_number = log_seq_numbers[node.attrib["name"]] = 1
+
+        client.publish(topic_base + "/log", node.attrib["name"] + "_" + str(log_seq_number) + '_' + texto)    
         gui.terminal.insert(INSERT, '\nSTATE: Sending log name:' + node.attrib["name"] + ', log text: ' + texto )
         gui.terminal.see(tkinter.END)
 
@@ -1164,7 +1214,8 @@ def exec_comando(node):
 
 
 ##########################################################
-    elif node.tag == "case": 
+    elif node.tag == "case":
+        # Case 1 (Exact)
         global valor
         eva_memory.reg_case = 0 # Clear the case flag
         valor = node.attrib["value"]

@@ -1,0 +1,358 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2025/04/16
+-->
+	<!-- Including the EvaML bascis type definitions -->
+    <xs:include schemaLocation="./evaml_types.xsd"></xs:include>
+
+	
+    <!-- ** EvaML Commands Definitions ** -->
+	<xs:element name="mqtt">
+		<xs:complexType mixed="true">
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="topic" type="topicType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="random">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="min" type="xs:nonNegativeInteger" use="required"/>
+			<xs:attribute name="max" type="xs:nonNegativeInteger" use="required"/>
+			<xs:attribute name="var" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="wait">
+	  <xs:complexType>
+		<xs:attribute name="id" type="idType"/>
+	    <xs:attribute name="duration" type="xs:nonNegativeInteger" use="required"/>
+	  </xs:complexType>
+	</xs:element>
+
+	<xs:element name="talk">
+		<xs:complexType mixed="true">
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="tone" type="voiceType"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="log">
+		<xs:complexType mixed="true">
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="name" type="logNameType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="stop">
+		<xs:complexType>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="light">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="state" type="lightStateType" use="required"/>
+			<xs:attribute name="color" type="lightColorType" default="WHITE"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="goto">
+		<xs:complexType>
+			<xs:attribute name="target" type="xs:IDREF" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="userEmotion">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="var" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="userID">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="var" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="qrRead">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="var" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="evaEmotion">
+		<xs:complexType >
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="emotion" type="evaEmotionType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="textEmotion">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="language" type="languageType"/>
+			<xs:attribute name="var" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="useMacro">
+		<xs:complexType>
+			<xs:attribute name="macro" type="xs:IDREF" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="listen">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="var" type="xs:string"/>
+			<!-- The language attribute was not defined as mandatory to maintain compatibility with old scripts -->
+			<!-- The default value will be defined in EvaML code function -->
+			<xs:attribute name="language" type="listenLanguageType"/> 
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="audio">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="source" type="audioFileType" use="required"/>
+			<xs:attribute name="block" type="audioBlockType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="led">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="animation" type="ledAnimationType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="counter">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="var" type="counterVarType" use="required"/>
+			<xs:attribute name="op" type="counterOpType" use="required"/>
+			<xs:attribute name="value" type="xs:integer" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="switch">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="case" minOccurs="1" maxOccurs="unbounded" />
+				<xs:element ref="default" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="var" type="switchVarType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="motion">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="type" type="headMotionListType"/> <!-- Still exists to maintain compatibility with the previous model -->
+			<!-- New head, leftArm and rightArm features -->
+			<xs:attribute name="head" type="headMotionListType"/>
+			<xs:attribute name="leftArm" type="armMotionListType"/>
+			<xs:attribute name="rightArm" type="armMotionListType"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="voice">
+		<xs:complexType>
+			<xs:attribute name="tone" type="voiceType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="lightEffects">
+		<xs:complexType>
+			<xs:attribute name="mode" type="modeType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="audioEffects">
+		<xs:complexType>
+			<xs:attribute name="mode" type="modeType" use="required"/>
+			<xs:attribute name="vol" type="xs:string" default="100%"/>
+		</xs:complexType>
+	</xs:element>
+    
+	<xs:element name="loop">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="loop"/>
+				<xs:element ref="mqtt"/>
+				<xs:element ref="random"/>
+				<xs:element ref="wait"/>
+				<xs:element ref="talk"/>
+				<xs:element ref="log"/>
+				<xs:element ref="stop"/>
+				<xs:element ref="light"/>
+				<xs:element ref="goto"/>
+				<xs:element ref="motion"/>
+				<xs:element ref="userEmotion"/>
+				<xs:element ref="textEmotion"/>
+				<xs:element ref="userID"/>
+				<xs:element ref="qrRead"/>
+				<xs:element ref="evaEmotion"/>
+				<xs:element ref="useMacro"/>
+				<xs:element ref="listen"/>
+				<xs:element ref="audio"/>
+				<xs:element ref="led"/>
+				<xs:element ref="counter"/>
+				<xs:element ref="switch"/>
+			</xs:choice>
+			<xs:attribute name="id" type="idType"/>
+		    <xs:attribute name="var" type="switchVarType" use="optional"/>
+		    <xs:attribute name="times" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="case">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="loop"/>
+				<xs:element ref="mqtt"/>
+				<xs:element ref="random"/>
+				<xs:element ref="wait"/>
+				<xs:element ref="talk"/>
+				<xs:element ref="log"/>
+				<xs:element ref="stop"/>
+				<xs:element ref="light"/>
+				<xs:element ref="goto"/>
+				<xs:element ref="motion"/>
+				<xs:element ref="userEmotion"/>
+				<xs:element ref="textEmotion"/>
+				<xs:element ref="userID"/>
+				<xs:element ref="qrRead"/>
+				<xs:element ref="evaEmotion"/>
+				<xs:element ref="useMacro"/>
+				<xs:element ref="listen"/>
+				<xs:element ref="audio"/>
+				<xs:element ref="led"/>
+				<xs:element ref="counter"/>
+				<xs:element ref="switch"/>
+			</xs:choice>
+			<xs:attribute name="op" type="caseOpType" use="required"/>
+			<xs:attribute name="value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="default">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="loop"/>
+				<xs:element ref="mqtt"/>
+				<xs:element ref="random"/>
+				<xs:element ref="wait"/>
+				<xs:element ref="talk"/>
+				<xs:element ref="log"/>
+				<xs:element ref="stop"/>
+				<xs:element ref="light"/>
+				<xs:element ref="goto"/>
+				<xs:element ref="motion"/>
+				<xs:element ref="userEmotion"/>
+				<xs:element ref="textEmotion"/>
+				<xs:element ref="userID"/>
+				<xs:element ref="qrRead"/>
+				<xs:element ref="evaEmotion"/>
+				<xs:element ref="useMacro"/>
+				<xs:element ref="listen"/>
+				<xs:element ref="audio"/>
+				<xs:element ref="led"/>
+				<xs:element ref="counter"/>
+				<xs:element ref="switch"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="macro">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="loop"/>
+				<xs:element ref="mqtt"/>
+				<xs:element ref="random"/>
+				<xs:element ref="wait"/>
+				<xs:element ref="talk"/>
+				<xs:element ref="log"/>
+				<xs:element ref="stop"/>
+				<xs:element ref="light"/>
+				<xs:element ref="goto"/>
+				<xs:element ref="motion"/>
+				<xs:element ref="userEmotion"/>
+				<xs:element ref="textEmotion"/>
+				<xs:element ref="userID"/>
+				<xs:element ref="qrRead"/>
+				<xs:element ref="evaEmotion"/>
+				<xs:element ref="listen"/>
+				<xs:element ref="audio"/>
+				<xs:element ref="led"/>
+				<xs:element ref="counter"/>
+				<xs:element ref="switch"/>
+			</xs:choice>
+			<xs:attribute name="id" type="idType" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<!-- ** Settings Section Definition ** -->
+	<xs:element name="settings">
+    <xs:complexType>
+		<xs:all>
+			<xs:element ref="voice" minOccurs="1" maxOccurs="1"/>
+			<xs:element ref="lightEffects" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="audioEffects" minOccurs="0" maxOccurs="1"/>
+		</xs:all>
+    </xs:complexType>
+  </xs:element>
+
+	<!-- ** Script Section Definition ** -->
+	<xs:element name="script">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="loop"/>
+				<xs:element ref="mqtt"/>
+				<xs:element ref="random"/>
+				<xs:element ref="wait"/>
+				<xs:element ref="talk"/>
+				<xs:element ref="log"/>
+				<xs:element ref="stop"/>
+				<xs:element ref="light"/>
+				<xs:element ref="goto"/>
+				<xs:element ref="motion"/>
+				<xs:element ref="userEmotion"/>
+				<xs:element ref="textEmotion"/>
+				<xs:element ref="userID"/>
+				<xs:element ref="qrRead"/>
+				<xs:element ref="evaEmotion"/>
+				<xs:element ref="useMacro"/>
+				<xs:element ref="listen"/>
+				<xs:element ref="audio"/>
+				<xs:element ref="led"/>
+				<xs:element ref="counter"/>
+				<xs:element ref="switch"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- ** Macros Section Definition ** -->
+	<xs:element name="macros">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="macro"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,333 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2024/09/26
+-->
+<!-- ** Data type definitions ** -->
+	<xs:simpleType name="idType">
+		<xs:restriction base="xs:ID"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="modeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ON"/>
+			<xs:enumeration value="OFF"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="voiceListType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="pt-BR_IsabelaV3Voice"/>
+			<xs:enumeration value="en-US_AllisonV3Voice"/> 
+			<xs:enumeration value="en-US_AllisonExpressive"/> 
+			<xs:enumeration value="en-US_EmmaExpressive"/>
+			<xs:enumeration value="en-US_LisaExpressive"/>
+			<xs:enumeration value="en-US_MichaelExpressive"/>
+			<xs:enumeration value="en-US_MichaelV3Voice"/>
+			<xs:enumeration value="en-US_KevinV3Voice"/>
+			<xs:enumeration value="en-US_OliviaV3Voice"/>
+			<xs:enumeration value="en-US_EmilyV3Voice"/>
+			<xs:enumeration value="en-US_HenryV3Voice"/>
+			<xs:enumeration value="es-LA_SofiaV3Voice"/>
+			<xs:enumeration value="es-ES_LauraV3Voice"/>
+			<xs:enumeration value="es-ES_EnriqueV3Voice"/>     
+			<xs:enumeration value="fr-FR_NicolasV3Voice"/>
+			<xs:enumeration value="fr-FR_ReneeV3Voice"/>
+			<xs:enumeration value="de-DE_BirgitV3Voice"/>
+			<xs:enumeration value="de-DE_DieterV3Voice"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="headMotionListType">
+		<xs:restriction base="xs:string">
+			<!-- commands compatible with CICESE servomotor control software (previous version of XMLSchema). -->
+			<xs:enumeration value="YES"/>
+			<xs:enumeration value="2YES"/>
+			<xs:enumeration value="NO"/>
+			<xs:enumeration value="2NO"/>
+			<xs:enumeration value="CENTER"/>
+			<xs:enumeration value="LEFT"/>
+			<xs:enumeration value="RIGHT"/>
+			<xs:enumeration value="UP"/>
+			<xs:enumeration value="DOWN"/>
+			<xs:enumeration value="2UP"/>
+			<xs:enumeration value="2DOWN"/>
+			<xs:enumeration value="2RIGHT"/>
+			<xs:enumeration value="2LEFT"/>
+			<xs:enumeration value="DOWN_RIGHT"/>
+			<xs:enumeration value="2DOWN_RIGHT"/>
+			<xs:enumeration value="DOWN_LEFT"/>
+			<xs:enumeration value="2DOWN_LEFT"/>
+			<xs:enumeration value="UP_RIGHT"/>
+			<xs:enumeration value="2UP_RIGHT"/>
+			<xs:enumeration value="UP_LEFT"/>
+			<xs:enumeration value="2UP_LEFT"/>
+			<!-- commands based on the new servomotor control software using the Arduino board. -->
+			<xs:enumeration value="UP1"/>
+			<xs:enumeration value="UP2"/>
+			<xs:enumeration value="DOWN1"/>
+			<xs:enumeration value="DOWN2"/>
+			<xs:enumeration value="LEFT1"/>
+			<xs:enumeration value="LEFT2"/>
+			<xs:enumeration value="LEFT3"/>
+			<xs:enumeration value="RIGHT1"/>
+			<xs:enumeration value="RIGHT2"/>
+			<xs:enumeration value="RIGHT3"/>
+			<xs:enumeration value="LEFT_UP1"/>
+			<xs:enumeration value="LEFT_UP2"/>
+			<xs:enumeration value="LEFT_UP3"/>
+			<xs:enumeration value="RIGHT_UP1"/>
+			<xs:enumeration value="RIGHT_UP2"/>
+			<xs:enumeration value="RIGHT_UP3"/>
+			<xs:enumeration value="LEFT_DOWN1"/>
+			<xs:enumeration value="LEFT_DOWN2"/>
+			<xs:enumeration value="LEFT_DOWN3"/>
+			<xs:enumeration value="RIGHT_DOWN1"/>
+			<xs:enumeration value="RIGHT_DOWN2"/>
+			<xs:enumeration value="RIGHT_DOWN3"/>
+			<xs:enumeration value="CENTER_X"/>
+			<xs:enumeration value="CENTER_Y"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="armMotionListType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="POSITION 0"/> <!-- Move arm to starting position (0) -->
+			<xs:enumeration value="POSITION 1"/>
+			<xs:enumeration value="POSITION 2"/>
+			<xs:enumeration value="POSITION 3"/> <!-- Move arm to starting position (3) -->
+			<xs:enumeration value="UP"/> <!-- Move arm to next higher position -->
+			<xs:enumeration value="DOWN"/> <!-- Move arm to next lower position -->
+			<xs:enumeration value="SHAKE1"/> <!-- Swings arm up and down around current position (1 x cycle) -->
+			<xs:enumeration value="SHAKE2"/> <!-- Swing arm up and down around current position (2 x cycle) -->
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="voiceStringType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="voiceType">
+		<xs:union memberTypes="voiceListType voiceStringType" />
+	</xs:simpleType>
+
+	<xs:simpleType name="topicType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="messageType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="audioListType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="efx-blin"/>
+			<xs:enumeration value="efx-blin2"/>
+			<xs:enumeration value="efx-aplausos-bom"/>
+            <xs:enumeration value="efx-cheering"/>
+            <xs:enumeration value="efx-crowdapplause1"/>
+			<xs:enumeration value="efx-display"/>
+			<xs:enumeration value="efx-display2"/>
+            <xs:enumeration value="efx-fanfare"/>
+			<xs:enumeration value="efx-harp-gliss"/>
+            <xs:enumeration value="efx-mario-end-01"/>
+            <xs:enumeration value="efx-mario-end-02"/>
+            <xs:enumeration value="efx-mario-end-03"/>
+            <xs:enumeration value="efx-mario-fundo"/>
+            <xs:enumeration value="efx-mario-game-intro"/>
+            <xs:enumeration value="efx-mario-sound1-longo"/>
+            <xs:enumeration value="efx-mario-sound1"/>
+            <xs:enumeration value="efx-mario-sound2"/>
+            <xs:enumeration value="efx-mario-start-01"/>
+            <xs:enumeration value="efx-mario-start-02"/>
+			<xs:enumeration value="efx-robot"/>
+			<xs:enumeration value="efx-robot-arm"/>
+			<xs:enumeration value="efx-robot-head"/>
+			<xs:enumeration value="efx-susto"/>
+            <xs:enumeration value="efx-tic-toc"/>
+			<xs:enumeration value="efx-trombone-triste"/>
+            <xs:enumeration value="efx-wand1"/>
+            <xs:enumeration value="MUTED-SOUND"/>
+			<xs:enumeration value="song-aquarela"/>
+            <xs:enumeration value="song-ben"/>
+            <xs:enumeration value="song-caneta-azul"/>
+            <xs:enumeration value="song-exodus"/>
+			<xs:enumeration value="song-fear"/>
+			<xs:enumeration value="song-happy"/>
+			<xs:enumeration value="song-i-believe-i-can-fly"/>
+			<xs:enumeration value="song-i-will-be-there" />
+            <xs:enumeration value="song-mj-heal-the-world"/>
+            <xs:enumeration value="song-here-comes-the-sun"/>
+			<xs:enumeration value="song-macarena-edit"/>
+            <xs:enumeration value="song-mj-heal-the-world"/>
+            <xs:enumeration value="song-mj-thriller2"/>
+            <xs:enumeration value="song-mj-thriller3-laugh"/>
+            <xs:enumeration value="song-oh-no"/>
+			<xs:enumeration value="song-rude-magic"/>
+			<xs:enumeration value="song-sad-violin"/>
+			<xs:enumeration value="song-samba-loop"/>
+			<xs:enumeration value="song-surprise"/>
+            <xs:enumeration value="song-take-on-me"/>
+            <xs:enumeration value="song-the-girl-from-ipanema"/>
+            <xs:enumeration value="song-the-imperial-march"/>
+            <xs:enumeration value="song-thriller-open"/>
+            <xs:enumeration value="song-vivaldi-spring"/>
+            <xs:enumeration value="song-weird-science"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="audioStringType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="audioFileType">
+		<xs:union memberTypes="audioListType audioStringType" />
+	</xs:simpleType>
+
+	<xs:simpleType name="caseOpType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="exact"/>
+			<xs:enumeration value="contain"/>
+			<xs:enumeration value="eq"/>
+			<xs:enumeration value="lt"/>
+			<xs:enumeration value="gt"/>
+			<xs:enumeration value="lte"/>
+			<xs:enumeration value="gte"/>
+			<xs:enumeration value="ne"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="audioBlockType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="TRUE"/>
+			<xs:enumeration value="FALSE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="listenLanguageType"> <!-- Language for STT service -->
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="pt-BR"/> <!-- Portuguese (Brazil) -->
+			<xs:enumeration value="en-US"/> <!-- English (EUA) -->
+			<xs:enumeration value="es-ES"/> <!-- Spanish (Spain) -->
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ledAnimationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="HAPPY"/>
+			<xs:enumeration value="SAD"/>
+			<xs:enumeration value="ANGRY"/>
+            <xs:enumeration value="ANGRY2"/>
+			<xs:enumeration value="STOP"/>
+			<xs:enumeration value="SPEAK"/>
+			<xs:enumeration value="LISTEN"/>
+			<xs:enumeration value="SURPRISE"/>
+            <xs:enumeration value="WHITE"/>
+            <xs:enumeration value="RAINBOW"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="lightStateType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ON"/>
+			<xs:enumeration value="OFF"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="lightRgbColorType">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="#[\dA-F | a-f ]{6}([\dA-F | a-f][\dA-F | a-f])?"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="lightListColorType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="WHITE"/>
+			<xs:enumeration value="BLACK"/>
+			<xs:enumeration value="RED"/>
+			<xs:enumeration value="PINK"/>
+			<xs:enumeration value="GREEN"/>
+			<xs:enumeration value="YELLOW"/>
+			<xs:enumeration value="BLUE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="lightColorType">
+		<xs:union memberTypes="lightListColorType lightRgbColorType" />
+	</xs:simpleType>
+
+	<xs:simpleType name="logNameType">
+		<xs:restriction base="xs:token">
+			<!-- A variable name can only start with letters and be followed by letters, numbers and the character -->
+			<xs:pattern value="[a-zA-Z][a-zA-Z0-9]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="counterVarType">
+		<xs:restriction base="xs:token">
+			<!-- A variable name can only start with letters and be followed by letters, numbers and the character _ -->
+			<xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="counterOpType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="="/>
+			<xs:enumeration value="+"/>
+			<xs:enumeration value="-"/>
+			<xs:enumeration value="*"/>
+			<xs:enumeration value="/"/>
+			<xs:enumeration value="%"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="switchVarOnlyDollar">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="\$[1-9-]?[0-9]*"/> <!-- Variable of type $. Ex.: $, $1, $-2-->
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="switchVarAll">
+		<xs:restriction base="xs:token">
+			<!-- A variable name can only start with letters and be followed by letters, numbers and the character _ -->
+			<xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="switchVarType">
+		<!-- The variable is defined as the union (one or the other) of the two types defined previously -->
+		<xs:union memberTypes="switchVarOnlyDollar switchVarAll" />
+	</xs:simpleType>
+
+	<xs:simpleType name="evaEmotionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NEUTRAL"/>
+			<xs:enumeration value="HAPPY"/>
+			<xs:enumeration value="SAD"/>
+			<xs:enumeration value="ANGRY"/>
+			<xs:enumeration value="FEAR"/>
+			<xs:enumeration value="SURPRISE"/>
+			<xs:enumeration value="DISGUST"/>
+			<xs:enumeration value="INLOVE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="languageType"> <!-- Some codes for the source languages for Google translating processing -->
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PT"/>
+			<xs:enumeration value="EN"/>
+			<xs:enumeration value="FR"/>
+			<xs:enumeration value="DE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>

@@ -1,5 +1,0 @@
-IqEYfTfjWvTplu2XgVfnhIP4E3v3c7UsbNrJA7admo0G
-https://api.au-syd.text-to-speech.watson.cloud.ibm.com/instances/a1b4db2e-fb3a-4507-904b-4676558b22bb
-
-
-
