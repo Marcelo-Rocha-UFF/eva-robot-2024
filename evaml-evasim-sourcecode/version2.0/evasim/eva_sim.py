@@ -1374,6 +1374,9 @@ def exec_comando(node):
         if op == "+": # Perform the addition
             eva_memory.vars[var_name] += var_value
 
+        if op == "-": # Perform the addition
+            eva_memory.vars[var_name] -= var_value
+
         if op == "*": # Perform the product
             eva_memory.vars[var_name] *= var_value
 
